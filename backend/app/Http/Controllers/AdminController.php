@@ -13,7 +13,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return json_encode('ok');
+        return json_encode('asdasd');
     }
 
     /**

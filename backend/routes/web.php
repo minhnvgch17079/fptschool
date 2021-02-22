@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,4 +21,11 @@ Route::get('/', function () {
 
 Route::group(['prefix'=>'/admin'], function() {
     Route::get('/index', [AdminController::class, 'index']);
+});
+
+Route::group(['prefix'=>'/staff'], function() {
+    Route::get('/{action}', function ($action) {
+        $classController = new StaffController();
+        return $classController->$action();
+    });
 });
