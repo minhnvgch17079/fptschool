@@ -20,6 +20,11 @@ module.exports = {
         chunks: 'all'
       }
     }
+  },
+  // config for fix issue invalid host header
+  devServer: {
+    compress: true,
+    disableHostCheck: true,
   }
 }
 

@@ -45,11 +45,11 @@ const router = new Router({
         // Theme Routes
         // =============================================================================
                 {
-                    path: '/',
-                    redirect: '/dashboard/analytics'
+                    path: '/adm/',
+                    redirect: '/adm/dashboard/analytics'
                 },
                 {
-                    path: '/dashboard/analytics',
+                    path: '/adm/dashboard/analytics',
                     name: 'dashboard-analytics',
                     component: () => import('./views/DashboardAnalytics.vue'),
                     meta: {

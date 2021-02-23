@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+// todo: User
+Route::group(['prefix'=>'/user'], function() {
+    Route::post('/{action}', function ($action) {
+        $classController = new UserController();
+        return $classController->$action();
+    });
+    Route::get('/{action}', function ($action) {
+        $classController = new UserController();
+        return $classController->$action();
+    });
 });
 
 Route::group(['prefix'=>'/admin'], function() {
