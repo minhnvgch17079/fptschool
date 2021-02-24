@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct() {
+        session_start();
+    }
 
     // todo: api login
     public function login () {
@@ -21,16 +25,45 @@ class UserController extends Controller
 
         if (empty($data)) return $this->responseToClient('Wrong username or password');
 
-        if ($password != $data['password']) return $this->responseToClient('Wrong username or password');
+        if (!Hash::check($password, $data['password'])) return $this->responseToClient('Wrong username or password');
 
-        // create session
+        $_SESSION['username'] = $username;
 
         return $this->responseToClient('Login success', true);
+
     }
 
     // todo: api logout
     public function logout () {
         // destroy session
+    }
+
+    public function register () {
+        // missing only admin can access
+        $username  = $_POST['username'] ?? null;
+        $password  = $_POST['password'] ?? null;
+        $userModel = new User();
+
+        if (empty($username)) return $this->responseToClient('Invalid username');
+        if (empty($password)) return $this->responseToClient('Invalid password');
+
+        $isExist   = $userModel->isExist($username);
+
+        if (!empty($isExist))       return $this->responseToClient('Username exist');
+        if (strlen($username) < 4)  return $this->responseToClient('Username must more than 3 characters');
+        if (strlen($password) < 7)  return $this->responseToClient('Password must more than 6 characters');
+
+        $password  = bcrypt($password);
+
+        $dataSave  = [
+            'username' => $username,
+            'password' => $password
+        ];
+
+        $result    = $userModel->insertData($dataSave);
+
+        if ($result) return $this->responseToClient('Register success', true);
+        return $this->responseToClient('Register failed');
     }
 
 }
