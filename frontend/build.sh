@@ -7,7 +7,7 @@ frontend_dir=`pwd`
 
 echo 'start process build front end'
 
-#npm run build
+npm run build
 
 echo 'done build front end. Start copy process'
 

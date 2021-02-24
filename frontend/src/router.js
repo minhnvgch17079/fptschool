@@ -57,7 +57,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/dashboard/ecommerce',
+                    path: '/adm/dashboard/ecommerce',
                     name: 'dashboard-ecommerce',
                     component: () => import('./views/DashboardECommerce.vue'),
                     meta: {
@@ -70,12 +70,12 @@ const router = new Router({
         // Application Routes
         // =============================================================================
                 {
-                    path: '/apps/todo',
-                    redirect: '/apps/todo/all',
+                    path: '/adm/apps/todo',
+                    redirect: '/adm/apps/todo/all',
                     name: 'todo',
                 },
                 {
-                    path: '/apps/todo/:filter',
+                    path: '/adm/apps/todo/:filter',
                     component: () => import('./views/apps/todo/Todo.vue'),
                     meta: {
                         rule: 'editor',
@@ -84,7 +84,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/apps/chat',
+                    path: '/adm/apps/chat',
                     name: 'chat',
                     component: () => import('./views/apps/chat/Chat.vue'),
                     meta: {
@@ -93,12 +93,12 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/apps/email',
-                    redirect: '/apps/email/inbox',
+                    path: '/adm/apps/email',
+                    redirect: '/adm/apps/email/inbox',
                     name: 'email',
                 },
                 {
-                    path: '/apps/email/:filter',
+                    path: '/adm/apps/email/:filter',
                     component: () => import('./views/apps/email/Email.vue'),
                     meta: {
                         rule: 'editor',
@@ -107,7 +107,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/apps/calendar/vue-simple-calendar',
+                    path: '/adm/apps/calendar/vue-simple-calendar',
                     name: 'calendar-simple-calendar',
                     component: () => import('./views/apps/calendar/SimpleCalendar.vue'),
                     meta: {
@@ -116,7 +116,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/apps/eCommerce/shop',
+                    path: '/adm/apps/eCommerce/shop',
                     name: 'ecommerce-shop',
                     component: () => import('./views/apps/eCommerce/ECommerceShop.vue'),
                     meta: {
@@ -130,7 +130,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/apps/eCommerce/wish-list',
+                    path: '/adm/apps/eCommerce/wish-list',
                     name: 'ecommerce-wish-list',
                     component: () => import('./views/apps/eCommerce/ECommerceWishList.vue'),
                     meta: {
@@ -144,7 +144,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/apps/eCommerce/checkout',
+                    path: '/adm/apps/eCommerce/checkout',
                     name: 'ecommerce-checkout',
                     component: () => import('./views/apps/eCommerce/ECommerceCheckout.vue'),
                     meta: {
@@ -161,17 +161,17 @@ const router = new Router({
                   Below route is for demo purpose
                   You can use this route in your app
                     {
-                        path: '/apps/eCommerce/item/',
+                        path: '/adm/apps/eCommerce/item/',
                         name: 'ecommerce-item-detail-view',
-                        redirect: '/apps/eCommerce/shop',
+                        redirect: '/adm/apps/eCommerce/shop',
                     }
                 */
                 {
-                    path: '/apps/eCommerce/item/',
-                    redirect: '/apps/eCommerce/item/5546604',
+                    path: '/adm/apps/eCommerce/item/',
+                    redirect: '/adm/apps/eCommerce/item/5546604',
                 },
                 {
-                    path: '/apps/eCommerce/item/:item_id',
+                    path: '/adm/apps/eCommerce/item/:item_id',
                     name: 'ecommerce-item-detail-view',
                     component: () => import('./views/apps/eCommerce/ECommerceItemDetailView.vue'),
                     meta: {
@@ -187,7 +187,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/apps/user/user-list',
+                    path: '/adm/apps/user/user-list',
                     name: 'app-user-list',
                     component: () => import('@/views/apps/user/user-list/UserList.vue'),
                     meta: {
@@ -201,7 +201,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/apps/user/user-view/:userId',
+                    path: '/adm/apps/user/user-view/:userId',
                     name: 'app-user-view',
                     component: () => import('@/views/apps/user/UserView.vue'),
                     meta: {
@@ -215,7 +215,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/apps/user/user-edit/:userId',
+                    path: '/adm/apps/user/user-edit/:userId',
                     name: 'app-user-edit',
                     component: () => import('@/views/apps/user/user-edit/UserEdit.vue'),
                     meta: {
@@ -232,7 +232,7 @@ const router = new Router({
         // UI ELEMENTS
         // =============================================================================
                 {
-                    path: '/ui-elements/data-list/list-view',
+                    path: '/adm/ui-elements/data-list/list-view',
                     name: 'data-list-list-view',
                     component: () => import('@/views/ui-elements/data-list/list-view/DataListListView.vue'),
                     meta: {
@@ -246,7 +246,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/ui-elements/data-list/thumb-view',
+                    path: '/adm/ui-elements/data-list/thumb-view',
                     name: 'data-list-thumb-view',
                     component: () => import('@/views/ui-elements/data-list/thumb-view/DataListThumbView.vue'),
                     meta: {
@@ -260,7 +260,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/ui-elements/grid/vuesax',
+                    path: '/adm/ui-elements/grid/vuesax',
                     name: 'grid-vuesax',
                     component: () => import('@/views/ui-elements/grid/vuesax/GridVuesax.vue'),
                     meta: {
@@ -274,7 +274,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/ui-elements/grid/tailwind',
+                    path: '/adm/ui-elements/grid/tailwind',
                     name: 'grid-tailwind',
                     component: () => import('@/views/ui-elements/grid/tailwind/GridTailwind.vue'),
                     meta: {
@@ -288,7 +288,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/ui-elements/colors',
+                    path: '/adm/ui-elements/colors',
                     name: 'colors',
                     component: () => import('./views/ui-elements/colors/Colors.vue'),
                     meta: {
@@ -301,7 +301,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/ui-elements/card/basic',
+                    path: '/adm/ui-elements/card/basic',
                     name: 'basic-cards',
                     component: () => import('./views/ui-elements/card/CardBasic.vue'),
                     meta: {
@@ -315,7 +315,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/ui-elements/card/statistics',
+                    path: '/adm/ui-elements/card/statistics',
                     name: 'statistics-cards',
                     component: () => import('./views/ui-elements/card/CardStatistics.vue'),
                     meta: {
@@ -329,7 +329,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/ui-elements/card/analytics',
+                    path: '/adm/ui-elements/card/analytics',
                     name: 'analytics-cards',
                     component: () => import('./views/ui-elements/card/CardAnalytics.vue'),
                     meta: {
@@ -343,7 +343,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/ui-elements/card/card-actions',
+                    path: '/adm/ui-elements/card/card-actions',
                     name: 'card-actions',
                     component: () => import('./views/ui-elements/card/CardActions.vue'),
                     meta: {
@@ -357,7 +357,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/ui-elements/card/card-colors',
+                    path: '/adm/ui-elements/card/card-colors',
                     name: 'card-colors',
                     component: () => import('./views/ui-elements/card/CardColors.vue'),
                     meta: {
@@ -371,7 +371,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/ui-elements/table',
+                    path: '/adm/ui-elements/table',
                     name: 'table',
                     component: () => import('./views/ui-elements/table/Table.vue'),
                     meta: {
@@ -384,7 +384,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/ui-elements/ag-grid-table',
+                    path: '/adm/ui-elements/ag-grid-table',
                     name: 'ag-grid-table',
                     component: () => import('./views/ui-elements/ag-grid-table/AgGridTable.vue'),
                     meta: {
@@ -401,7 +401,7 @@ const router = new Router({
         // COMPONENT ROUTES
         // =============================================================================
                 {
-                    path: '/components/alert',
+                    path: '/adm/components/alert',
                     name: 'component-alert',
                     component: () => import('@/views/components/vuesax/alert/Alert.vue'),
                     meta: {
@@ -415,7 +415,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/avatar',
+                    path: '/adm/components/avatar',
                     name: 'component-avatar',
                     component: () => import('@/views/components/vuesax/avatar/Avatar.vue'),
                     meta: {
@@ -429,7 +429,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/breadcrumb',
+                    path: '/adm/components/breadcrumb',
                     name: 'component-breadcrumb',
                     component: () => import('@/views/components/vuesax/breadcrumb/Breadcrumb.vue'),
                     meta: {
@@ -443,7 +443,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/button',
+                    path: '/adm/components/button',
                     name: 'component-button',
                     component: () => import('@/views/components/vuesax/button/Button.vue'),
                     meta: {
@@ -457,7 +457,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/button-group',
+                    path: '/adm/components/button-group',
                     name: 'component-button-group',
                     component: () => import('@/views/components/vuesax/button-group/ButtonGroup.vue'),
                     meta: {
@@ -471,7 +471,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/chip',
+                    path: '/adm/components/chip',
                     name: 'component-chip',
                     component: () => import('@/views/components/vuesax/chip/Chip.vue'),
                     meta: {
@@ -485,7 +485,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/collapse',
+                    path: '/adm/components/collapse',
                     name: 'component-collapse',
                     component: () => import('@/views/components/vuesax/collapse/Collapse.vue'),
                     meta: {
@@ -499,7 +499,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/dialogs',
+                    path: '/adm/components/dialogs',
                     name: 'component-dialog',
                     component: () => import('@/views/components/vuesax/dialogs/Dialogs.vue'),
                     meta: {
@@ -513,7 +513,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/divider',
+                    path: '/adm/components/divider',
                     name: 'component-divider',
                     component: () => import('@/views/components/vuesax/divider/Divider.vue'),
                     meta: {
@@ -527,7 +527,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/dropdown',
+                    path: '/adm/components/dropdown',
                     name: 'component-drop-down',
                     component: () => import('@/views/components/vuesax/dropdown/Dropdown.vue'),
                     meta: {
@@ -541,7 +541,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/list',
+                    path: '/adm/components/list',
                     name: 'component-list',
                     component: () => import('@/views/components/vuesax/list/List.vue'),
                     meta: {
@@ -555,7 +555,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/loading',
+                    path: '/adm/components/loading',
                     name: 'component-loading',
                     component: () => import('@/views/components/vuesax/loading/Loading.vue'),
                     meta: {
@@ -569,7 +569,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/navbar',
+                    path: '/adm/components/navbar',
                     name: 'component-navbar',
                     component: () => import('@/views/components/vuesax/navbar/Navbar.vue'),
                     meta: {
@@ -583,7 +583,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/notifications',
+                    path: '/adm/components/notifications',
                     name: 'component-notifications',
                     component: () => import('@/views/components/vuesax/notifications/Notifications.vue'),
                     meta: {
@@ -597,7 +597,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/pagination',
+                    path: '/adm/components/pagination',
                     name: 'component-pagination',
                     component: () => import('@/views/components/vuesax/pagination/Pagination.vue'),
                     meta: {
@@ -611,7 +611,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/popup',
+                    path: '/adm/components/popup',
                     name: 'component-popup',
                     component: () => import('@/views/components/vuesax/popup/Popup.vue'),
                     meta: {
@@ -625,7 +625,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/progress',
+                    path: '/adm/components/progress',
                     name: 'component-progress',
                     component: () => import('@/views/components/vuesax/progress/Progress.vue'),
                     meta: {
@@ -639,7 +639,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/sidebar',
+                    path: '/adm/components/sidebar',
                     name: 'component-sidebar',
                     component: () => import('@/views/components/vuesax/sidebar/Sidebar.vue'),
                     meta: {
@@ -653,7 +653,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/slider',
+                    path: '/adm/components/slider',
                     name: 'component-slider',
                     component: () => import('@/views/components/vuesax/slider/Slider.vue'),
                     meta: {
@@ -667,7 +667,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/tabs',
+                    path: '/adm/components/tabs',
                     name: 'component-tabs',
                     component: () => import('@/views/components/vuesax/tabs/Tabs.vue'),
                     meta: {
@@ -681,7 +681,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/tooltip',
+                    path: '/adm/components/tooltip',
                     name: 'component-tooltip',
                     component: () => import('@/views/components/vuesax/tooltip/Tooltip.vue'),
                     meta: {
@@ -695,7 +695,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/components/upload',
+                    path: '/adm/components/upload',
                     name: 'component-upload',
                     component: () => import('@/views/components/vuesax/upload/Upload.vue'),
                     meta: {
@@ -717,7 +717,7 @@ const router = new Router({
             // FORM ELEMENTS
             // =============================================================================
                 {
-                    path: '/forms/form-elements/select',
+                    path: '/adm/forms/form-elements/select',
                     name: 'form-element-select',
                     component: () => import('./views/forms/form-elements/select/Select.vue'),
                     meta: {
@@ -731,7 +731,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/forms/form-elements/switch',
+                    path: '/adm/forms/form-elements/switch',
                     name: 'form-element-switch',
                     component: () => import('./views/forms/form-elements/switch/Switch.vue'),
                     meta: {
@@ -745,7 +745,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/forms/form-elements/checkbox',
+                    path: '/adm/forms/form-elements/checkbox',
                     name: 'form-element-checkbox',
                     component: () => import('./views/forms/form-elements/checkbox/Checkbox.vue'),
                     meta: {
@@ -759,7 +759,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/forms/form-elements/radio',
+                    path: '/adm/forms/form-elements/radio',
                     name: 'form-element-radio',
                     component: () => import('./views/forms/form-elements/radio/Radio.vue'),
                     meta: {
@@ -773,7 +773,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/forms/form-elements/input',
+                    path: '/adm/forms/form-elements/input',
                     name: 'form-element-input',
                     component: () => import('./views/forms/form-elements/input/Input.vue'),
                     meta: {
@@ -787,7 +787,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/forms/form-elements/number-input',
+                    path: '/adm/forms/form-elements/number-input',
                     name: 'form-element-number-input',
                     component: () => import('./views/forms/form-elements/number-input/NumberInput.vue'),
                     meta: {
@@ -801,7 +801,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/forms/form-elements/textarea',
+                    path: '/adm/forms/form-elements/textarea',
                     name: 'form-element-textarea',
                     component: () => import('./views/forms/form-elements/textarea/Textarea.vue'),
                     meta: {
@@ -816,7 +816,7 @@ const router = new Router({
                 },
         // -------------------------------------------------------------------------------------------------------------------------------------------
                 {
-                    path: '/forms/form-layouts',
+                    path: '/adm/forms/form-layouts',
                     name: 'forms-form-layouts',
                     component: () => import('@/views/forms/FormLayouts.vue'),
                     meta: {
@@ -830,7 +830,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/forms/form-wizard',
+                    path: '/adm/forms/form-wizard',
                     name: 'extra-component-form-wizard',
                     component: () => import('@/views/forms/form-wizard/FormWizard.vue'),
                     meta: {
@@ -844,7 +844,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/forms/form-validation',
+                    path: '/adm/forms/form-validation',
                     name: 'extra-component-form-validation',
                     component: () => import('@/views/forms/form-validation/FormValidation.vue'),
                     meta: {
@@ -858,7 +858,7 @@ const router = new Router({
                     },
                 },
                 {
-                  path: '/forms/form-input-group',
+                  path: '/adm/forms/form-input-group',
                   name: 'extra-component-form-input-group',
                   component: () => import('@/views/forms/form-input-group/FormInputGroup.vue'),
                   meta: {
@@ -876,7 +876,7 @@ const router = new Router({
         // Pages Routes
         // =============================================================================
                 {
-                    path: '/pages/profile',
+                    path: '/adm/pages/profile',
                     name: 'page-profile',
                     component: () => import('@/views/pages/Profile.vue'),
                     meta: {
@@ -890,7 +890,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/pages/user-settings',
+                    path: '/adm/pages/user-settings',
                     name: 'page-user-settings',
                     component: () => import('@/views/pages/user-settings/UserSettings.vue'),
                     meta: {
@@ -904,7 +904,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/pages/faq',
+                    path: '/adm/pages/faq',
                     name: 'page-faq',
                     component: () => import('@/views/pages/Faq.vue'),
                     meta: {
@@ -918,7 +918,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/pages/knowledge-base',
+                    path: '/adm/pages/knowledge-base',
                     name: 'page-knowledge-base',
                     component: () => import('@/views/pages/KnowledgeBase.vue'),
                     meta: {
@@ -932,7 +932,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/pages/knowledge-base/category',
+                    path: '/adm/pages/knowledge-base/category',
                     name: 'page-knowledge-base-category',
                     component: () => import('@/views/pages/KnowledgeBaseCategory.vue'),
                     meta: {
@@ -947,7 +947,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/pages/knowledge-base/category/question',
+                    path: '/adm/pages/knowledge-base/category/question',
                     name: 'page-knowledge-base-category-question',
                     component: () => import('@/views/pages/KnowledgeBaseCategoryQuestion.vue'),
                     meta: {
@@ -963,7 +963,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/pages/search',
+                    path: '/adm/pages/search',
                     name: 'page-search',
                     component: () => import('@/views/pages/Search.vue'),
                     meta: {
@@ -977,7 +977,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/pages/invoice',
+                    path: '/adm/pages/invoice',
                     name: 'page-invoice',
                     component: () => import('@/views/pages/Invoice.vue'),
                     meta: {
@@ -995,7 +995,7 @@ const router = new Router({
         // CHARTS & MAPS
         // =============================================================================
                 {
-                    path: '/charts-and-maps/charts/apex-charts',
+                    path: '/adm/charts-and-maps/charts/apex-charts',
                     name: 'extra-component-charts-apex-charts',
                     component: () => import('@/views/charts-and-maps/charts/apex-charts/ApexCharts.vue'),
                     meta: {
@@ -1009,7 +1009,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/charts-and-maps/charts/chartjs',
+                    path: '/adm/charts-and-maps/charts/chartjs',
                     name: 'extra-component-charts-chartjs',
                     component: () => import('@/views/charts-and-maps/charts/chartjs/Chartjs.vue'),
                     meta: {
@@ -1023,7 +1023,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/charts-and-maps/charts/echarts',
+                    path: '/adm/charts-and-maps/charts/echarts',
                     name: 'extra-component-charts-echarts',
                     component: () => import('@/views/charts-and-maps/charts/echarts/Echarts.vue'),
                     meta: {
@@ -1037,7 +1037,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/charts-and-maps/maps/google-map',
+                    path: '/adm/charts-and-maps/maps/google-map',
                     name: 'extra-component-maps-google-map',
                     component: () => import('@/views/charts-and-maps/maps/google-map/GoogleMap.vue'),
                     meta: {
@@ -1057,7 +1057,7 @@ const router = new Router({
         // EXTENSIONS
         // =============================================================================
                 {
-                    path: '/extensions/select',
+                    path: '/adm/extensions/select',
                     name: 'extra-component-select',
                     component: () => import('@/views/components/extra-components/select/Select.vue'),
                     meta: {
@@ -1071,7 +1071,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/extensions/quill-editor',
+                    path: '/adm/extensions/quill-editor',
                     name: 'extra-component-quill-editor',
                     component: () => import('@/views/components/extra-components/quill-editor/QuillEditor.vue'),
                     meta: {
@@ -1085,7 +1085,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/extensions/drag-and-drop',
+                    path: '/adm/extensions/drag-and-drop',
                     name: 'extra-component-drag-and-drop',
                     component: () => import('@/views/components/extra-components/drag-and-drop/DragAndDrop.vue'),
                     meta: {
@@ -1099,7 +1099,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/extensions/datepicker',
+                    path: '/adm/extensions/datepicker',
                     name: 'extra-component-datepicker',
                     component: () => import('@/views/components/extra-components/datepicker/Datepicker.vue'),
                     meta: {
@@ -1113,7 +1113,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/extensions/datetime-picker',
+                    path: '/adm/extensions/datetime-picker',
                     name: 'extra-component-datetime-picker',
                     component: () => import('@/views/components/extra-components/datetime-picker/DatetimePicker.vue'),
                     meta: {
@@ -1127,7 +1127,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/extensions/access-control',
+                    path: '/adm/extensions/access-control',
                     name: 'extra-component-access-control',
                     component: () => import('@/views/components/extra-components/access-control/AccessControl.vue'),
                     meta: {
@@ -1141,7 +1141,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/extensions/i18n',
+                    path: '/adm/extensions/i18n',
                     name: 'extra-component-i18n',
                     component: () => import('@/views/components/extra-components/I18n.vue'),
                     meta: {
@@ -1155,7 +1155,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/extensions/carousel',
+                    path: '/adm/extensions/carousel',
                     name: 'extra-component-carousel',
                     component: () => import('@/views/components/extra-components/carousel/Carousel.vue'),
                     meta: {
@@ -1169,7 +1169,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/extensions/clipboard',
+                    path: '/adm/extensions/clipboard',
                     name: 'extra-component-clipboard',
                     component: () => import('@/views/components/extra-components/clipboard/Clipboard.vue'),
                     meta: {
@@ -1183,7 +1183,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/extensions/context-menu',
+                    path: '/adm/extensions/context-menu',
                     name: 'extra-component-context-menu',
                     component: () => import('@/views/components/extra-components/context-menu/ContextMenu.vue'),
                     meta: {
@@ -1197,7 +1197,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/extensions/star-ratings',
+                    path: '/adm/extensions/star-ratings',
                     name: 'extra-component-star-ratings',
                     component: () => import('@/views/components/extra-components/star-ratings/StarRatings.vue'),
                     meta: {
@@ -1211,7 +1211,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/extensions/autocomplete',
+                    path: '/adm/extensions/autocomplete',
                     name: 'extra-component-autocomplete',
                     component: () => import('@/views/components/extra-components/autocomplete/Autocomplete.vue'),
                     meta: {
@@ -1225,7 +1225,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/extensions/tree',
+                    path: '/adm/extensions/tree',
                     name: 'extra-component-tree',
                     component: () => import('@/views/components/extra-components/tree/Tree.vue'),
                     meta: {
@@ -1239,7 +1239,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/import-export/import',
+                    path: '/adm/import-export/import',
                     name: 'import-excel',
                     component: () => import('@/views/components/extra-components/import-export/Import.vue'),
                     meta: {
@@ -1254,7 +1254,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/import-export/export',
+                    path: '/adm/import-export/export',
                     name: 'export-excel',
                     component: () => import('@/views/components/extra-components/import-export/Export.vue'),
                     meta: {
@@ -1269,7 +1269,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/import-export/export-selected',
+                    path: '/adm/import-export/export-selected',
                     name: 'export-excel-selected',
                     component: () => import('@/views/components/extra-components/import-export/ExportSelected.vue'),
                     meta: {
@@ -1296,7 +1296,7 @@ const router = new Router({
         // PAGES
         // =============================================================================
                 {
-                    path: '/callback',
+                    path: '/adm/callback',
                     name: 'auth-callback',
                     component: () => import('@/views/Callback.vue'),
                     meta: {
@@ -1304,7 +1304,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/login',
+                    path: '/adm/pages/login',
                     name: 'page-login',
                     component: () => import('@/views/pages/login/Login.vue'),
                     meta: {
@@ -1312,7 +1312,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/register',
+                    path: '/adm/pages/register',
                     name: 'page-register',
                     component: () => import('@/views/pages/register/Register.vue'),
                     meta: {
@@ -1320,7 +1320,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/forgot-password',
+                    path: '/adm/pages/forgot-password',
                     name: 'page-forgot-password',
                     component: () => import('@/views/pages/ForgotPassword.vue'),
                     meta: {
@@ -1328,7 +1328,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/reset-password',
+                    path: '/adm/pages/reset-password',
                     name: 'page-reset-password',
                     component: () => import('@/views/pages/ResetPassword.vue'),
                     meta: {
@@ -1336,7 +1336,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/lock-screen',
+                    path: '/adm/pages/lock-screen',
                     name: 'page-lock-screen',
                     component: () => import('@/views/pages/LockScreen.vue'),
                     meta: {
@@ -1344,7 +1344,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/comingsoon',
+                    path: '/adm/pages/comingsoon',
                     name: 'page-coming-soon',
                     component: () => import('@/views/pages/ComingSoon.vue'),
                     meta: {
@@ -1352,7 +1352,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/error-404',
+                    path: '/adm/pages/error-404',
                     name: 'page-error-404',
                     component: () => import('@/views/pages/Error404.vue'),
                     meta: {
@@ -1360,7 +1360,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/error-500',
+                    path: '/adm/pages/error-500',
                     name: 'page-error-500',
                     component: () => import('@/views/pages/Error500.vue'),
                     meta: {
@@ -1368,7 +1368,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/not-authorized',
+                    path: '/adm/pages/not-authorized',
                     name: 'page-not-authorized',
                     component: () => import('@/views/pages/NotAuthorized.vue'),
                     meta: {
@@ -1376,7 +1376,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/maintenance',
+                    path: '/adm/pages/maintenance',
                     name: 'page-maintenance',
                     component: () => import('@/views/pages/Maintenance.vue'),
                     meta: {
@@ -1388,7 +1388,7 @@ const router = new Router({
         // Redirect to 404 page, if no match found
         {
             path: '*',
-            redirect: '/pages/error-404'
+            redirect: '/adm/pages/error-404'
         }
     ],
 })
@@ -1423,7 +1423,7 @@ router.beforeEach((to, from, next) => {
         // If auth required, check login. If login fails redirect to login page
         if(to.meta.authRequired) {
           if (!(auth.isAuthenticated() || firebaseCurrentUser)) {
-            router.push({ path: '/pages/login', query: { to: to.path } })
+            router.push({ path: '/adm/pages/login', query: { to: to.path } })
           }
         }
 
