@@ -33,7 +33,14 @@ const router = new Router({
         return { x: 0, y: 0 }
     },
     routes: [
-
+        {
+          path: '/adm/login',
+          name: 'dashboard-analytics',
+          component: () => import('./views/Login.vue'),
+          meta: {
+            rule: 'editor',
+          }
+        },
         {
     // =============================================================================
     // MAIN LAYOUT ROUTES
