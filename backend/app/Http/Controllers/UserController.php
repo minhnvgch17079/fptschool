@@ -16,6 +16,8 @@ class UserController extends Controller
 
     // todo: api login
     public function login () {
+        if (!empty($_SESSION['username'])) return $this->responseToClient('Login success', true);
+
         $username = $_POST['username'] ?? null;
         $password = $_POST['password'] ?? null;
 
@@ -23,10 +25,7 @@ class UserController extends Controller
         if (empty($password)) return $this->responseToClient('Invalid password');
 
         $userModel = new User();
-
-
         $data      = $userModel->getDataByUsername($username);
-
 
         if (empty($data)) return $this->responseToClient('Wrong username or password');
 
@@ -34,23 +33,16 @@ class UserController extends Controller
 
         $_SESSION['username'] = $username;
 
-
         return $this->responseToClient('Login success', true);
-
     }
 
     // todo: api logout
     public function logout () {
-        // destroy session
-        $username = $_GET['username'] ?? null;
-        
-        $_SESSION['username'] = $username;
         unset($_SESSION['username']);
-
         return $this->responseToClient('logout success',true);
-
     }
 
+    // todo: api register
     public function register () {
         // missing only admin can access
         $username  = $_POST['username'] ?? null;
@@ -58,6 +50,7 @@ class UserController extends Controller
         $groupId   = $_POST['group_id'] ?? null;
         $userModel = new User();
 
+        if (($_SESSION['username'] ?? null) != 'admin') return $this->responseToClient('No access permission');
 
         if (empty($username)) return $this->responseToClient('Invalid username');
         if (empty($password)) return $this->responseToClient('Invalid password');
