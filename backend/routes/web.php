@@ -26,14 +26,14 @@ Route::group(['prefix'=>'/user'], function() {
         $classController = new UserController();
         return $classController->$action();
     });
-    Route::get('/{action}', function ($action) {
-        $classController = new UserController();
-        return $classController->$action();
-    });
 });
 
+//admin
 Route::group(['prefix'=>'/admin'], function() {
-    Route::get('/index', [AdminController::class, 'index']);
+    Route::post('/{action}', function ($action) {
+        $classController = new AdminController();
+        return $classController->$action();
+    });
 });
 
 Route::group(['prefix'=>'/staff'], function() {
@@ -41,4 +41,5 @@ Route::group(['prefix'=>'/staff'], function() {
         $classController = new StaffController();
         return $classController->$action();
     });
+
 });

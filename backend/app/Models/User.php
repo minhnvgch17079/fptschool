@@ -24,4 +24,16 @@ class User extends \App\Models\BaseModel {
 
         return (array)$data;
     }
+    public function getDataByGroupId ($group_id)
+    {
+        $data = $this->model
+            ->where('group_id', '=', $group_id)
+            ->first();
+        return (array)$data;
+    }
+    public function showData($data)
+    {
+
+    }
+
 }
