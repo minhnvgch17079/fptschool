@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClosureConfigsController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -32,8 +33,16 @@ Route::group(['prefix'=>'/user'], function() {
     });
 });
 
+Route::group(['prefix'=>'/closure-configs'], function() {
+    Route::post('/{action}', function ($action) {
+        $classController = new ClosureConfigsController();
+        return $classController->$action();
+    });
+});
+
 Route::group(['prefix'=>'/admin'], function() {
     Route::get('/index', [AdminController::class, 'index']);
+
 });
 
 Route::group(['prefix'=>'/staff'], function() {
