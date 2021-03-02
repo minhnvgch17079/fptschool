@@ -10,7 +10,34 @@
 <template>
 
   <div id="page-user-list">
-
+    <b-row>
+      <b-col>
+        <b-input :placeholder="`Username`" v-model="usernameSearch"></b-input>
+      </b-col>
+      <b-col>
+        <b-input :placeholder="`Full name`" v-model="fullNameSearch"></b-input>
+      </b-col>
+      <b-col>
+        <b-btn variant="outline-info" @click="getUser()">Search</b-btn>
+      </b-col>
+    </b-row>
+    <br>
+    <b-row>
+      <b-table
+        hover
+        striped
+        :fields="fieldsDataUsers"
+        :items="dataUsers"
+      >
+        <template v-slot:cell(manage)="row">
+          <b-btn class="mr-3" variant="outline-warning">Edit</b-btn>
+          <b-btn variant="outline-danger">Delete</b-btn>
+        </template>
+        <template v-slot:cell(full_name)="row">
+          <b-badge variant="info">123</b-badge>
+        </template>
+      </b-table>
+    </b-row>
     <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8" actionButtons @refresh="resetColFilters" @remove="resetColFilters">
       <div class="vx-row">
         <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
@@ -142,6 +169,7 @@
 import { AgGridVue } from "ag-grid-vue"
 import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
 import vSelect from 'vue-select'
+import axios from 'axios'
 
 // Store Module
 import moduleUserManagement from '@/store/user-management/moduleUserManagement.js'
@@ -166,6 +194,22 @@ export default {
   },
   data() {
     return {
+      usernameSearch: '',
+      fullNameSearch: '',
+      fieldsDataUsers: [
+        {key: 'id', label: 'Id', sortable: true},
+        {key: 'username', label: 'Username', sortable: true},
+        {key: 'full_name', label: 'Full name', sortable: true},
+        {key: 'phone_number', label: 'Phone Number', sortable: true},
+        {key: 'email', label: 'Email', sortable: true},
+        {key: 'last_change_password', label: 'Last change password', sortable: true},
+        {key: 'created', label: 'Created', sortable: true},
+        {key: 'created_by', label: 'Create by', sortable: true},
+        {key: 'modified', label: 'Modified', sortable: true},
+        {key: 'modified_by', label: 'Modified by', sortable: true},
+        {key: 'manage', label: 'Manage'}
+      ],
+      dataUsers: [],
 
       // Filter Options
       roleFilter: { label: 'All', value: 'all' },
@@ -326,6 +370,22 @@ export default {
     }
   },
   methods: {
+    getUser () {
+      this.dataUsers = []
+      axios({
+        method: 'get',
+        url: 'user/getUser',
+        // data: {
+        //   firstName: 'Finn',
+        //   lastName: 'Williams'
+        // }
+        baseURL: 'http://fpt-school.com'
+      }).then(res => {
+        if (res.data.success) {
+          this.dataUsers = res.data.data
+        }
+      });
+    },
     setColumnFilter(column, val) {
       const filter = this.gridApi.getFilterInstance(column)
       let modelObj = null
@@ -365,6 +425,7 @@ export default {
     }
   },
   created() {
+    this.getUser()
     if(!moduleUserManagement.isRegistered) {
       this.$store.registerModule('userManagement', moduleUserManagement)
       moduleUserManagement.isRegistered = true

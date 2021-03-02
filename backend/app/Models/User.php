@@ -24,4 +24,13 @@ class User extends \App\Models\BaseModel {
 
         return (array)$data;
     }
+
+    public function getData () {
+        $data = $this->model->get([
+            'id', 'username', 'full_name', 'phone_number', 'email', 'last_change_password', 'created', 'created_by',
+            'modified', 'modified_by'
+        ]);
+
+        return json_decode(json_encode($data), true);
+    }
 }

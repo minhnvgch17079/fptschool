@@ -76,4 +76,14 @@ class UserController extends Controller
         return $this->responseToClient('Register failed');
     }
 
+    // todo: api get users for admin
+    public function getUser () {
+//        if (($_SESSION['username'] ?? null) != 'admin') return $this->responseToClient('No access permission');
+
+        $userModel = new User();
+        $data      = $userModel->getData();
+        if ($data) return $this->responseToClient('Get list users success', true, $data);
+        return $this->responseToClient('No data found');
+    }
+
 }
