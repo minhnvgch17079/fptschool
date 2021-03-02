@@ -31,9 +31,6 @@ class User extends \App\Models\BaseModel {
             ->first();
         return (array)$data;
     }
-    public function showData($data)
-    {
 
-    }
 
 }

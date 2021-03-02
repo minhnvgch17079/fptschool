@@ -3,6 +3,8 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UploadController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,5 +43,10 @@ Route::group(['prefix'=>'/staff'], function() {
         $classController = new StaffController();
         return $classController->$action();
     });
-
 });
+//upload file
+Route::get('/upload', [UploadController::class, 'createForm']);
+
+Route::post('upload',[UploadController::class, 'fileUpload']);
+
+
