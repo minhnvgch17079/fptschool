@@ -14,6 +14,7 @@ import VueApexCharts from "vue-apexcharts";
 import StatisticsCardLine from "@/components/statistics-cards/StatisticsCardLine";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import ChangeTimeDurationDropdown from "@/components/ChangeTimeDurationDropdown";
+import axios from 'axios'
 
 export default {
   data() {
@@ -37,12 +38,24 @@ export default {
   },
   methods: {
     login () {
-      alert(1232)
+      axios({
+        method: 'post',
+        url: `http://fpt-school.com/login/abcasd`,
+        data: {
+          firstName: 'Finn',
+          lastName: 'Williams'
+        }
+      }).then(res => {
+        console.log(res)
+        // if (res.data.success) {
+        //
+        // }
+      });
     }
   },
   watch: {
-    name: function (newVal, oldVal) {
-      this.change = ' 9999999'
+    name: function (oldVal, newVal) {
+      this.change = newVal
     }
   }
 }

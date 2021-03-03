@@ -1,7 +1,7 @@
 // axios
 import axios from 'axios'
 
-const domain = ""
+const domain = "fpt-school.com"
 
 export default axios.create({
   domain

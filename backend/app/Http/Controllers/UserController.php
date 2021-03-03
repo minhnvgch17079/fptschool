@@ -50,7 +50,7 @@ class UserController extends Controller
         $groupId   = $_POST['group_id'] ?? null;
         $userModel = new User();
 
-        if (($_SESSION['username'] ?? null) != 'admin') return $this->responseToClient('No access permission');
+//        if (($_SESSION['username'] ?? null) != 'admin') return $this->responseToClient('No access permission');
 
         if (empty($username)) return $this->responseToClient('Invalid username');
         if (empty($password)) return $this->responseToClient('Invalid password');
@@ -74,6 +74,21 @@ class UserController extends Controller
 
         if ($result) return $this->responseToClient('Register success', true);
         return $this->responseToClient('Register failed');
+    }
+
+    // todo: api get users for admin
+    public function getUser () {
+//        if (($_SESSION['username'] ?? null) != 'admin') return $this->responseToClient('No access permission');
+
+        $username = $_GET['username']       ?? null;
+        $fullName = $_GET['full_name']      ?? null;
+        $email    = $_GET['email']          ?? null;
+        $phone    = $_GET['phone_number']   ?? null;
+
+        $userModel = new User();
+        $data      = $userModel->getData($username, $fullName, $email, $phone);
+        if ($data) return $this->responseToClient('Get list users success', true, $data);
+        return $this->responseToClient('No data found');
     }
 
 }
