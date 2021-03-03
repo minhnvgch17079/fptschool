@@ -1,16 +1,10 @@
-<!-- =========================================================================================
-  File Name: UserList.vue
-  Description: User List page
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
 <template>
 
   <div id="page-user-list">
     <b-row>
+      <b-col>
+        <b-input :placeholder="`Role`" v-model="roleSearch"></b-input>
+      </b-col>
       <b-col>
         <b-input :placeholder="`Username`" v-model="usernameSearch"></b-input>
       </b-col>
@@ -18,188 +12,105 @@
         <b-input :placeholder="`Full name`" v-model="fullNameSearch"></b-input>
       </b-col>
       <b-col>
-        <b-btn variant="outline-info" @click="getUser()">Search</b-btn>
+        <b-input :placeholder="`Phone Number`" v-model="phoneNumberSearch"></b-input>
+      </b-col>
+      <b-col>
+        <b-input :placeholder="`Email`" type="email" v-model="emailSearch"></b-input>
+      </b-col>
+      <b-col>
+        <b-btn class="mr-3" variant="outline-info" @click="getUser()">Search</b-btn>
+        <b-btn variant="outline-success" v-b-modal.modal-1>Add User</b-btn>
       </b-col>
     </b-row>
+    <b-modal centered id="modal-1" title="Add New User" @ok="addUser()">
+      <b-row>
+        <b-input class="ml-3 mr-3 mb-3" v-model="usernameAdd" :placeholder="`Username`"></b-input>
+      </b-row>
+      <b-row>
+        <b-input class="ml-3 mr-3 mb-3" v-model="passwordAdd" :placeholder="`Password`"></b-input>
+      </b-row>
+      <b-row>
+        <b-form-select class="ml-3 mr-3 mb-3" v-model="roleAdd" :options="optionsRole"></b-form-select>
+      </b-row>
+    </b-modal>
+    <br>
     <br>
     <b-row>
+      <b-col>
+        <div class="w-50">
+          <b-form-input
+            class="mb-5"
+            id="filter-input"
+            v-model="filter"
+            type="search"
+            placeholder="Type to Search"
+          ></b-form-input>
+        </div>
+      </b-col>
+    </b-row>
+    <b-row>
       <b-table
+        :filter="filter"
+        class="ml-5 mr-5"
         hover
         striped
         :fields="fieldsDataUsers"
         :items="dataUsers"
+        :per-page="perPage"
+        :current-page="currentPage"
       >
         <template v-slot:cell(manage)="row">
-          <b-btn class="mr-3" variant="outline-warning">Edit</b-btn>
-          <b-btn variant="outline-danger">Delete</b-btn>
+          <b-btn class="mr-3" variant="outline-warning">
+            <feather-icon icon="Edit3Icon" svgClasses="h-4 w-4"/>
+          </b-btn>
+          <b-btn variant="outline-danger">
+            <feather-icon icon="TrashIcon" svgClasses="h-4 w-4"/>
+          </b-btn>
         </template>
         <template v-slot:cell(full_name)="row">
           <b-badge variant="info">123</b-badge>
         </template>
       </b-table>
     </b-row>
-    <vx-card ref="filterCard" title="Filters" class="user-list-filters mb-8" actionButtons @refresh="resetColFilters" @remove="resetColFilters">
-      <div class="vx-row">
-        <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
-          <label class="text-sm opacity-75">Role</label>
-          <v-select :options="roleOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="roleFilter" class="mb-4 md:mb-0" />
-        </div>
-        <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
-          <label class="text-sm opacity-75">Status</label>
-          <v-select :options="statusOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="statusFilter" class="mb-4 md:mb-0" />
-        </div>
-        <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
-          <label class="text-sm opacity-75">Verified</label>
-          <v-select :options="isVerifiedOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="isVerifiedFilter" class="mb-4 sm:mb-0" />
-        </div>
-        <div class="vx-col md:w-1/4 sm:w-1/2 w-full">
-          <label class="text-sm opacity-75">Department</label>
-          <v-select :options="departmentOptions" :clearable="false" :dir="$vs.rtl ? 'rtl' : 'ltr'" v-model="departmentFilter" />
-        </div>
+    <br>
+    <b-row>
+      <div class="d-flex justify-content-center w-100">
+        <b-pagination
+          align="center"
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+        >
+          <template #first-text><span class="text-success">First</span></template>
+          <template #prev-text><span class="text-danger">Prev</span></template>
+          <template #next-text><span class="text-warning">Next</span></template>
+          <template #last-text><span class="text-info">Last</span></template>
+        </b-pagination>
       </div>
-    </vx-card>
-
-    <div class="vx-card p-6">
-
-      <div class="flex flex-wrap items-center">
-
-        <!-- ITEMS PER PAGE -->
-        <div class="flex-grow">
-          <vs-dropdown vs-trigger-click class="cursor-pointer">
-            <div class="p-4 border border-solid d-theme-border-grey-light rounded-full d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-              <span class="mr-2">{{ currentPage * paginationPageSize - (paginationPageSize - 1) }} - {{ usersData.length - currentPage * paginationPageSize > 0 ? currentPage * paginationPageSize : usersData.length }} of {{ usersData.length }}</span>
-              <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
-            </div>
-            <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
-            <vs-dropdown-menu>
-
-              <vs-dropdown-item @click="gridApi.paginationSetPageSize(10)">
-                <span>10</span>
-              </vs-dropdown-item>
-              <vs-dropdown-item @click="gridApi.paginationSetPageSize(20)">
-                <span>20</span>
-              </vs-dropdown-item>
-              <vs-dropdown-item @click="gridApi.paginationSetPageSize(25)">
-                <span>25</span>
-              </vs-dropdown-item>
-              <vs-dropdown-item @click="gridApi.paginationSetPageSize(30)">
-                <span>30</span>
-              </vs-dropdown-item>
-            </vs-dropdown-menu>
-          </vs-dropdown>
-        </div>
-
-        <!-- TABLE ACTION COL-2: SEARCH & EXPORT AS CSV -->
-          <vs-input class="sm:mr-4 mr-0 sm:w-auto w-full sm:order-normal order-3 sm:mt-0 mt-4" v-model="searchQuery" @input="updateSearchQuery" placeholder="Search..." />
-          <!-- <vs-button class="mb-4 md:mb-0" @click="gridApi.exportDataAsCsv()">Export as CSV</vs-button> -->
-
-          <!-- ACTION - DROPDOWN -->
-          <vs-dropdown vs-trigger-click class="cursor-pointer">
-
-            <div class="p-3 shadow-drop rounded-lg d-theme-dark-light-bg cursor-pointer flex items-end justify-center text-lg font-medium w-32">
-              <span class="mr-2 leading-none">Actions</span>
-              <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4" />
-            </div>
-
-            <vs-dropdown-menu>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="TrashIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Delete</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="ArchiveIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Archive</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="FileIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>Print</span>
-                </span>
-              </vs-dropdown-item>
-
-              <vs-dropdown-item>
-                <span class="flex items-center">
-                  <feather-icon icon="SaveIcon" svgClasses="h-4 w-4" class="mr-2" />
-                  <span>CSV</span>
-                </span>
-              </vs-dropdown-item>
-
-            </vs-dropdown-menu>
-          </vs-dropdown>
-      </div>
-
-
-      <!-- AgGrid Table -->
-      <ag-grid-vue
-        ref="agGridTable"
-        :components="components"
-        :gridOptions="gridOptions"
-        class="ag-theme-material w-100 my-4 ag-grid-table"
-        :columnDefs="columnDefs"
-        :defaultColDef="defaultColDef"
-        :rowData="usersData"
-        rowSelection="multiple"
-        colResizeDefault="shift"
-        :animateRows="true"
-        :floatingFilter="true"
-        :pagination="true"
-        :paginationPageSize="paginationPageSize"
-        :suppressPaginationPanel="true"
-        :enableRtl="$vs.rtl">
-      </ag-grid-vue>
-
-      <vs-pagination
-        :total="totalPages"
-        :max="7"
-        v-model="currentPage" />
-
-    </div>
+    </b-row>
   </div>
 
 </template>
 
 <script>
-import { AgGridVue } from "ag-grid-vue"
 import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
-import vSelect from 'vue-select'
 import axios from 'axios'
-
-// Store Module
-import moduleUserManagement from '@/store/user-management/moduleUserManagement.js'
-
-// Cell Renderer
-import CellRendererLink from "./cell-renderer/CellRendererLink.vue"
-import CellRendererStatus from "./cell-renderer/CellRendererStatus.vue"
-import CellRendererVerified from "./cell-renderer/CellRendererVerified.vue"
-import CellRendererActions from "./cell-renderer/CellRendererActions.vue"
-
+import Multiselect from 'vue-multiselect'
 
 export default {
   components: {
-    AgGridVue,
-    vSelect,
-
-    // Cell Renderer
-    CellRendererLink,
-    CellRendererStatus,
-    CellRendererVerified,
-    CellRendererActions,
+    Multiselect
   },
   data() {
     return {
-      usernameSearch: '',
-      fullNameSearch: '',
+      perPage: 9,
+      currentPage: 1,
       fieldsDataUsers: [
         {key: 'id', label: 'Id', sortable: true},
         {key: 'username', label: 'Username', sortable: true},
         {key: 'full_name', label: 'Full name', sortable: true},
+        {key: 'group_id', label: 'Role', sortable: true},
         {key: 'phone_number', label: 'Phone Number', sortable: true},
         {key: 'email', label: 'Email', sortable: true},
         {key: 'last_change_password', label: 'Last change password', sortable: true},
@@ -210,175 +121,48 @@ export default {
         {key: 'manage', label: 'Manage'}
       ],
       dataUsers: [],
+      filter: null,
 
-      // Filter Options
-      roleFilter: { label: 'All', value: 'all' },
-      roleOptions: [
-        { label: 'All', value: 'all' },
-        { label: 'Admin', value: 'admin' },
-        { label: 'User', value: 'user' },
-        { label: 'Staff', value: 'staff' },
+      roleSearch: '',
+      usernameSearch: '',
+      fullNameSearch: '',
+      phoneNumberSearch: '',
+      emailSearch: '',
+
+      usernameAdd: '',
+      passwordAdd: '',
+      optionsRole: [
+        { value: null, text: 'Please select role' },
+        { value: 1, text: 'Admin' },
+        { value: 2, text: 'Marketing Coordinator' },
+        { value: 3, text: 'Student' },
+        { value: 4, text: 'Marketing Manager' },
+        { value: 5, text: 'Guest' },
       ],
-
-      statusFilter: { label: 'All', value: 'all' },
-      statusOptions: [
-        { label: 'All', value: 'all' },
-        { label: 'Active', value: 'active' },
-        { label: 'Deactivated', value: 'deactivated' },
-        { label: 'Blocked', value: 'blocked' },
-      ],
-
-      isVerifiedFilter: { label: 'All', value: 'all' },
-      isVerifiedOptions: [
-        { label: 'All', value: 'all' },
-        { label: 'Yes', value: 'yes' },
-        { label: 'No', value: 'no' },
-      ],
-
-      departmentFilter: { label: 'All', value: 'all' },
-      departmentOptions: [
-        { label: 'All', value: 'all' },
-        { label: 'Sales', value: 'sales' },
-        { label: 'Development', value: 'development' },
-        { label: 'Management', value: 'management' },
-      ],
-
-      searchQuery: "",
-
-      // AgGrid
-      gridApi: null,
-      gridOptions: {},
-      defaultColDef: {
-        sortable: true,
-        resizable: true,
-        suppressMenu: true
-      },
-      columnDefs: [
-        {
-          headerName: 'ID',
-          field: 'id',
-          width: 125,
-          filter: true,
-          checkboxSelection: true,
-          headerCheckboxSelectionFilteredOnly: true,
-          headerCheckboxSelection: true,
-        },
-        {
-          headerName: 'Username',
-          field: 'username',
-          filter: true,
-          width: 210,
-          cellRendererFramework: 'CellRendererLink'
-        },
-        {
-          headerName: 'Email',
-          field: 'email',
-          filter: true,
-          width: 225,
-        },
-        {
-          headerName: 'Name',
-          field: 'name',
-          filter: true,
-          width: 200,
-        },
-        {
-          headerName: 'Country',
-          field: 'country',
-          filter: true,
-          width: 150,
-        },
-        {
-          headerName: 'Role',
-          field: 'role',
-          filter: true,
-          width: 150,
-        },
-        {
-          headerName: 'Status',
-          field: 'status',
-          filter: true,
-          width: 150,
-          cellRendererFramework: 'CellRendererStatus'
-        },
-        {
-          headerName: 'Verified',
-          field: 'is_verified',
-          filter: true,
-          width: 125,
-          cellRendererFramework: 'CellRendererVerified',
-          cellClass: "text-center"
-        },
-        {
-          headerName: 'Department',
-          field: 'department',
-          filter: true,
-          width: 150,
-        },
-        {
-          headerName: 'Actions',
-          field: 'transactions',
-          width: 150,
-          cellRendererFramework: 'CellRendererActions',
-        },
-      ],
-
-      // Cell Renderer Components
-      components: {
-        CellRendererLink,
-        CellRendererStatus,
-        CellRendererVerified,
-        CellRendererActions,
-      }
+      roleAdd: null
     }
   },
   watch: {
-    roleFilter(obj) {
-      this.setColumnFilter("role", obj.value)
-    },
-    statusFilter(obj) {
-      this.setColumnFilter("status", obj.value)
-    },
-    isVerifiedFilter(obj) {
-      let val = obj.value === "all" ? "all" : obj.value == "yes" ? "true" : "false"
-      this.setColumnFilter("is_verified", val)
-    },
-    departmentFilter(obj) {
-      this.setColumnFilter("department", obj.value)
-    },
   },
   computed: {
-    usersData() {
-      return this.$store.state.userManagement.users
-    },
-    paginationPageSize() {
-      if(this.gridApi) return this.gridApi.paginationGetPageSize()
-      else return 10
-    },
-    totalPages() {
-      if(this.gridApi) return this.gridApi.paginationGetTotalPages()
-      else return 0
-    },
-    currentPage: {
-      get() {
-        if(this.gridApi) return this.gridApi.paginationGetCurrentPage() + 1
-        else return 1
-      },
-      set(val) {
-        this.gridApi.paginationGoToPage(val - 1)
-      }
+    rows() {
+      return this.dataUsers.length
     }
+
   },
   methods: {
     getUser () {
+      let data = {
+        username: this.usernameSearch,
+        full_name: this.fullNameSearch,
+        phone_number: this.phoneNumberSearch,
+        email: this.emailSearch
+      }
       this.dataUsers = []
       axios({
         method: 'get',
         url: 'user/getUser',
-        // data: {
-        //   firstName: 'Finn',
-        //   lastName: 'Williams'
-        // }
+        params: data,
         baseURL: 'http://fpt-school.com'
       }).then(res => {
         if (res.data.success) {
@@ -386,51 +170,31 @@ export default {
         }
       });
     },
-    setColumnFilter(column, val) {
-      const filter = this.gridApi.getFilterInstance(column)
-      let modelObj = null
 
-      if(val !== "all") {
-        modelObj = { type: "equals", filter: val }
-      }
+    addUser () {
+      const params = new URLSearchParams();
+      params.append('username', this.usernameAdd);
+      params.append('password', this.passwordAdd);
+      params.append('group_id', this.roleAdd);
 
-      filter.setModel(modelObj)
-      this.gridApi.onFilterChanged()
-    },
-    resetColFilters() {
-      // Reset Grid Filter
-      this.gridApi.setFilterModel(null)
-      this.gridApi.onFilterChanged()
-
-      // Reset Filter Options
-      this.roleFilter = this.statusFilter = this.isVerifiedFilter = this.departmentFilter = { label: 'All', value: 'all' }
-
-      this.$refs.filterCard.removeRefreshAnimation()
-    },
-    updateSearchQuery(val) {
-      this.gridApi.setQuickFilter(val)
+      axios({
+        method: 'POST',
+        url: 'user/register',
+        data: params,
+        baseURL: 'http://fpt-school.com',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      }).then(res => {
+        if (res.data.success) {
+          this.usernameSearch = this.usernameAdd
+          this.getUser()
+        }
+      });
     }
   },
   mounted() {
-    this.gridApi = this.gridOptions.api
-
-    /* =================================================================
-      NOTE:
-      Header is not aligned properly in RTL version of agGrid table.
-      However, we given fix to this issue. If you want more robust solution please contact them at gitHub
-    ================================================================= */
-    if(this.$vs.rtl) {
-      const header = this.$refs.agGridTable.$el.querySelector(".ag-header-container")
-      header.style.left = "-" + String(Number(header.style.transform.slice(11,-3)) + 9) + "px"
-    }
   },
   created() {
     this.getUser()
-    if(!moduleUserManagement.isRegistered) {
-      this.$store.registerModule('userManagement', moduleUserManagement)
-      moduleUserManagement.isRegistered = true
-    }
-    this.$store.dispatch("userManagement/fetchUsers").catch(err => { console.error(err) })
   }
 }
 

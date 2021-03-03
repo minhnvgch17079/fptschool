@@ -46,15 +46,16 @@ export default {
           lastName: 'Williams'
         }
       }).then(res => {
-        if (res.data.success) {
-
-        }
+        console.log(res)
+        // if (res.data.success) {
+        //
+        // }
       });
     }
   },
   watch: {
-    name: function (newVal, oldVal) {
-      this.change = ' 9999999'
+    name: function (oldVal, newVal) {
+      this.change = newVal
     }
   }
 }
