@@ -2,44 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Group;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 
 class UserController extends Controller
 {
-    public function __construct() {
-        session_start();
-    }
+    public function test () {
+        $files = $this->request->file('files') ?? null;
 
+        if (empty($files)) responseToClient('Invalid file');
+
+        foreach ($files as $file) {
+            $result = $file->move(base_path().'/public/files/', $file->getClientOriginalName());
+            echo $result;
+        }
+
+    }
     // todo: api login
     public function login () {
-        if (!empty($_SESSION['username'])) return $this->responseToClient('Login success', true);
+        if (!empty($_SESSION['username'])) responseToClient('Login success', true);
 
         $username = $_POST['username'] ?? null;
         $password = $_POST['password'] ?? null;
 
-        if (empty($username)) return $this->responseToClient('Invalid username');
-        if (empty($password)) return $this->responseToClient('Invalid password');
+        if (empty($username)) responseToClient('Invalid username');
+        if (empty($password)) responseToClient('Invalid password');
 
         $userModel = new User();
         $data      = $userModel->getDataByUsername($username);
 
-        if (empty($data)) return $this->responseToClient('Wrong username or password');
+        if (empty($data)) responseToClient('Wrong username or password');
 
-        if (!Hash::check($password, $data['password'])) return $this->responseToClient('Wrong username or password');
+        if (!Hash::check($password, $data['password'])) responseToClient('Wrong username or password');
 
         $_SESSION['username'] = $username;
 
-        return $this->responseToClient('Login success', true);
+        responseToClient('Login success', true);
     }
 
     // todo: api logout
     public function logout () {
         unset($_SESSION['username']);
-        return $this->responseToClient('logout success',true);
+        responseToClient('logout success',true);
     }
 
     // todo: api register
@@ -50,17 +57,17 @@ class UserController extends Controller
         $groupId   = $_POST['group_id'] ?? null;
         $userModel = new User();
 
-//        if (($_SESSION['username'] ?? null) != 'admin') return $this->responseToClient('No access permission');
+//        if (($_SESSION['username'] ?? null) != 'admin') responseToClient('No access permission');
 
-        if (empty($username)) return $this->responseToClient('Invalid username');
-        if (empty($password)) return $this->responseToClient('Invalid password');
-        if (empty($groupId))  return $this->responseToClient('Invalid group id');
+        if (empty($username)) responseToClient('Invalid username');
+        if (empty($password)) responseToClient('Invalid password');
+        if (empty($groupId))  responseToClient('Invalid group id');
 
         $isExist   = $userModel->isExist($username);
 
-        if (!empty($isExist))       return $this->responseToClient('Username exist');
-        if (strlen($username) < 4)  return $this->responseToClient('Username must more than 3 characters');
-        if (strlen($password) < 7)  return $this->responseToClient('Password must more than 6 characters');
+        if (!empty($isExist))       responseToClient('Username exist');
+        if (strlen($username) < 4)  responseToClient('Username must more than 3 characters');
+        if (strlen($password) < 7)  responseToClient('Password must more than 6 characters');
 
         $password  = bcrypt($password);
 
@@ -72,23 +79,22 @@ class UserController extends Controller
 
         $result    = $userModel->insertData($dataSave);
 
-        if ($result) return $this->responseToClient('Register success', true);
-        return $this->responseToClient('Register failed');
+        if ($result) responseToClient('Register success', true);
+        responseToClient('Register failed');
     }
 
     // todo: api get users for admin
     public function getUser () {
-//        if (($_SESSION['username'] ?? null) != 'admin') return $this->responseToClient('No access permission');
-
-        $username = $_GET['username']       ?? null;
-        $fullName = $_GET['full_name']      ?? null;
-        $email    = $_GET['email']          ?? null;
-        $phone    = $_GET['phone_number']   ?? null;
+//        if (($_SESSION['username'] ?? null) != 'admin') responseToClient('No access permission');
+        $username = $this->request->get('username')     ?? null;
+        $fullName = $this->request->get('full_name')    ?? null;
+        $email    = $this->request->get('email')        ?? null;
+        $phone    = $this->request->get('phone_number') ?? null;
 
         $userModel = new User();
         $data      = $userModel->getData($username, $fullName, $email, $phone);
-        if ($data) return $this->responseToClient('Get list users success', true, $data);
-        return $this->responseToClient('No data found');
+        if ($data) responseToClient('Get list users success', true, $data);
+        responseToClient('No data found');
     }
 
 }

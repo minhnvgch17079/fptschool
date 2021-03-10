@@ -9,19 +9,10 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-//    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    protected $request = null;
 
-//    public function __construct()
-//    {
-//        header('Access-Control-Allow-Origin', '*');
-//        header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-//    }
-
-    protected function responseToClient ($message, $success = false, $data = []) {
-        return json_encode([
-            'success' => $success,
-            'message' => $message,
-            'data'    => $data
-        ]);
+    public function __construct($request) {
+        $this->request = $request;
+        session_start();
     }
 }

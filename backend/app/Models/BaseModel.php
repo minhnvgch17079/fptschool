@@ -10,6 +10,6 @@ class BaseModel extends DB {
     protected $model        = null;
 
     public function __construct() {
-        $this->model = DB::connection($this->connection)->table($this->table);
+        $this->model = DB::connection($this->connection);
     }
 }
