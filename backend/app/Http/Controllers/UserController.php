@@ -5,10 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Group;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 
 class UserController extends Controller
 {
+    public function test () {
+        $files = $this->request->file('files') ?? null;
+
+        if (empty($files)) responseToClient('Invalid file');
+
+        foreach ($files as $file) {
+            $result = $file->move(base_path().'/public/files/', $file->getClientOriginalName());
+            echo $result;
+        }
+
+    }
     // todo: api login
     public function login () {
         if (!empty($_SESSION['username'])) responseToClient('Login success', true);
