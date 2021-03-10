@@ -6,11 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Faculty;
 
 
-class FacultiesController extends Controller
-{
-    public function __construct() {
-        session_start();
-    }
+class FacultiesController extends Controller {
     public function createFaculty () {
         // missing only admin can access
         $facultyName = $_POST['name'] ?? null;

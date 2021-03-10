@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClosureConfigsController;
+use App\Http\Controllers\FacultiesController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
+use \Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,16 +22,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// todo: User
-Route::group(['prefix'=>'/user'], function() {
-    Route::post('/{action}', function ($action) {
-        $classController = new UserController();
-        return $classController->$action();
-    });
-    Route::get('/{action}', function ($action) {
-        $classController = new UserController();
-        return $classController->$action();
-    });
+
+Route::any('/user/{action}', function (Request $request) {
+    $action = $request->action;
+    $class  = new UserController($request);
+    return $class->$action();
 });
 
 Route::group(['prefix'=>'/admin'], function() {
@@ -41,4 +38,16 @@ Route::group(['prefix'=>'/staff'], function() {
         $classController = new StaffController();
         return $classController->$action();
     });
+});
+
+Route::any('/closure-configs/{action}', function (Request $request) {
+    $action = $request->action;
+    $class  = new ClosureConfigsController($request);
+    return $class->$action();
+});
+
+Route::any('/faculty/{action}', function (Request $request) {
+    $action = $request->action;
+    $class  = new FacultiesController($request);
+    return $class->$action();
 });

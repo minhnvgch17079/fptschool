@@ -6,77 +6,81 @@ use App\Models\Faculty;
 use Illuminate\Http\Request;
 use App\Models\ClosureConfigs;
 
+/**
+ * @property ClosureConfigs ClosureConfigs
+ */
 
-class ClosureConfigsController extends Controller
-{
-    public function __construct() {
-        session_start();
-    }
+class ClosureConfigsController extends Controller {
     public function createClosureConfigs () {
-        // missing only admin can access
-        $closureName  = $_POST['name'] ?? null;
-        $firstClosureDate  = $_POST['first_closure_DATE'] ?? null;
-        $finalClosureDate  = $_POST['final_closure_DATE'] ?? null;
-        $closureModel = new ClosureConfigs();
+        $closureName      = $this->request->post('name')               ?? null;
+        $firstClosureDate = $this->request->post('first_closure_date') ?? null;
+        $finalClosureDate = $this->request->post('final_closure_date') ?? null;
 
-        if (($_SESSION['username'] ?? null) != 'admin') return $this->responseToClient('No access permission');
+        if (empty($closureName))              responseToClient('Invalid closure configs name');
+        if (empty($firstClosureDate))         responseToClient('Invalid Closure date');
+        if (empty($finalClosureDate))         responseToClient('Invalid Closure date');
+        if (!validateDate($firstClosureDate)) responseToClient('Invalid Closure date');
+        if (!validateDate($finalClosureDate)) responseToClient('Invalid Closure date');
+        if (countDate($firstClosureDate, $finalClosureDate) != 14) responseToClient('Only 14 days accepted');
 
-        if (empty($closureName)) return $this->responseToClient('Invalid closure configs name');
-        if (empty($firstClosureDate)) return $this->responseToClient('Invalid Closure date');
-        if (empty($finalClosureDate))  return $this->responseToClient('Invalid Closure date');
+        $this->ClosureConfigs = getInstance('ClosureConfigs');
+        $isExist              = $this->ClosureConfigs->isExist($closureName);
 
-        $isExist   = $closureModel->isExist($closureName);
-
-        if (!empty($isExist))       return $this->responseToClient('Closure configs name is exist');
-
+        if (!empty($isExist)) responseToClient('Closure configs name is exist');
 
         $dataSave  = [
-            'name' => $closureName,
-            'first_closure_DATE' => $firstClosureDate,
-            'final_closure_DATE' => $finalClosureDate
+            'name'               => $closureName,
+            'first_closure_date' => $firstClosureDate,
+            'final_closure_date' => $finalClosureDate
         ];
 
-        $result    = $closureModel->insertData($dataSave);
+        $result    = $this->ClosureConfigs->insertData($dataSave);
 
-        if ($result) return $this->responseToClient('Create success', true);
-        return $this->responseToClient('Create failed');
+        if ($result) responseToClient('Create success', true);
+        responseToClient('Create failed');
     }
 
     public function updateClosureConfigs ($id , Request $req) {
-        // missing only admin can access
-        $closureModelUpdate = ClosureConfigs::find($id);
+        $id                = $this->request->post('id')     ?? null;
+        $closureName       = $this->request->post('name')   ?? null;
+        $firstClosureDate  = $this->request->post('first_closure_date') ?? null;
+        $finalClosureDate  = $this->request->post('final_closure_date') ?? null;
 
-        $closureName  = $req->name;
-        $firstClosureDate  = $req->first_closure_DATE;
-        $finalClosureDate  = $req->final_closure_DATE;
-        $closureModel = new ClosureConfigs();
+        if (empty($closureName))              responseToClient('Invalid closure configs name');
+        if (empty($firstClosureDate))         responseToClient('Invalid Closure date');
+        if (empty($finalClosureDate))         responseToClient('Invalid Closure date');
+        if (!validateDate($firstClosureDate)) responseToClient('Invalid Closure date');
+        if (!validateDate($finalClosureDate)) responseToClient('Invalid Closure date');
+        if (countDate($firstClosureDate, $finalClosureDate) != 14) responseToClient('Only 14 days accepted');
 
-        $closureModelUpdate->name = $closureName;
-        $closureModelUpdate->first_closure_DATE = $firstClosureDate;
-        $closureModelUpdate->final_closure_DATE = $finalClosureDate;
+        $this->ClosureConfigs = getInstance('ClosureConfigs');
+        $closureModelUpdate   = $this->ClosureConfigs->getDataById($id);
+        $isExist              = $this->ClosureConfigs->isExist($closureName);
 
+        if (empty($closureModelUpdate)) responseToClient('Invalid closure config');
+        if (!empty($isExist))           responseToClient('Closure configs name is exist');
 
-        if (($_SESSION['username'] ?? null) != 'admin') return $this->responseToClient('No access permission');
+        $dataSave  = [
+            'name'               => $closureName,
+            'first_closure_date' => $firstClosureDate,
+            'final_closure_date' => $finalClosureDate
+        ];
 
+        $result  = $this->ClosureConfigs->updateDataById($id, $dataSave);
 
-        $isExist   = $closureModel->isExist($closureName);
-
-        if (!empty($isExist))       return $this->responseToClient('Closure configs name is exist');
-
-        $result  = $closureModelUpdate->save();
-
-
-        if ($result) return $this->responseToClient('Update success', true);
-        return $this->responseToClient('Update failed');
+        if ($result) responseToClient('Update success', true);
+        responseToClient('Update failed');
     }
 
-    public function deleteClosureConfigs($id){
-        $result = ClosureConfigs::destroy($id);
+    public function deleteClosureConfigs() {
+        $id = $this->request->get('id') ?? null;
 
-        if ($result) return $this->responseToClient('Delete success', true);
-        return $this->responseToClient('Delete failed');
+        if (empty($id)) responseToClient('Invalid id for delete');
 
+        $dataSave  = ['is_delete' => 1];
+        $result    = $this->ClosureConfigs->updateDataById($id, $dataSave);
+
+        if ($result) responseToClient('Update success', true);
+        responseToClient('Update failed');
     }
-
-
 }
