@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Group;
+use http\Url;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,6 +22,8 @@ class UserController extends Controller
         }
 
     }
+
+
     // todo: api login
     public function login () {
         if (!empty($_SESSION['username'])) responseToClient('Login success', true);
