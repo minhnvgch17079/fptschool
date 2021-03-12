@@ -10,4 +10,7 @@ CREATE TABLE faculties(
 ALTER TABLE faculties ADD COLUMN created DATETIME DEFAULT CURRENT_TIMESTAMP,
                       ADD COLUMN created_by INT,
                       ADD COLUMN modified DATETIME DEFAULT CURRENT_TIMESTAMP,
-                      ADD COLUMN modified_by INT
+                      ADD COLUMN modified_by INT;
+
+# modified at 2021-03-12
+ALTER TABLE faculties ADD COLUMN is_delete BOOLEAN DEFAULT 0

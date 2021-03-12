@@ -16,7 +16,7 @@ class UserController extends Controller
         if (empty($files)) responseToClient('Invalid file');
 
         foreach ($files as $file) {
-            $result = $file->move(base_path().'/public/files/', $file->getClientOriginalName());
+            $result = $file->move(base_path().'/public', $file->getClientOriginalName());
             echo $result;
         }
 
