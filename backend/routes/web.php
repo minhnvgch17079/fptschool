@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClosureConfigsController;
 use App\Http\Controllers\FacultiesController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\SubmissionsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use \Illuminate\Http\Request;
@@ -49,5 +50,11 @@ Route::any('/closure-configs/{action}', function (Request $request) {
 Route::any('/faculty/{action}', function (Request $request) {
     $action = $request->action;
     $class  = new FacultiesController($request);
+    return $class->$action();
+});
+
+Route::any('/submissions/{action}', function (Request $request) {
+    $action = $request->action;
+    $class  = new SubmissionsController($request);
     return $class->$action();
 });

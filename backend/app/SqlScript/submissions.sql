@@ -1,6 +1,5 @@
 CREATE TABLE submissions(
                             id INT auto_increment primary key ,
-                            file_id INT,
                             status enum('accept', 'reject'),
                             is_active BOOLEAN DEFAULT 1,
                             note VARCHAR(500),

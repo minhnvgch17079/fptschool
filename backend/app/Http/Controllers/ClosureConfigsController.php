@@ -40,7 +40,7 @@ class ClosureConfigsController extends Controller {
         responseToClient('Create failed');
     }
 
-    public function updateClosureConfigs ($id , Request $req) {
+    public function updateClosureConfigs () {
         $id                = $this->request->post('id')     ?? null;
         $closureName       = $this->request->post('name')   ?? null;
         $firstClosureDate  = $this->request->post('first_closure_date') ?? null;

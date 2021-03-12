@@ -8,3 +8,6 @@ CREATE TABLE closure_configs(
                                 modified DATETIME DEFAULT CURRENT_TIMESTAMP,
                                 modified_by INT
 );
+
+# modified at 2021-03-12
+ALTER TABLE closure_configs ADD COLUMN is_delete BOOLEAN DEFAULT 0
