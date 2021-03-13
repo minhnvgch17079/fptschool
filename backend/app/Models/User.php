@@ -56,10 +56,11 @@ class User extends \App\Models\BaseModel {
 
         $data = $query
             ->update([
-                'username'
+                'username' , '=', $username
 //            , 'full_name', 'phone_number', 'email', 'last_change_password', 'created', 'created_by',
 //            'modified', 'modified_by'
-        ]);
+        ])
+        ->where('');
 
         return json_decode(json_encode($data), true);
     }
