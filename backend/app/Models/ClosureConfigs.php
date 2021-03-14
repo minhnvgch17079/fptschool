@@ -44,4 +44,11 @@ class ClosureConfigs extends BaseModel
             ->where('id', '=', $id)
             ->update($dataUpdate);
     }
+
+    public function getAllData () {
+        $data = $this->model->table($this->table)
+            ->get();
+
+        return json_decode(json_encode($data), true);
+    }
 }

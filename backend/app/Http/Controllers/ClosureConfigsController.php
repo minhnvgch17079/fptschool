@@ -11,17 +11,22 @@ use App\Models\ClosureConfigs;
  */
 
 class ClosureConfigsController extends Controller {
-    public function createClosureConfigs () {
-        $closureName      = $this->request->post('name')               ?? null;
-        $firstClosureDate = $this->request->post('first_closure_date') ?? null;
-        $finalClosureDate = $this->request->post('final_closure_date') ?? null;
+    public function get () {
+        $this->ClosureConfigs = getInstance('ClosureConfigs');
+        $data                 = $this->ClosureConfigs->getAllData();
+
+        if (!empty($data)) responseToClient('Get data success', true, $data);
+        responseToClient('No data found');
+    }
+
+    public function create() {
+        $closureName      = $this->request->post('name')       ?? null;
+        $firstClosureDate = $this->request->post('first_date') ?? null;
 
         if (empty($closureName))              responseToClient('Invalid closure configs name');
         if (empty($firstClosureDate))         responseToClient('Invalid Closure date');
-        if (empty($finalClosureDate))         responseToClient('Invalid Closure date');
-        if (!validateDate($firstClosureDate)) responseToClient('Invalid Closure date');
-        if (!validateDate($finalClosureDate)) responseToClient('Invalid Closure date');
-        if (countDate($firstClosureDate, $finalClosureDate) != 14) responseToClient('Only 14 days accepted');
+
+        if (!validateDate($firstClosureDate, 'Y-m-d')) responseToClient('Invalid Closure date');
 
         $this->ClosureConfigs = getInstance('ClosureConfigs');
         $isExist              = $this->ClosureConfigs->isExist($closureName);
@@ -30,8 +35,8 @@ class ClosureConfigsController extends Controller {
 
         $dataSave  = [
             'name'               => $closureName,
-            'first_closure_date' => $firstClosureDate,
-            'final_closure_date' => $finalClosureDate
+            'first_closure_date' => "$firstClosureDate 00:00:00",
+            'final_closure_date' => date('Y-m-d 23:59:59', strtotime("+14 days", strtotime($firstClosureDate)))
         ];
 
         $result    = $this->ClosureConfigs->insertData($dataSave);

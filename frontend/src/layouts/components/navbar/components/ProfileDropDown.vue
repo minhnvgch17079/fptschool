@@ -9,6 +9,7 @@
 
       <div class="con-img ml-3">
         <img v-if="infoUser.image_profile" key="onlineImg" :src="infoUser.image_profile" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" />
+        <img v-if="!infoUser.image_profile" src="@/assets/images/logo/defaultlogoaccount.jpg" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" />
       </div>
 
       <vs-dropdown-menu class="vx-navbar-dropdown">
@@ -64,7 +65,7 @@
 </template>
 
 <script>
-import KPIService from "@/domain/services/kpi"
+import Service from "@/domain/services/api"
 export default {
   components: {},
   data() {
@@ -89,11 +90,11 @@ export default {
       })
     },
     logout() {
-        KPIService.logout().then(res => {
-          this.alert(res.data.message || 'Logout thành công')
-          localStorage.removeItem("infoUser");
-          window.location.href = '/adm/login'
-        })
+      Service.logout().then(res => {
+        this.alert(res.data.message || 'Logout thành công')
+        localStorage.removeItem("infoUser");
+        window.location.href = '/adm/login'
+      })
     }
   }
 }

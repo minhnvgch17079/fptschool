@@ -3,7 +3,7 @@ import environment from '../configs/environment'
 let config = {
   // All config value will be here
   baseUrl: '/adm',
-  domainDownloadFile: 'https://kpi.giaohangtietkiem.vn/'
+  domainDownloadFile: 'http://fpt-school.com/'
 }
 
 config = {...config, ...environment}

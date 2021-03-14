@@ -1,24 +1,27 @@
 export default [
   {
     url: null,
-    name: "Quản lý kpi",
+    name: "Quản lý",
     tag: "2",
     tagColor: "success",
     icon: "HomeIcon",
 
     submenu: [
       {
-        url: '/dashboard/analytics',
-        name: "Lương",
+        url: '/config/closures',
+        name: "Manage Closures",
         slug: "dashboard-analytics",
-
       },
       {
-        url: '/dashboard/ecommerce',
-        name: "Nhân sự",
-        slug: "dashboard-ecommerce",
-
+        url: '/config/faculties',
+        name: "Manage Faculties",
+        slug: "dashboard-analytics",
       },
+      {
+        url: '/user/user-list',
+        name: "Manage User",
+        slug: "dashboard-analytics",
+      }
     ]
   },
 ]

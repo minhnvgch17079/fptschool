@@ -32,8 +32,8 @@ class UserController extends Controller
     public function login () {
         if (!empty($_SESSION['username'])) responseToClient('Login success', true);
 
-        $username = $_POST['username'] ?? null;
-        $password = $_POST['password'] ?? null;
+        $username = $this->request->post('username') ?? null;
+        $password = $this->request->post('password') ?? null;
 
         if (empty($username)) responseToClient('Invalid username');
         if (empty($password)) responseToClient('Invalid password');
@@ -48,13 +48,12 @@ class UserController extends Controller
         $_SESSION['username']  = $username;
         $_SESSION['info_user'] = $data;
 
-        responseToClient('Login success', true);
+        responseToClient('Login success', true, $data);
     }
 
     // todo: api logout
     public function logout () {
-        unset($_SESSION['username']);
-        unset($_SESSION['info_user']);
+        session_destroy();
         responseToClient('logout success',true);
     }
 

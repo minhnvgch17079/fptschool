@@ -47,6 +47,31 @@ const router = new Router({
                   rule: 'editor',
                 }
               },
+              {
+                path: '/config/closures',
+                name: 'dashboard-analytics',
+                component: () => import('./views/config/Closure.vue'),
+                meta: {
+                  rule: 'editor',
+                }
+              },
+              {
+                path: '/config/faculties',
+                name: 'dashboard-analytics',
+                component: () => import('./views/config/Faculty.vue'),
+                meta: {
+                  rule: 'editor',
+                }
+              },
+              {
+                path: '/user/user-list',
+                name: 'app-user-list',
+                component: () => import('@/views/user/UserList.vue'),
+                meta: {
+                  pageTitle: 'User List',
+                  rule: 'editor'
+                },
+              },
             ]
         },
         {

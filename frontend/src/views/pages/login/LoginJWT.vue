@@ -34,12 +34,12 @@
 </template>
 
 <script>
-import KPIService from "@/domain/services/kpi"
+import Service from "@/domain/services/api"
 
 export default {
   components: {},
   comments: {
-    KPIService
+    Service
   },
   data() {
     return {
@@ -67,7 +67,7 @@ export default {
       })
     },
     checkLogin() {
-      KPIService.login().then(res => {
+      Service.login().then(res => {
         if (res.data.success) window.location.href = '/adm'
       }).catch(() => {
         this.alert('Something error. Please try again!')
@@ -78,7 +78,7 @@ export default {
         username: this.username,
         password: this.password
       }
-      KPIService.login(dataSend).then(res => {
+      Service.login(dataSend).then(res => {
         this.alert(res.data.message || 'Something error. Please try again!')
         if (res.data.success) {
           localStorage.setItem('infoUser', JSON.stringify(res.data.data))

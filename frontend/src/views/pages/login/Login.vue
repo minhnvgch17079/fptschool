@@ -14,20 +14,19 @@
               <div class="px-8 pt-8 login-tabs-container">
 
                 <div class="vx-card__title mb-4">
-                  <h1 class="mb-4">Đăng Nhập Hệ Thống KPI</h1>
+                  <h1 class="mb-4">Đăng Nhập Hệ Thống</h1>
                 </div>
 
                 <vs-tabs :color="'success'">
-                  <vs-tab label="GHTK">
+                  <vs-tab label="BASIC">
                     <login-jwt></login-jwt>
-                  </vs-tab>
-
-                  <vs-tab label="GHTK ID">
-                    Chức năng đang phát triển
                   </vs-tab>
 
                   <vs-tab label="Auth0">
                     Chức năng đang phát triển
+                    <br>
+                    <b-btn variant="danger" class="mr-3">Google</b-btn>
+                    <b-btn variant="primary">Facebook</b-btn>
                   </vs-tab>
                 </vs-tabs>
 
