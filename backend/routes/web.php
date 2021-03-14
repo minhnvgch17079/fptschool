@@ -43,6 +43,24 @@ Route::any('/faculty/{action}', function (Request $request) {
     $class  = new FacultiesController($request);
     return $class->$action();
 });
+//email
+//Route::any('/sendMail/{action}', function (Request $request) {
+//    pd("999999");
+//    $action = $request->action;
+//    $class  = new FacultiesController($request);
+//    return $class->$action();
+//});
+Route::get('send-mail', function () {
+
+    $details = [
+        'title' => 'Mail from fpt-school.com',
+        'body' => 'Testing mail'
+    ];
+
+    \Mail::to('duongnguyen0902@gmail.com')->send(new \App\Mail\sendingMail($details));
+
+    dd("Email is Sent.");
+});
 
 Route::any('/submissions/{action}', function (Request $request) {
     $action = $request->action;
