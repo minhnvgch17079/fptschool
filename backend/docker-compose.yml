@@ -2,7 +2,7 @@ version: '3'
 services:
 
   #PHP Service
-  app_kpi:
+  app:
     build:
       context: ""
       dockerfile: ./docker/Dockerfile
@@ -21,7 +21,7 @@ services:
       - 9000
 
   #Nginx Service
-  web_kpi:
+  webserver:
     image: nginx:alpine
     container_name: web_kpi
     restart: unless-stopped
@@ -34,31 +34,6 @@ services:
     volumes:
       - ./:/var/www
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
-
-  #MySQL Service
-  db_kpi:
-    image: mysql:5.7.22
-    container_name: db_kpi
-    restart: unless-stopped
-    tty: true
-    ports:
-      - 3306:3306
-    environment:
-      MYSQL_DATABASE: ghtk
-      MYSQL_ROOT_PASSWORD: root
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-    volumes:
-      - dbdata:/var/lib/mysql/
-      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
-
-  redis.kpi.vn:
-    container_name: redis.kpi.vn
-    image: redis:alpine
-    restart: always
-    expose:
-      - 6379
-    command: redis-server --appendonly yes
 
   zookeeper:
     container_name: zookeeper
@@ -86,7 +61,7 @@ services:
 
 #Docker Networks
   dockerhost:
-    container_name: kpi_host
+    container_name: fptschool_host
     image: qoomon/docker-host
     cap_add: ["NET_ADMIN", "NET_RAW"]
     restart: always
