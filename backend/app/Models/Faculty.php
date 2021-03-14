@@ -4,10 +4,9 @@ namespace App\Models;
 
 class Faculty extends BaseModel
 {
-    protected $table = 'faculties';
-    protected $model = null;
-
+    protected $table   = 'faculties';
     public $timestamps = false;
+
     public function insertData ($data) {
         return $this->model->table($this->table)->insert($data);
     }
@@ -40,5 +39,13 @@ class Faculty extends BaseModel
         return $this->model->table($this->table)
             ->where('id', '=', $id)
             ->update($dataUpdate);
+    }
+
+    public function getClosureConfig ($id) {
+        $data = $this->model->table($this->table)
+            ->join('closure_configs as c', "$this->table.closure_config_id", '=', 'c.id')
+            ->where("$this->table.id", $id)->orderBy('faculties.id','desc')->first();
+
+        return (array)$data;
     }
 }

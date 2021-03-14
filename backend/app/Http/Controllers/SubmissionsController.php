@@ -21,33 +21,37 @@ class SubmissionsController extends Controller
     public function submitMagazines()
     {
         $facultyId = $this->request->post('faculty_id') ?? null;
-        $files = $this->request->file('files') ?? null;
-        $data = DB::table('faculties')->join('closure_configs','faculties.closure_config_id','=','closure_configs.id')->where('faculties.id',$facultyId)->orderBy('faculties.id','desc')->get();
-        $first_closure_date = $data[0]->first_closure_DATE;
-        $now = date('Y-m-d H:i:s');
-        $this->Faculty = getInstance('Faculty');
+        $files     = $this->request->file('files') ?? null;
+
+        $this->Faculty     = getInstance('Faculty');
+        $this->Files       = getInstance('Files');
+        $this->Submissions = getInstance('Submissions');
+
+        $data = $this->Faculty->getClosureConfig($facultyId);
+
+        $first_closure_date = $data['first_closure_DATE'];
+        $now  = date('Y-m-d H:i:s');
+
         $isExist = $this->Faculty->isExistFacultyId($facultyId);
+
         if($now > $first_closure_date) responseToClient('The submission time has expired');
         if (empty($facultyId))         responseToClient('Invalid faculty id'); //them validate check faculty co ton tai hay khong
         if (empty($isExist))           responseToClient('faculty is not exist');
         if (empty($files))             responseToClient('Invalid file');
 
-        $submissions = new Submissions();
-        $submissions->faculty_id = $facultyId;
-        $submissions->save();
-        $submissions_id = $submissions->id;
+        $dataSave   = ['faculty_id' => $facultyId];
+        $idInserted = $this->Submissions->insertGetId($dataSave);
 
         foreach ($files as $file) {
             $result = $file->move(base_path() . '/public/files/', $file->getClientOriginalName());
-            $this->Files = getInstance('Files');
             $dataFile = [
-                'file_name' => $file->getClientOriginalName(),
-                'submissions_id' => $submissions_id,
-                'file_path' => $result
+                'file_name'      => $file->getClientOriginalName(),
+                'submissions_id' => $idInserted,
+                'file_path'      => $result
             ];
             $this->Files->insertData($dataFile);
         }
+
+        responseToClient('Success', true);
     }
-
-
 }

@@ -36,7 +36,7 @@ class ClosureConfigsController extends Controller {
 
         $result    = $this->ClosureConfigs->insertData($dataSave);
 
-        if ($result) responseToClient('Create success', true,$dataSave);
+        if ($result) responseToClient('Create success', true, $dataSave);
         responseToClient('Create failed');
     }
 

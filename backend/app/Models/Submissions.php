@@ -44,4 +44,9 @@ class Submissions extends Model
             ->where('id', '=', $id)
             ->update($dataUpdate);
     }
+
+    public function insertGetId ($dataSave) {
+        return $this->model->table($this->table)
+            ->insertGetId($dataSave);
+    }
 }

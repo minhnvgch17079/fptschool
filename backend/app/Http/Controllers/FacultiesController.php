@@ -41,7 +41,7 @@ class FacultiesController extends Controller {
         return responseToClient('Create failed');
     }
 
-    public function updateFaculty ($id , Request $req) {
+    public function updateFaculty () {
         // missing only admin can access
         $id                = $this->request->post('id')     ?? null;
         $facultyName        = $this->request->post('name')              ?? null;
