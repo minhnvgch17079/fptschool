@@ -2,26 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClosureConfigs;
 use Illuminate\Http\Request;
 use App\Models\Faculty;
+/**
+ * @property Faculty Faculty
+ * @property ClosureConfigs ClosureConfigs
+ */
 
 
 class FacultiesController extends Controller {
     public function createFaculty () {
         // missing only admin can access
-        $facultyName = $_POST['name'] ?? null;
-        $facultyDescription = $_POST['description'] ?? null;
-        $closureConfigsId  = $_POST['closure_config_id'] ?? null;
-        $facultyModel = new Faculty();
+        $facultyName        = $this->request->post('name')              ?? null;
+        $facultyDescription = $this->request->post('description')       ?? null;
+        $closureConfigsId   = $this->request->post('closure_config_id') ?? null;
+        $this->ClosureConfigs = getInstance('ClosureConfigs');
+        $isExistClosureId = $this->ClosureConfigs->isExistClosureConfigId($closureConfigsId);
+        if (empty($isExistClosureId))         responseToClient('Closure config is not exist');
+        if (empty($facultyName))              responseToClient('Invalid faculty name');
+        if (empty($closureConfigsId))         responseToClient('Invalid closure config id');
 
-//        if (($_SESSION['username'] ?? null) != 'admin') return $this->responseToClient('No access permission');
+        $this->Faculty = getInstance('Faculty');
+        $isExist       = $this->Faculty->isExist($facultyName);
 
-        if (empty($facultyName)) return $this->responseToClient('Invalid faculty name');
-        if (empty($closureConfigsId))  return $this->responseToClient('Invalid Closure date');
-
-        $isExist   = $facultyModel->isExist($facultyName);
-
-        if (!empty($isExist))       return $this->responseToClient('Faculty name is exist');
+        if (!empty($isExist)) responseToClient('faculty name is exist');
 
 
         $dataSave  = [
@@ -30,33 +35,36 @@ class FacultiesController extends Controller {
             'closure_config_id' => $closureConfigsId
         ];
 
-        $result    = $facultyModel->insertData($dataSave);
+        $result    = $this->Faculty->insertData($dataSave);
 
-        if ($result) return $this->responseToClient('Create success', true);
-        return $this->responseToClient('Create failed');
+        if ($result) return responseToClient('Create success', true, $dataSave);
+        return responseToClient('Create failed');
     }
 
-    public function updateFaculty ($id , Request $req) {
+    public function updateFaculty () {
         // missing only admin can access
-        $facultyModelUpdate = Faculty::find($id);
+        $id                = $this->request->post('id')     ?? null;
+        $facultyName        = $this->request->post('name')              ?? null;
+        $facultyDescription = $this->request->post('description')       ?? null;
+        $closureConfigsId   = $this->request->post('closure_config_id') ?? null;
+        $this->ClosureConfigs = getInstance('ClosureConfigs');
+        $isExistClosureId = $this->ClosureConfigs->isExistClosureConfigId($closureConfigsId);
+        if (empty($isExistClosureId))         responseToClient('Closure config is not exist');
+        if (empty($facultyName))              responseToClient('Invalid faculty name');
+        if (empty($closureConfigsId))         responseToClient('Invalid closure config id');
 
-        $facultyName  = $req->name;
-        $facultyDescription  = $req->description;
-        $closureConfigsId  = $req->closure_config_id;
+        $this->Faculty = getInstance('faculties');
+        $isExist       = $this->ClosureConfigs->isExist($facultyName);
 
-        $facultyModelUpdate->name = $facultyName;
-        $facultyModelUpdate->description = $facultyDescription;
-        $facultyModelUpdate->closure_config_id = $closureConfigsId;
+        if (!empty($isExist)) responseToClient('faculty name is exist');
 
+        $dataSave  = [
+            'name' => $facultyName,
+            'description' => $facultyDescription,
+            'closure_config_id' => $closureConfigsId
+        ];
 
-//        if (($_SESSION['username'] ?? null) != 'admin') return $this->responseToClient('No access permission');
-        $closureModel = new Faculty();
-
-        $isExist   = $closureModel->isExist($facultyName);
-
-        if (!empty($isExist))       return $this->responseToClient('Closure configs name is exist');
-
-        $result  = $facultyModelUpdate->save();
+        $result    = $this->Faculty->updateDataById($id, $dataSave);
 
 
         if ($result) return $this->responseToClient('Update success', true);
@@ -64,10 +72,15 @@ class FacultiesController extends Controller {
     }
 
     public function deleteFaculty($id){
-       $result = Faculty::destroy($id);
+        $id = $this->request->get('id') ?? null;
 
-        if ($result) return $this->responseToClient('Delete success', true);
-        return $this->responseToClient('Delete failed');
+        if (empty($id)) responseToClient('Invalid id for delete');
+
+        $dataSave  = ['is_delete' => 1];
+        $result    = $this->Faculty->updateDataById($id, $dataSave);
+
+        if ($result) responseToClient('Update success', true);
+        responseToClient('Update failed');
 
     }
 

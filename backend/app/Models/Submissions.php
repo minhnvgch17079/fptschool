@@ -2,11 +2,19 @@
 
 namespace App\Models;
 
+
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class ClosureConfigs extends BaseModel
+class Submissions extends Model
 {
-    protected $table    = 'closure_configs';
+    protected $connection   = 'production';
+    protected $table    = 'submissions';
+    protected $model        = null;
+
+    public function __construct() {
+        $this->model = DB::connection($this->connection);
+    }
 
     public $timestamps  = false;
 
@@ -15,17 +23,9 @@ class ClosureConfigs extends BaseModel
     }
 
 
-    public function isExist ($closureName) {
+    public function isExist ($facultyId) {
         $data = $this->model->table($this->table)
-            ->where('name', '=', $closureName)
-            ->first();
-
-        return (array)$data;
-    }
-
-    public function isExistClosureConfigId ($closureConfigId) {
-        $data = $this->model->table($this->table)
-            ->where('id', '=', $closureConfigId)
+            ->where('id', '=', $facultyId)
             ->first();
 
         return (array)$data;
@@ -43,5 +43,10 @@ class ClosureConfigs extends BaseModel
         return $this->model->table($this->table)
             ->where('id', '=', $id)
             ->update($dataUpdate);
+    }
+
+    public function insertGetId ($dataSave) {
+        return $this->model->table($this->table)
+            ->insertGetId($dataSave);
     }
 }

@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\DB;
 
-class ClosureConfigs extends BaseModel
+class Files extends BaseModel
 {
-    protected $table    = 'closure_configs';
+    protected $table    = 'files';
 
     public $timestamps  = false;
 
@@ -18,14 +17,6 @@ class ClosureConfigs extends BaseModel
     public function isExist ($closureName) {
         $data = $this->model->table($this->table)
             ->where('name', '=', $closureName)
-            ->first();
-
-        return (array)$data;
-    }
-
-    public function isExistClosureConfigId ($closureConfigId) {
-        $data = $this->model->table($this->table)
-            ->where('id', '=', $closureConfigId)
             ->first();
 
         return (array)$data;
