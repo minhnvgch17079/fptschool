@@ -18,8 +18,18 @@ use Illuminate\Support\Facades\DB;
 
 class SubmissionsController extends Controller
 {
+    public function getSubmissionData () {
+        $submissionId = $this->request->post('id');
+        $this->Submissions = getInstance('Submissions');
+        $data                 = $this->Submissions->getSubmissionData($submissionId);
+
+        if (!empty($data)) responseToClient('Get data success', true, $data);
+        responseToClient('No data found');
+    }
+
     public function submitMagazines()
     {
+        $userId = $_SESSION['info_user']['id'];
         $facultyId = $this->request->post('faculty_id') ?? null;
         $files     = $this->request->file('files') ?? null;
 
@@ -39,7 +49,10 @@ class SubmissionsController extends Controller
         if (empty($isExist))           responseToClient('faculty is not exist');
         if (empty($files))             responseToClient('Invalid file');
 
-        $dataSave   = ['faculty_id' => $facultyId];
+        $dataSave   = [
+            'faculty_id' => $facultyId,
+            'created_by' => $userId
+        ];
         $idInserted = $this->Submissions->insertGetId($dataSave);
 
         foreach ($files as $file) {
@@ -47,7 +60,8 @@ class SubmissionsController extends Controller
             $dataFile = [
                 'file_name'      => $file->getClientOriginalName(),
                 'submissions_id' => $idInserted,
-                'file_path'      => $result
+                'file_path'      => $result,
+                'created_by' => $userId
             ];
             $this->Files->insertData($dataFile);
         }
