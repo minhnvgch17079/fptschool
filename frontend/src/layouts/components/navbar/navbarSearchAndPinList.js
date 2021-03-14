@@ -99,7 +99,6 @@ export default {
       {title: "Datepicker",                url: "/extensions/datepicker",              icon: "CalendarIcon",       is_bookmarked: false},
       {title: "Datetime Picker",           url: "/extensions/datetime-picker",         icon: "ClockIcon",          is_bookmarked: false},
       {title: "Access Control",            url: "/extensions/access-control",          icon: "LockIcon",           is_bookmarked: false},
-      {title: "I18n",                      url: "/extensions/i18n",                    icon: "GlobeIcon",          is_bookmarked: false},
       {title: "Carousel",                  url: "/extensions/carousel",                icon: "LayersIcon",         is_bookmarked: false},
       {title: "Clipboard",                 url: "/extensions/clipboard",               icon: "CopyIcon",           is_bookmarked: false},
       {title: "Context Menu",              url: "/extensions/context-menu",            icon: "MoreHorizontalIcon", is_bookmarked: false},

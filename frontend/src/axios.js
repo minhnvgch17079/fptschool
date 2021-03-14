@@ -1,7 +1,7 @@
 // axios
 import axios from 'axios'
 
-const domain = "fpt-school.com"
+const domain = "kpi.local"
 
 export default axios.create({
   domain

@@ -23,6 +23,14 @@ class ClosureConfigs extends BaseModel
         return (array)$data;
     }
 
+    public function isExistClosureConfigId ($closureConfigId) {
+        $data = $this->model->table($this->table)
+            ->where('id', '=', $closureConfigId)
+            ->first();
+
+        return (array)$data;
+    }
+
     public function getDataById ($id) {
         $data = $this->model->table($this->table)
             ->where('id', '=', $id)
@@ -35,5 +43,12 @@ class ClosureConfigs extends BaseModel
         return $this->model->table($this->table)
             ->where('id', '=', $id)
             ->update($dataUpdate);
+    }
+
+    public function getAllData () {
+        $data = $this->model->table($this->table)
+            ->get();
+
+        return json_decode(json_encode($data), true);
     }
 }

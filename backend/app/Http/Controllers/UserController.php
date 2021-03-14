@@ -9,31 +9,30 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
+
 /**
+ * Class UserController
+ * @package App\Http\Controllers
  * @property User User
  */
 
+
 class UserController extends Controller
 {
-    public function test()
-    {
+    public function test () {
         $files = $this->request->file('files') ?? null;
 
         if (empty($files)) responseToClient('Invalid file');
 
         foreach ($files as $file) {
-            $result = $file->move(base_path() . '/public/files/', $file->getClientOriginalName());
+            $result = $file->move(base_path().'/public/files/', $file->getClientOriginalName());
             echo $result;
         }
 
     }
-
-
     // todo: api login
-    public function login()
-    {
-        if (!empty($_SESSION['username'])) responseToClient('Login success', true);
-
+    public function login () {
+        if (!empty(session()->get('info_user'))) responseToClient('Login success', true);
         $username = $this->request->post('username') ?? null;
         $password = $this->request->post('password') ?? null;
 
@@ -48,16 +47,18 @@ class UserController extends Controller
 
         if (!Hash::check($password, $data['password'])) responseToClient('Wrong username or password');
 
-        $_SESSION['username'] = $username;
+        session()->put('username', $username);
+        session()->put('info_user', $data);
+        session()->save();
 
-        responseToClient('Login success', true);
+        responseToClient('Login success', true, $data);
     }
 
     // todo: api logout
-    public function logout()
-    {
-        unset($_SESSION['username']);
-        responseToClient('logout success', true);
+    public function logout () {
+        session()->forget(['username', 'info_user']);
+        session()->save();
+        responseToClient('logout success',true);
     }
 
     // todo: api register
@@ -107,7 +108,8 @@ class UserController extends Controller
         $phone = $this->request->get('phone_number') ?? null;
         $this->User = getInstance('User');
 
-        $data = $this->User->getData($username, $fullName, $email, $phone);
+        $this->User = getInstance('User');
+        $data       = $this->User->getData($username, $fullName, $email, $phone);
         if ($data) responseToClient('Get list users success', true, $data);
         responseToClient('No data found');
     }

@@ -19,8 +19,6 @@
             :icon       = "group.icon  || 'CircleIcon'"
             :svgClasses = "iconClasses" />
 
-          <!-- Group Name -->
-          <span class="truncate mr-3 select-none">{{ $t(group.i18n) || group.name }}</span>
         </span>
 
         <!-- Group Collapse Icon -->
@@ -53,7 +51,6 @@
             :icon   = "itemIcon"
             :slug   = "groupItem.slug"
             :target = "groupItem.target">
-              <span class="truncate">{{ $t(groupItem.i18n) || groupItem.name }}</span>
               <vs-chip class="ml-auto" :color="groupItem.tagColor" v-if="groupItem.tag">{{ groupItem.tag }}</vs-chip>
           </h-nav-menu-item>
 

@@ -15,7 +15,7 @@
 
         <div class="demo-alignment">
 
-            <vs-button type="border" text-color="#7367F0">Primary</vs-button>
+            <vs-button type="border" text-color="#123123">Primary</vs-button>
             <vs-button type="border" text-color="#28C76F">Success</vs-button>
             <vs-button type="border" text-color="#EA5455">Danger</vs-button>
             <vs-button type="border" text-color="rgb(255,159,67)">Warning</vs-button>
@@ -26,7 +26,7 @@
         </div>
 
         <template slot="codeContainer">
-&lt;vs-button type=&quot;border&quot; text-color=&quot;#7367F0&quot;&gt;Primary&lt;/vs-button&gt;
+&lt;vs-button type=&quot;border&quot; text-color=&quot;#123123&quot;&gt;Primary&lt;/vs-button&gt;
 &lt;vs-button type=&quot;border&quot; text-color=&quot;#28C76F&quot;&gt;Success&lt;/vs-button&gt;
 &lt;vs-button type=&quot;border&quot; text-color=&quot;#EA5455&quot;&gt;Danger&lt;/vs-button&gt;
 &lt;vs-button type=&quot;border&quot; text-color=&quot;rgb(255,159,67)&quot;&gt;Warning&lt;/vs-button&gt;

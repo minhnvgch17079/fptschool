@@ -19,7 +19,7 @@
                     <p class="text-grey">{{ card_1.subtitle }}</p>
                     <p class="text-grey">{{ card_1.subtitle_2 }}</p>
                     <div class="flex justify-between flex-wrap">
-                        <vs-button class="mt-4 mr-2 shadow-lg" type="gradient" color="#7367F0" gradient-color-secondary="#CE9FFC">Download</vs-button>
+                        <vs-button class="mt-4 mr-2 shadow-lg" type="gradient" color="#123123" gradient-color-secondary="#CE9FFC">Download</vs-button>
                         <vs-button class="mt-4" type="border" color="#b9b9b9">View All</vs-button>
                     </div>
                 </vx-card>
@@ -61,7 +61,7 @@
                         <vs-progress :percent="card_3.progress_done_per" class="block mt-1 shadow-md"></vs-progress>
                     </div>
                     <div class="flex justify-between flex-wrap">
-                        <vs-button class="mt-4 mr-2 shadow-lg" type="gradient" color="#7367F0" gradient-color-secondary="#CE9FFC">{{ card_3.btn_left_text }}</vs-button>
+                        <vs-button class="mt-4 mr-2 shadow-lg" type="gradient" color="#123123" gradient-color-secondary="#CE9FFC">{{ card_3.btn_left_text }}</vs-button>
                         <vs-button class="mt-4" type="border" color="#b9b9b9">{{ card_3.btn_right_text }}</vs-button>
                     </div>
                 </vx-card>
@@ -76,7 +76,7 @@
                         <p class="text-grey">{{ card_4.profession }}</p>
                     </div>
                     <div class="flex justify-between flex-wrap">
-                        <vs-button class="mt-4 mr-2 shadow-lg" type="gradient" color="#7367F0" gradient-color-secondary="#CE9FFC">{{ card_4.btn_1_text }}</vs-button>
+                        <vs-button class="mt-4 mr-2 shadow-lg" type="gradient" color="#123123" gradient-color-secondary="#CE9FFC">{{ card_4.btn_1_text }}</vs-button>
                         <vs-button class="mt-4" type="border" color="#b9b9b9">{{ card_4.btn_2_text }}</vs-button>
                     </div>
                     <template slot="footer">
@@ -118,7 +118,7 @@
                             <small class="text-grey">{{ card_5.user_meta_3_label }}</small>
                         </span>
                     </div>
-                    <vs-button type="gradient" class="w-full mt-6" color="#7367F0" gradient-color-secondary="#CE9FFC">{{ card_5.btn_text }}</vs-button>
+                    <vs-button type="gradient" class="w-full mt-6" color="#123123" gradient-color-secondary="#CE9FFC">{{ card_5.btn_text }}</vs-button>
                 </vx-card>
             </div>
 
@@ -138,7 +138,7 @@
                         <vs-progress :percent="card_6.progress_done_per" class="block mt-1 shadow-md"></vs-progress>
                     </div>
                     <div class="flex justify-between flex-wrap">
-                        <vs-button class="mt-4 mr-2 shadow-lg" type="gradient" color="#7367F0" gradient-color-secondary="#CE9FFC">{{ card_6.btn_left_text }}</vs-button>
+                        <vs-button class="mt-4 mr-2 shadow-lg" type="gradient" color="#123123" gradient-color-secondary="#CE9FFC">{{ card_6.btn_left_text }}</vs-button>
                         <vs-button class="mt-4" type="border" color="#b9b9b9">{{ card_6.btn_right_text }}</vs-button>
                     </div>
                 </vx-card>

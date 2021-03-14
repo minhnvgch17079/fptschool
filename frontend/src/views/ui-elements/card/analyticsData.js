@@ -46,7 +46,7 @@ export default {
             xaxis: {
                 type: 'numeric',
             },
-            colors: ['#7367F0'],
+            colors: ['#123123'],
             fill: {
                 type: 'gradient',
                 gradient: {
@@ -228,7 +228,7 @@ export default {
                 gradient: {
                     shade: 'dark',
                     inverseColors: false,
-                    gradientToColors: ['#7367F0', '#b8c2cc'],
+                    gradientToColors: ['#123123', '#b8c2cc'],
                     shadeIntensity: 1,
                     type: 'horizontal',
                     opacityFrom: 1,
@@ -530,7 +530,7 @@ export default {
                     filter: 'none'
                 }
             },
-            colors: ['rgba(115,103,240,0.15)', 'rgba(115,103,240,0.15)', '#7367f0', 'rgba(115,103,240,0.15)', 'rgba(115,103,240,0.15)', 'rgba(115,103,240,0.15)'],
+            colors: ['rgba(115,103,240,0.15)', 'rgba(115,103,240,0.15)', '#123123', 'rgba(115,103,240,0.15)', 'rgba(115,103,240,0.15)', 'rgba(115,103,240,0.15)'],
             plotOptions: {
                 bar: {
                     columnWidth: '45%',
@@ -642,7 +642,7 @@ export default {
                     shade: 'dark',
                     type: 'horizontal',
                     shadeIntensity: 0.5,
-                    gradientToColors: ['#7367F0'],
+                    gradientToColors: ['#123123'],
                     inverseColors: true,
                     opacityFrom: 1,
                     opacityTo: 1,
@@ -918,7 +918,7 @@ export default {
                 gradient: {
                     shade: 'dark',
                     inverseColors: false,
-                    gradientToColors: ['#7367F0'],
+                    gradientToColors: ['#123123'],
                     shadeIntensity: 1,
                     type: 'horizontal',
                     opacityFrom: 1,
@@ -990,7 +990,7 @@ export default {
                 type: 'bar',
                 toolbar: { show: false },
             },
-            colors: ['#7367F0', '#EA5455'],
+            colors: ['#123123', '#EA5455'],
             plotOptions: {
                 bar: {
                     columnWidth: '10%'

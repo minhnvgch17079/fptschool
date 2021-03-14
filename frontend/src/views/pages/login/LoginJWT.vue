@@ -1,106 +1,92 @@
 <template>
   <div>
     <vs-input
-        v-validate="'required|email|min:3'"
+        v-validate="'required|min:3'"
         data-vv-validate-on="blur"
-        name="email"
+        name="username"
         icon-no-border
         icon="icon icon-user"
         icon-pack="feather"
-        label-placeholder="Email"
-        v-model="email"
+        v-model="username"
+        placeholder="username"
+        color="#28a745"
         class="w-full"/>
-    <span class="text-danger text-sm">{{ errors.first('email') }}</span>
+    <span class="text-danger text-sm">{{ errors.first('username') }}</span>
 
     <vs-input
         data-vv-validate-on="blur"
-        v-validate="'required|min:6|max:10'"
+        v-validate="'required|min:6'"
         type="password"
         name="password"
         icon-no-border
         icon="icon icon-lock"
         icon-pack="feather"
-        label-placeholder="Password"
         v-model="password"
+        placeholder="password"
+        color="#28a745"
         class="w-full mt-6" />
     <span class="text-danger text-sm">{{ errors.first('password') }}</span>
-
-    <div class="flex flex-wrap justify-between my-5">
-        <vs-checkbox v-model="checkbox_remember_me" class="mb-3">Remember Me</vs-checkbox>
-        <router-link to="/pages/forgot-password">Forgot Password?</router-link>
-    </div>
+    <br>
     <div class="flex flex-wrap justify-between mb-3">
-      <vs-button  type="border" @click="registerUser">Register</vs-button>
-      <vs-button :disabled="!validateForm" @click="loginJWT">Login</vs-button>
+      <b-btn variant="outline-success" :disabled="!validateForm" @click="login()" size="lg">Đăng Nhập</b-btn>
     </div>
   </div>
 </template>
 
 <script>
+import Service from "@/domain/services/api"
+
 export default {
+  components: {},
+  comments: {
+    Service
+  },
   data() {
     return {
-      email: 'admin@admin.com',
-      password: 'adminadmin',
-      checkbox_remember_me: false
+      username: '',
+      password: ''
     }
   },
   computed: {
     validateForm() {
-      return !this.errors.any() && this.email != '' && this.password != '';
+      return !this.errors.any() && this.username != '' && this.password != '';
     },
   },
+  created() {
+    this.checkLogin();
+  },
   methods: {
+    getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    },
+    alert (message) {
+      let color = `rgb(${this.getRandomInt(0,255)},${this.getRandomInt(0,255)},${this.getRandomInt(0,255)})`
+      this.$vs.notify({
+        title: message,
+        color: color
+      })
+    },
     checkLogin() {
-      // If user is already logged in notify
-      if (this.$store.state.auth.isUserLoggedIn()) {
-
-        // Close animation if passed as payload
-        // this.$vs.loading.close()
-
-        this.$vs.notify({
-          title: 'Login Attempt',
-          text: 'You are already logged in!',
-          iconPack: 'feather',
-          icon: 'icon-alert-circle',
-          color: 'warning'
-        })
-
-        return false
-      }
-      return true
+      Service.login().then(res => {
+        if (res.data.success) window.location.href = '/adm'
+      }).catch(() => {
+        this.alert('Something error. Please try again!')
+      })
     },
-    loginJWT() {
-
-      if (!this.checkLogin()) return
-
-      // Loading
-      this.$vs.loading()
-
-      const payload = {
-        checkbox_remember_me: this.checkbox_remember_me,
-        userDetails: {
-          email: this.email,
-          password: this.password
+    login() {
+      let dataSend = {
+        username: this.username,
+        password: this.password
+      }
+      Service.login(dataSend).then(res => {
+        this.alert(res.data.message || 'Something error. Please try again!')
+        if (res.data.success) {
+          localStorage.setItem('infoUser', JSON.stringify(res.data.data))
+          window.location.href = '/adm'
         }
-      }
-
-      this.$store.dispatch('auth/loginJWT', payload)
-        .then(() => { this.$vs.loading.close() })
-        .catch(error => {
-          this.$vs.loading.close()
-          this.$vs.notify({
-            title: 'Error',
-            text: error.message,
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger'
-          })
-        })
-    },
-    registerUser() {
-      if (!this.checkLogin()) return
-      this.$router.push('/pages/register').catch(() => {})
+      }).catch(() => {
+        this.alert('Something error. Please try again!')
+      })
     }
   }
 }

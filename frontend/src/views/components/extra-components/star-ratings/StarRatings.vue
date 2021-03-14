@@ -155,7 +155,7 @@ export default {
 
             <!-- VIBRANT STAR -->
             <h6 class="mt-4">Vibrant Stars</h6>
-            <star-rating :rtl="$vs.rtl" inactive-color="#b9b4f9" active-color="#7367f0"></star-rating>
+            <star-rating :rtl="$vs.rtl" inactive-color="#b9b4f9" active-color="#123123"></star-rating>
 
             <template slot="codeContainer">
 &lt;template&gt;
@@ -165,7 +165,7 @@ export default {
 
   &lt;!-- VIBRANT STAR --&gt;
   &lt;h6 class=&quot;mt-4&quot;&gt;Vibrant Stars&lt;/h6&gt;
-  &lt;star-rating :rtl=&quot;$vs.rtl&quot; inactive-color=&quot;#b9b4f9&quot; active-color=&quot;#7367f0&quot;&gt;&lt;/star-rating&gt;
+  &lt;star-rating :rtl=&quot;$vs.rtl&quot; inactive-color=&quot;#b9b4f9&quot; active-color=&quot;#123123&quot;&gt;&lt;/star-rating&gt;
 &lt;/template&gt;
 
 &lt;script&gt;
