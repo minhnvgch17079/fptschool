@@ -9,7 +9,7 @@
 
 
 module.exports = {
-  publicPath: '/',
+  publicPath: '/adm',
   transpileDependencies: [
     'vue-echarts',
     'resize-detector'

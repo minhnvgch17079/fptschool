@@ -275,23 +275,6 @@
   }
 }
 
-// I18N
-.i18n-dropdown {
-  .vs-dropdown--item-link {
-    display: flex;
-    align-items: center;
-  }
-
-  @media screen and (max-width: 364px) {
-    width: 95vw;
-    left: 90vw !important;
-
-    .vs-dropdown--menu--after {
-      display: none;
-    }
-  }
-}
-
 // CART & NOTIFICATIONS DROPDOWN
 .cart-dropdown {
   width: 365px;

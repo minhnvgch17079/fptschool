@@ -1,15 +1,14 @@
 <template>
-  <div class="the-navbar__user-meta flex items-center" v-if="activeUserInfo.displayName">
+  <div class="the-navbar__user-meta flex items-center" v-if="infoUser.username">
 
     <div class="text-right leading-tight hidden sm:block">
-      <p class="font-semibold">{{ activeUserInfo.displayName }}</p>
-      <small>Available</small>
+      <p class="font-semibold">{{ infoUser.username }}</p>
     </div>
 
     <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
 
       <div class="con-img ml-3">
-        <img v-if="activeUserInfo.photoURL" key="onlineImg" :src="activeUserInfo.photoURL" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" />
+        <img v-if="infoUser.image_profile" key="onlineImg" :src="infoUser.image_profile" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block" />
       </div>
 
       <vs-dropdown-menu class="vx-navbar-dropdown">
@@ -65,13 +64,12 @@
 </template>
 
 <script>
-import firebase from 'firebase/app'
-import 'firebase/auth'
-
+import KPIService from "@/domain/services/kpi"
 export default {
+  components: {},
   data() {
     return {
-
+      infoUser: JSON.parse(localStorage.getItem('infoUser'))
     }
   },
   computed: {
@@ -80,32 +78,23 @@ export default {
     }
   },
   methods: {
-    logout() {
-
-        // if user is logged in via auth0
-        if (this.$auth.profile) this.$auth.logOut();
-
-        // if user is logged in via firebase
-        const firebaseCurrentUser = firebase.auth().currentUser
-
-        if (firebaseCurrentUser) {
-            firebase.auth().signOut().then(() => {
-                this.$router.push('/pages/login').catch(() => {})
-            })
-        }
-        // If JWT login
-        if(localStorage.getItem("accessToken")) {
-          localStorage.removeItem("accessToken")
-          this.$router.push('/pages/login').catch(() => {})
-        }
-
-        // Change role on logout. Same value as initialRole of acj.js
-        this.$acl.change('admin')
-        localStorage.removeItem('userInfo')
-
-        // This is just for demo Purpose. If user clicks on logout -> redirect
-        this.$router.push('/pages/login').catch(() => {})
+    getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
     },
+    alert (message) {
+      let color = `rgb(${this.getRandomInt(0,255)},${this.getRandomInt(0,255)},${this.getRandomInt(0,255)})`
+      this.$vs.notify({
+        title: message,
+        color: color
+      })
+    },
+    logout() {
+        KPIService.logout().then(res => {
+          this.alert(res.data.message || 'Logout thành công')
+          localStorage.removeItem("infoUser");
+          window.location.href = '/adm/login'
+        })
+    }
   }
 }
 </script>

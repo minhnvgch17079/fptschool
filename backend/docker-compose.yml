@@ -2,74 +2,95 @@ version: '3'
 services:
 
   #PHP Service
-  app:
+  app_kpi:
     build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      - dockerhost
+      context: ""
+      dockerfile: ./docker/Dockerfile
     image: digitalocean.com/php
-    container_name: app
+    container_name: app_kpi
     restart: unless-stopped
     tty: true
     environment:
-      SERVICE_NAME: app
+      SERVICE_NAME: app_kpi
       SERVICE_TAGS: dev
     working_dir: /var/www
     volumes:
       - ./:/var/www
-      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
-#    networks:
-#      - app-network
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    expose:
+      - 9000
 
   #Nginx Service
-  webserver:
+  web_kpi:
     image: nginx:alpine
-    container_name: webserver
+    container_name: web_kpi
     restart: unless-stopped
-    tty: true
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./:/var/www
-      - ./nginx/conf.d/:/etc/nginx/conf.d/
     depends_on:
       - dockerhost
-#    networks:
-#      - app-network
+      - app_kpi
+    tty: true
+    ports:
+      - 80:80
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
 
   #MySQL Service
-  db:
+  db_kpi:
     image: mysql:5.7.22
-    container_name: db
+    container_name: db_kpi
     restart: unless-stopped
     tty: true
     ports:
-      - "3306:3306"
+      - 3306:3306
     environment:
-      MYSQL_DATABASE: fptschool
+      MYSQL_DATABASE: ghtk
       MYSQL_ROOT_PASSWORD: root
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
       - dbdata:/var/lib/mysql/
-      - ./mysql/my.cnf:/etc/mysql/my.cnf
-    depends_on:
-      - dockerhost
-#    networks:
-#      - app-network
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
 
+  redis.kpi.vn:
+    container_name: redis.kpi.vn
+    image: redis:alpine
+    restart: always
+    expose:
+      - 6379
+    command: redis-server --appendonly yes
+
+  zookeeper:
+    container_name: zookeeper
+    image: 'bitnami/zookeeper:3.6.2'
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    build:
+      context: docker/kafka
+      dockerfile: ./docker/kafka/Dockerfile
+    container_name: kafka
+    ports:
+      - '9092:9092'
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+
+#Docker Networks
   dockerhost:
-    container_name: fptschool_host
+    container_name: kpi_host
     image: qoomon/docker-host
     cap_add: ["NET_ADMIN", "NET_RAW"]
     restart: always
-#Docker Networks
-#networks:
-#  app-network:
-#    driver: bridge
-#Volumes
+
 volumes:
   dbdata:
     driver: local
