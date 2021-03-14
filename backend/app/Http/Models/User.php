@@ -6,7 +6,7 @@ class User extends \App\Models\BaseModel {
     protected $table = 'users';
 
     public function getDataByUsername ($username) {
-        $data = $this->model
+        $data = $this->model->table($this->table)
             ->where('username', '=', $username)
             ->first();
 
@@ -14,11 +14,11 @@ class User extends \App\Models\BaseModel {
     }
 
     public function insertData ($data) {
-        return $this->model->insert($data);
+        return $this->model->table($this->table)->insert($data);
     }
 
     public function isExist ($username) {
-        $data = $this->model
+        $data = $this->model->table($this->table)
             ->where('username', '=', $username)
             ->first();
 
