@@ -30,9 +30,6 @@ class UserController extends Controller
     }
     // todo: api login
     public function login () {
-        pd(session()->get('username'));
-        session()->put('username', 'minhminh');
-        session()->save();
         if (!empty(session()->get('info_user'))) responseToClient('Login success', true);
         $username = $this->request->post('username') ?? null;
         $password = $this->request->post('password') ?? null;
