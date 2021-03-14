@@ -11,9 +11,10 @@ use function Composer\Autoload\includeFile;
 class Authentication
 {
     private $listPublicApiAccess = [
-        'admin/login',
-        'admin/logout'
+        'user/login',
+        'user/logout'
     ];
+
     public function handle($request, Closure $next)
     {
         $api      = $request->path();
@@ -25,9 +26,9 @@ class Authentication
 
         if (in_array($api, $this->listPublicApiAccess)) return $next($request);
         if (empty($_SESSION['info_user'])) responseToClient('No permission');
-        if (in_array($api, $apiGroup))                  return $next($request);
-        if (in_array($api, $apiUser))                   return $next($request);
+//        if (in_array($api, $apiGroup))                  return $next($request);
+//        if (in_array($api, $apiUser))                   return $next($request);
 
-        responseToClient('Bạn không có quyền truy cập');
+//        responseToClient('Bạn không có quyền truy cập');
     }
 }

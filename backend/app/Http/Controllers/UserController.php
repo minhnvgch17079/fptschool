@@ -30,7 +30,10 @@ class UserController extends Controller
     }
     // todo: api login
     public function login () {
-        if (!empty($_SESSION['username'])) responseToClient('Login success', true);
+        pd(session()->get('username'));
+        session()->put('username', 'minhminh');
+        session()->save();
+        if (!empty(session()->get('info_user'))) responseToClient('Login success', true);
         $username = $this->request->post('username') ?? null;
         $password = $this->request->post('password') ?? null;
 
@@ -44,15 +47,17 @@ class UserController extends Controller
 
         if (!Hash::check($password, $data['password'])) responseToClient('Wrong username or password');
 
-        $_SESSION['username']  = $username;
-        $_SESSION['info_user'] = $data;
+        session()->put('username', $username);
+        session()->put('info_user', $data);
+        session()->save();
 
         responseToClient('Login success', true, $data);
     }
 
     // todo: api logout
     public function logout () {
-        session_destroy();
+        session()->forget(['username', 'info_user']);
+        session()->save();
         responseToClient('logout success',true);
     }
 
