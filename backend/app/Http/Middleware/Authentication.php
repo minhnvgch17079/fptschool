@@ -22,11 +22,12 @@ class Authentication
         $username = $infoUser['username'] ?? null;
         $apiGroup = AuthByGroup::$groups[$groupId] ?? [];
         $apiUser  = AuthByUser::$users[$username]  ?? [];
-        
+
         if (in_array($api, $this->listPublicApiAccess)) return $next($request);
+        if (empty($_SESSION['info_user'])) responseToClient('No permission');
         if (in_array($api, $apiGroup))                  return $next($request);
         if (in_array($api, $apiUser))                   return $next($request);
-        
+
         responseToClient('Bạn không có quyền truy cập');
     }
 }
