@@ -49,4 +49,13 @@ class Submissions extends Model
         return $this->model->table($this->table)
             ->insertGetId($dataSave);
     }
+
+    public function getSubmissionData ($id) {
+        $data = $this->model->table($this->table)
+            ->join('files as f', "$this->table.id", '=', 'f.submissions_id')
+            ->join('users as u', 'f.created_by', '=' , 'u.id')
+            ->where("$this->table.id", $id)->orderBy('f.id','desc')->get();
+
+        return (array)$data;
+    }
 }
