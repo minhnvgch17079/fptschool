@@ -54,6 +54,7 @@ class UserController extends Controller
     // todo: api logout
     public function logout () {
         unset($_SESSION['username']);
+        unset($_SESSION['info_user']);
         responseToClient('logout success',true);
     }
 
