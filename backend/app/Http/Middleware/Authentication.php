@@ -25,7 +25,8 @@ class Authentication
         $apiUser  = AuthByUser::$users[$username]  ?? [];
 
         if (in_array($api, $this->listPublicApiAccess)) return $next($request);
-        if (empty($_SESSION['info_user'])) responseToClient('No permission');
+        if (empty(session()->get('info_user'))) responseToClient('No permission');
+        return $next($request);
 //        if (in_array($api, $apiGroup))                  return $next($request);
 //        if (in_array($api, $apiUser))                   return $next($request);
 
