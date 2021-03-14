@@ -2,6 +2,7 @@
 
 
 namespace App\Http\Controllers;
+use App\Models\Faculty;
 use App\Models\Files;
 use App\Models\Submissions;
 use Illuminate\Support\Facades\DB;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 /**
  * @property Submissions Submissions
  * @property Files Files
+ * @property Faculty Faculty
+
  */
 
 
@@ -22,8 +25,11 @@ class SubmissionsController extends Controller
         $data = DB::table('faculties')->join('closure_configs','faculties.closure_config_id','=','closure_configs.id')->where('faculties.id',$facultyId)->orderBy('faculties.id','desc')->get();
         $first_closure_date = $data[0]->first_closure_DATE;
         $now = date('Y-m-d H:i:s');
+        $this->Faculty = getInstance('Faculty');
+        $isExist = $this->Faculty->isExistFacultyId($facultyId);
         if($now > $first_closure_date) responseToClient('The submission time has expired');
         if (empty($facultyId))         responseToClient('Invalid faculty id'); //them validate check faculty co ton tai hay khong
+        if (empty($isExist))           responseToClient('faculty is not exist');
         if (empty($files))             responseToClient('Invalid file');
 
         $submissions = new Submissions();

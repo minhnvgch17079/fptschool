@@ -23,9 +23,9 @@ class Submissions extends Model
     }
 
 
-    public function isExist ($closureName) {
+    public function isExist ($facultyId) {
         $data = $this->model->table($this->table)
-            ->where('name', '=', $closureName)
+            ->where('id', '=', $facultyId)
             ->first();
 
         return (array)$data;

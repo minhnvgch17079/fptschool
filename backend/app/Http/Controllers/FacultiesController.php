@@ -19,8 +19,8 @@ class FacultiesController extends Controller {
         if (empty($facultyName))              responseToClient('Invalid faculty name');
         if (empty($closureConfigsId))         responseToClient('Invalid closure config id');
 
-        $this->Faculty = getInstance('faculties');
-        $isExist       = $this->ClosureConfigs->isExist($facultyName);
+        $this->Faculty = getInstance('Faculty');
+        $isExist       = $this->Faculty->isExist($facultyName);
 
         if (!empty($isExist)) responseToClient('faculty name is exist');
 
@@ -33,8 +33,8 @@ class FacultiesController extends Controller {
 
         $result    = $this->Faculty->insertData($dataSave);
 
-        if ($result) return $this->responseToClient('Create success', true);
-        return $this->responseToClient('Create failed');
+        if ($result) return responseToClient('Create success', true, $dataSave);
+        return responseToClient('Create failed');
     }
 
     public function updateFaculty ($id , Request $req) {

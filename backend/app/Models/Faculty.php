@@ -24,6 +24,14 @@ class Faculty extends BaseModel
         return (array)$data;
     }
 
+    public function isExistFacultyId ($facultyId) {
+        $data = $this->model->table($this->table)
+            ->where('id', '=', $facultyId)
+            ->first();
+
+        return (array)$data;
+    }
+
     public function getDataById ($id) {
         $data = $this->model->table($this->table)
             ->where('id', '=', $id)
