@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
-class Faculty extends BaseModel
+class Files extends BaseModel
 {
-    protected $table    = 'faculties';
+    protected $table    = 'files';
 
     public $timestamps  = false;
 
@@ -16,17 +14,9 @@ class Faculty extends BaseModel
     }
 
 
-    public function isExist ($facultyName) {
+    public function isExist ($closureName) {
         $data = $this->model->table($this->table)
-            ->where('name', '=', $facultyName)
-            ->first();
-
-        return (array)$data;
-    }
-
-    public function isExistFacultyId ($facultyId) {
-        $data = $this->model->table($this->table)
-            ->where('id', '=', $facultyId)
+            ->where('name', '=', $closureName)
             ->first();
 
         return (array)$data;
