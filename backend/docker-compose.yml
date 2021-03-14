@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
     depends_on:
       - dockerhost
-      - app_kpi
+      - app
     tty: true
     ports:
       - 80:80
@@ -44,9 +44,7 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
   kafka:
-    build:
-      context: docker/kafka
-      dockerfile: ./docker/kafka/Dockerfile
+    image: 'bitnami/kafka:2.6.0'
     container_name: kafka
     ports:
       - '9092:9092'
