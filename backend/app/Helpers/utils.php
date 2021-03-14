@@ -74,5 +74,23 @@ if (!(function_exists('responseToClient'))) {
         die();
     }
 }
+if (!(function_exists('validateDate'))) {
+    function validateDate($date, $format = 'Y-m-d H:i:s') {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
+}
+
+if (!(function_exists('countDate'))) {
+    function countDate($date_1 , $date_2 , $differenceFormat = '%a' ) {
+        $datetime1 = date_create($date_1);
+        $datetime2 = date_create($date_2);
+
+        $interval = date_diff($datetime1, $datetime2);
+
+        return $interval->format($differenceFormat);
+
+    }
+}
 
 

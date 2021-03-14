@@ -36,11 +36,11 @@ class ClosureConfigsController extends Controller {
 
         $result    = $this->ClosureConfigs->insertData($dataSave);
 
-        if ($result) responseToClient('Create success', true);
+        if ($result) responseToClient('Create success', true,$dataSave);
         responseToClient('Create failed');
     }
 
-    public function updateClosureConfigs ($id , Request $req) {
+    public function updateClosureConfigs () {
         $id                = $this->request->post('id')     ?? null;
         $closureName       = $this->request->post('name')   ?? null;
         $firstClosureDate  = $this->request->post('first_closure_date') ?? null;

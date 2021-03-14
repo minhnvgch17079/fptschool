@@ -2,27 +2,21 @@
 
 namespace App\Models;
 
-class Faculty extends BaseModel
-{
-    protected $table = 'faculties';
-    protected $model = null;
 
-    public $timestamps = false;
+class Files extends BaseModel
+{
+    protected $table    = 'files';
+
+    public $timestamps  = false;
+
     public function insertData ($data) {
         return $this->model->table($this->table)->insert($data);
     }
 
 
-    public function isExist ($facultyName) {
+    public function isExist ($closureName) {
         $data = $this->model->table($this->table)
-            ->where('name', '=', $facultyName)
-            ->first();
-
-        return (array)$data;
-    }
-    public function isExistFacultyId ($facultyId) {
-        $data = $this->model->table($this->table)
-            ->where('id', '=', $facultyId)
+            ->where('name', '=', $closureName)
             ->first();
 
         return (array)$data;
