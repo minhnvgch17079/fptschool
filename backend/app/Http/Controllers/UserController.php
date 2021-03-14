@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 
+/**
+ * Class UserController
+ * @package App\Http\Controllers
+ * @property User User
+ */
+
+
 class UserController extends Controller
 {
     public function test () {
@@ -38,7 +45,8 @@ class UserController extends Controller
 
         if (!Hash::check($password, $data['password'])) responseToClient('Wrong username or password');
 
-        $_SESSION['username'] = $username;
+        $_SESSION['username']  = $username;
+        $_SESSION['info_user'] = $data;
 
         responseToClient('Login success', true);
     }
@@ -91,8 +99,8 @@ class UserController extends Controller
         $email    = $this->request->get('email')        ?? null;
         $phone    = $this->request->get('phone_number') ?? null;
 
-        $userModel = new User();
-        $data      = $userModel->getData($username, $fullName, $email, $phone);
+        $this->User = getInstance('User');
+        $data       = $this->User->getData($username, $fullName, $email, $phone);
         if ($data) responseToClient('Get list users success', true, $data);
         responseToClient('No data found');
     }

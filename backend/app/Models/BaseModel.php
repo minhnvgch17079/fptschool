@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Facades\DB;
 
 class BaseModel extends DB {
-    protected $connection   = 'mysql';
+    protected $connection   = 'production';
     protected $table        = null;
     protected $model        = null;
 
