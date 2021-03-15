@@ -97,8 +97,7 @@
 import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
 import Multiselect from 'vue-multiselect'
 import Service from "@/domain/services/api"
-
-
+import commonHelper from "@/infrastructures/common-helpers"
 export default {
   components: {
     Multiselect
@@ -163,7 +162,11 @@ export default {
       Service.getListUser(data).then(res => {
         if (res.data.success) {
           this.dataUsers = res.data.data
+          return commonHelper.showMessage(res.data.message, 'success')
         }
+        commonHelper.showMessage(res.data.message || 'There something error. Please try again', 'warning')
+      }).catch(() => {
+        commonHelper.showMessage(res.data.message || 'There something error. Please try again', 'warning')
       });
     },
 
@@ -177,7 +180,11 @@ export default {
         if (res.data.success) {
           this.usernameSearch = this.usernameAdd
           this.getUser()
+          return commonHelper.showMessage(res.data.message, 'success')
         }
+        commonHelper.showMessage(res.data.message || 'There something error. Please try again', 'warning')
+      }).catch(() => {
+        commonHelper.showMessage(res.data.message || 'There something error. Please try again', 'warning')
       });
     }
   },

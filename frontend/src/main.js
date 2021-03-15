@@ -15,8 +15,9 @@ import App from './App.vue'
 import Vuesax from 'vuesax'
 import 'material-icons/iconfont/material-icons.css' //Material Icons
 import 'vuesax/dist/vuesax.css'; // Vuesax
+import Notifications from 'vue-notification'
 Vue.use(Vuesax)
-
+Vue.use(Notifications)
 
 // axios
 import axios from "./axios.js"

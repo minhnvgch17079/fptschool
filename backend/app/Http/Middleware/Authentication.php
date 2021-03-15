@@ -24,13 +24,12 @@ class Authentication
         $apiGroup = AuthByGroup::$groups[$groupId] ?? [];
         $apiUser  = AuthByUser::$users[$username]  ?? [];
 
-        return $next($request);
         if (in_array($api, $this->listPublicApiAccess)) return $next($request);
-        if (empty(session()->get('info_user'))) responseToClient('No permission');
+        if (empty(session()->get('info_user'))) responseToClient('No permission. Please login first');
         return $next($request);
 //        if (in_array($api, $apiGroup))                  return $next($request);
 //        if (in_array($api, $apiUser))                   return $next($request);
 
-//        responseToClient('Bạn không có quyền truy cập');
+        responseToClient('No permission');
     }
 }

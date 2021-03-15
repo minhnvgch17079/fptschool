@@ -11,6 +11,7 @@
         <vs-spacer />
 
         <profile-drop-down />
+        <notifications group="default" />
 
       </vs-navbar>
     </div>

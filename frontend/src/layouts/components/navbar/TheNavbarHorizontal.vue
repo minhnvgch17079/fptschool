@@ -26,6 +26,7 @@
       <cart-drop-down />
 
       <notification-drop-down />
+      <notifications group="default" />
 
       <profile-drop-down />
 
