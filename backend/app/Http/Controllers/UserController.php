@@ -102,11 +102,10 @@ class UserController extends Controller
     public function getUser()
     {
 //        if (($_SESSION['username'] ?? null) != 'admin') responseToClient('No access permission');
-        $username = $this->request->get('username') ?? null;
-        $fullName = $this->request->get('full_name') ?? null;
-        $email = $this->request->get('email') ?? null;
-        $phone = $this->request->get('phone_number') ?? null;
-        $this->User = getInstance('User');
+        $username   =  $this->request->get('username') ?? null;
+        $fullName   = $this->request->get('full_name') ?? null;
+        $email      = $this->request->get('email') ?? null;
+        $phone      = $this->request->get('phone_number') ?? null;
 
         $this->User = getInstance('User');
         $data       = $this->User->getData($username, $fullName, $email, $phone);
