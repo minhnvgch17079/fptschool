@@ -13,10 +13,10 @@ export default {
   getClosure (data) {
     return http.get('closure-configs/get', {'params': data})
   },
-  getListUser () {
+  getListUser (data) {
     return http.get('user/getUser', {'params': data})
   },
-  addUser () {
+  addUser (data) {
     return http.post('user/register', data)
   }
 }

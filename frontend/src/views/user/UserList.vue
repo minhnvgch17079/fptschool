@@ -95,7 +95,6 @@
 
 <script>
 import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
-import axios from 'axios'
 import Multiselect from 'vue-multiselect'
 import Service from "@/domain/services/api"
 
