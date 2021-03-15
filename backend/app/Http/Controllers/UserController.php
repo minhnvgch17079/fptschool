@@ -68,12 +68,7 @@ class UserController extends Controller
         // missing only admin can access
         $username = $this->request->post('username') ?? null;
         $password = $this->request->post('password') ?? null;
-        $groupId = $this->request->post('group_id') ?? null;
-
-//        $this->Users = getInstance('users');
-
-
-//        if (($_SESSION['username'] ?? null) != 'admin') responseToClient('No access permission');
+        $groupId  = $this->request->post('group_id') ?? null;
 
         if (empty($username)) responseToClient('Invalid username');
         if (empty($password)) responseToClient('Invalid password');
@@ -81,7 +76,7 @@ class UserController extends Controller
         $this->User = getInstance('User');
         $isExist = $this->User->isExist($username);
 
-        if (!empty($isExist)) responseToClient('Username exist');
+        if (!empty($isExist))      responseToClient('Username exist');
         if (strlen($username) < 4) responseToClient('Username must more than 3 characters');
         if (strlen($password) < 7) responseToClient('Password must more than 6 characters');
 
