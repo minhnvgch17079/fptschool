@@ -156,7 +156,8 @@ export default {
         username: this.usernameSearch,
         full_name: this.fullNameSearch,
         phone_number: this.phoneNumberSearch,
-        email: this.emailSearch
+        email: this.emailSearch,
+        group_id: this.roleSearch
       }
       this.dataUsers = []
       Service.getListUser(data).then(res => {

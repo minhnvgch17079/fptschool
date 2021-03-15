@@ -102,21 +102,20 @@ class UserController extends Controller
     // todo: api get users for admin
     public function getUser()
     {
-//        if (($_SESSION['username'] ?? null) != 'admin') responseToClient('No access permission');
-        $username   =  $this->request->get('username') ?? null;
-        $fullName   = $this->request->get('full_name') ?? null;
-        $email      = $this->request->get('email') ?? null;
-        $phone      = $this->request->get('phone_number') ?? null;
+        $username   =  $this->request->get('username')      ?? null;
+        $fullName   = $this->request->get('full_name')      ?? null;
+        $email      = $this->request->get('email')          ?? null;
+        $phone      = $this->request->get('phone_number')   ?? null;
+        $groupId    = $this->request->get('group_id')       ?? null;
 
         $this->User = getInstance('User');
-        $data       = $this->User->getData($username, $fullName, $email, $phone);
+        $data       = $this->User->getData($username, $fullName, $email, $phone, $groupId);
         if ($data) responseToClient('Get list users success', true, $data);
         responseToClient('No data found');
     }
 
     public function editUser()
     {
-//      if (($_SESSION['username'] ?? null) != 'admin') return $this->responseToClient('No access permission');
         $username = $this->request->post('username')    ?? null;
 //        $fullName = $this->request->post('full_name')   ?? null;
 //        $email    = $this->request->post('email')       ?? null;

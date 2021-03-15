@@ -25,13 +25,14 @@ class User extends \App\Models\BaseModel {
         return (array)$data;
     }
 
-    public function getData ($username, $fullName, $email, $phone) {
+    public function getData ($username, $fullName, $email, $phone, $groupId) {
         $query = $this->model->table($this->table);
 
         if (!empty($username))  $query->where('username', '=', $username);
         if (!empty($phone))     $query->where('phone_number', '=', $phone);
         if (!empty($fullName))  $query->where('full_name', 'like', "%$fullName%");
         if (!empty($email))     $query->where('email', '=', $email);
+        if (!empty($groupId))   $query->where('group_id', '=', $groupId);
 
         $query->limit(100);
 
