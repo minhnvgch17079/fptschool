@@ -88,3 +88,20 @@ create table users
     constraint username
         unique (username)
 );
+
+CREATE TABLE `files_upload` (
+                                `id` int(11) NOT NULL AUTO_INCREMENT,
+                                `name` varchar(255) NOT NULL,
+                                `is_delete` tinyint(1) DEFAULT '0',
+                                `file_path` varchar(500) DEFAULT NULL,
+                                `created` datetime DEFAULT CURRENT_TIMESTAMP,
+                                `created_by` int(11) DEFAULT NULL,
+                                `modified` datetime DEFAULT CURRENT_TIMESTAMP,
+                                `modified_by` int(11) DEFAULT NULL,
+                                PRIMARY KEY (`id`),
+                                key `name` (name) using btree ,
+                                key `created` (created) using btree ,
+                                key `created_by` (created_by) using btree ,
+                                key `modified` (modified) using btree ,
+                                key `modified_by` (modified_by) using btree
+);
