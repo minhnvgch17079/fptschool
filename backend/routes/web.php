@@ -8,6 +8,7 @@ use App\Http\Controllers\SubmissionsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use \Illuminate\Http\Request;
+use App\Http\Controllers\GroupController;
 
 
 Route::get('/', function () {
@@ -18,6 +19,12 @@ Route::get('/', function () {
 Route::any('/user/{action}', function (Request $request) {
     $action = $request->action;
     $class  = new UserController($request);
+    return $class->$action();
+});
+
+Route::any('/group/{action}', function (Request $request) {
+    $action = $request->action;
+    $class  = new GroupController($request);
     return $class->$action();
 });
 
