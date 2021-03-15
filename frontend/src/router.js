@@ -5,7 +5,6 @@ import auth from "@/auth/authService";
 
 import firebase from 'firebase/app'
 import 'firebase/auth'
-import Service from "@/domain/services/api";
 
 Vue.use(Router)
 
