@@ -105,3 +105,10 @@ CREATE TABLE `files_upload` (
                                 key `modified` (modified) using btree ,
                                 key `modified_by` (modified_by) using btree
 );
+
+create table logs (
+                      id int primary key auto_increment,
+                      error text,
+                      created datetime default CURRENT_TIMESTAMP null,
+                      key `created` (created) using btree
+)
