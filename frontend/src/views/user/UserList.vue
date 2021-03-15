@@ -97,6 +97,8 @@
 import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
 import axios from 'axios'
 import Multiselect from 'vue-multiselect'
+import Service from "@/domain/services/api"
+
 
 export default {
   components: {
@@ -159,12 +161,7 @@ export default {
         email: this.emailSearch
       }
       this.dataUsers = []
-      axios({
-        method: 'get',
-        url: 'user/getUser',
-        params: data,
-        baseURL: 'http://fpt-school.com'
-      }).then(res => {
+      Service.getListUser(data).then(res => {
         if (res.data.success) {
           this.dataUsers = res.data.data
         }
@@ -172,18 +169,12 @@ export default {
     },
 
     addUser () {
-      const params = new URLSearchParams();
-      params.append('username', this.usernameAdd);
-      params.append('password', this.passwordAdd);
-      params.append('group_id', this.roleAdd);
-
-      axios({
-        method: 'POST',
-        url: 'user/register',
-        data: params,
-        baseURL: 'http://fpt-school.com',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      }).then(res => {
+      let data = {
+        username: this.usernameAdd,
+        password: this.passwordAdd,
+        group_id: this.roleAdd
+      }
+      Service.addUser(data).then(res => {
         if (res.data.success) {
           this.usernameSearch = this.usernameAdd
           this.getUser()
