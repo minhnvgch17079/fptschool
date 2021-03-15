@@ -69,7 +69,6 @@ class GroupController extends Controller {
     }
 
     public function get () {
-        logErr('test');
         $name = $this->request->get('name') ?? null;
 
         $this->Group = getInstance('Group');

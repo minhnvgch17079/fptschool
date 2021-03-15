@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\UploadFile;
 use App\Models\User;
 use App\Models\Group;
 use http\Url;
@@ -25,9 +26,10 @@ class UserController extends Controller
 
         if (empty($files)) responseToClient('Invalid file');
 
+        $a = new UploadFile();
         foreach ($files as $file) {
-            $result = $file->move(base_path().'/public/files/', $file->getClientOriginalName());
-            echo $result;
+            $res = $a->uploadSingleFile($file);
+            pd($res);
         }
 
     }

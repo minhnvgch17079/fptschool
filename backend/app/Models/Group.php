@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Group extends \App\Models\BaseModel
+class Group extends BaseModel
 {
     protected $table = 'groups';
     public function getDataByGrouprname ($group_name) {
