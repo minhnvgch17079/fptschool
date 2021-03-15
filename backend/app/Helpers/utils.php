@@ -93,4 +93,11 @@ if (!(function_exists('countDate'))) {
     }
 }
 
+if (!(function_exists('logErr'))) {
+    function logErr ($message) {
+        $logs = getInstance('Log');
+        $logs->saveError($message);
+    }
+}
+
 
