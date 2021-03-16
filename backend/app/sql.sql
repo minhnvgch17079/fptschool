@@ -111,4 +111,8 @@ create table logs (
                       error text,
                       created datetime default CURRENT_TIMESTAMP null,
                       key `created` (created) using btree
-)
+);
+
+alter table users drop column token,
+                  add column remember_token varchar(255) default null,
+                  add index `token` (remember_token);
