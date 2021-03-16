@@ -1,5 +1,6 @@
 <template>
   <div>
+    <notifications group="default" />
     <vs-input
         v-validate="'required|min:3'"
         data-vv-validate-on="blur"
@@ -35,6 +36,7 @@
 
 <script>
 import Service from "@/domain/services/api"
+import commonHelper from "@/infrastructures/common-helpers"
 
 export default {
   components: {},
@@ -56,21 +58,17 @@ export default {
     this.checkLogin();
   },
   methods: {
-    getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min)) + min;
-    },
-    alert (message) {
-      let color = `rgb(${this.getRandomInt(0,255)},${this.getRandomInt(0,255)},${this.getRandomInt(0,255)})`
-      this.$vs.notify({
-        title: message,
-        color: color
-      })
-    },
     checkLogin() {
       Service.login().then(res => {
-        if (res.data.success) window.location.href = '/adm'
+        if (res.data.success) {
+          commonHelper.showMessage(res.data.message, 'success')
+          if (res.data.data.group_id === 1) return window.location.href = '/adm'
+          if (res.data.data.group_id === 3) return window.location.href = '/adm/student'
+          return window.location.href = '/adm'
+        }
+        commonHelper.showMessage(res.data.message || 'There something error', 'warning')
       }).catch(() => {
-        this.alert('Something error. Please try again!')
+        commonHelper.showMessage('There something error', 'warning')
       })
     },
     login() {
@@ -79,13 +77,16 @@ export default {
         password: this.password
       }
       Service.login(dataSend).then(res => {
-        this.alert(res.data.message || 'Something error. Please try again!')
         if (res.data.success) {
+          commonHelper.showMessage(res.data.message, 'success')
           localStorage.setItem('infoUser', JSON.stringify(res.data.data))
-          window.location.href = '/adm'
+          if (res.data.data.group_id === 1) return window.location.href = '/adm'
+          if (res.data.data.group_id === 3) return window.location.href = '/adm/student'
+          return window.location.href = '/adm'
         }
+        commonHelper.showMessage(res.data.message || 'There something error', 'warning')
       }).catch(() => {
-        this.alert('Something error. Please try again!')
+        commonHelper.showMessage('There something error', 'warning')
       })
     }
   }

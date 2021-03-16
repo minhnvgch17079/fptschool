@@ -97,6 +97,14 @@ const router = new Router({
             ]
         },
         {
+          path: '/student',
+          name: 'Student',
+          component: () => import('@/views/components/student/Main.vue'),
+          meta: {
+            rule: 'editor',
+          }
+        },
+        {
             path: '*',
             redirect: '/pages/error-404'
         }
