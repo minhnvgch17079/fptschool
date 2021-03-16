@@ -116,3 +116,12 @@ create table logs (
 alter table users drop column token,
                   add column remember_token varchar(255) default null,
                   add index `token` (remember_token);
+
+create table sessions (
+                          id varchar(255) unique ,
+                          user_id int,
+                          ip_address varchar(45),
+                          user_agent text,
+                          payload text,
+                          last_activity int
+);
