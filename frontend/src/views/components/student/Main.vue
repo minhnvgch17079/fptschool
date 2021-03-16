@@ -39,7 +39,7 @@
     </b-row>
 
     <b-row>
-        <b-modal id="profileEdit" title="Profile Edit" size="xl">
+        <b-modal id="profileEdit" title="Profile Edit" size="md" :hide-footer="true">
           <ProfileEdit/>
         </b-modal>
     </b-row>

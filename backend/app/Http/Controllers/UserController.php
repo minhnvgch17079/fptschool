@@ -111,46 +111,61 @@ class UserController extends Controller
         responseToClient('No data found');
     }
 
-    public function editUser()
-    {
-        $username = $this->request->post('username')    ?? null;
-//        $fullName = $this->request->post('full_name')   ?? null;
-//        $email    = $this->request->post('email')       ?? null;
-//        $phone    = $this->request->post('phone_number')?? null;
-//        $groupId  = $this->request->post('group_id')    ?? null;
-//        $password = $this->request->post('password')    ?? null;
+    public function updateProfile() {
 
+        $dataUpdate = $this->request->post('update') ?? null;
 
+        $fullName   = $dataUpdate['full_name']        ?? null;
+        $phone      = $dataUpdate['phone_number']     ?? null;
+        $email      = $dataUpdate['email']            ?? null;
+        $age        = $dataUpdate['age']              ?? null;
+        $dateBirth  = $dataUpdate['DATE_of_birth']    ?? null;
 
-        if (empty($username)) responseToClient('please enter username');
-//        if (empty($password)) responseToClient('please enter password');
-//        if (empty($groupId))  responseToClient('please enter group id');
-//        if (empty($fullName)) responseToClient('please enter full name');
-//        if (empty($email))    responseToClient('please enter email');
-//        if (empty($phone))    responseToClient('please enter phone');
+        if (!empty($fullName) && strlen($fullName) > 200) responseToClient('Full name must smaller than 200 characters');
+        if (!empty($phone)) {
+            if (!is_numeric($phone) || strlen($phone) !== 10) responseToClient('Invalid phone');
+        }
+        if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) responseToClient('Invalid email');
+        if (!empty($age)) {
+            if (!is_numeric($age) || $age < 18 || $age > 30) responseToClient('Age must 18 to 30');
+        }
+        if (!empty($dateBirth)) {
+            if (!validateDate($dateBirth, 'Y-m-d')) responseToClient('Invalid date of birth');
+        }
+
+        $infoUpdate = session()->get('info_user');
+        $idAction   = $infoUpdate['id'];
+        $idUpdate   = $infoUpdate['id'];
+
+        if ($idAction != $idUpdate) responseToClient('No permission for update other account');
 
         $this->User = getInstance('User');
-//        $isExist = $this->User->isExist($username);
-
-//        if (!empty($isExist))      responseToClient('Username exist');
-        if (strlen($username) < 4) responseToClient('Username must more than 3 characters');
-//        if (strlen($password) < 7)  return $this->responseToClient('Password must more than 6 characters');
-//
-//        $password  = bcrypt($password);
 
         $dataSave = [
-            'username' => $username,
-//            'password'     => $password,
-//            'group_id'     => $groupId,
-//            'full_name'    => $fullName,
-//            'phone_number' => $phone,
-//            'email'        => $email
+            'full_name'     => $fullName,
+            'phone_number'  => $phone,
+            'email'         => $email,
+            'age'           => $age,
+            'DATE_of_birth' => $dateBirth,
+            'modified'      => date('Y-m-d H:i:s'),
+            'modified_by'   => $idUpdate
         ];
 
-        $result = $this->User->updateData($dataSave);
+        $result = $this->User->updateById($dataSave, $idUpdate);
 
-        if ($result) return $this->responseToClient('Edit success', true);
-        return $this->responseToClient('Edit failed');
+        if ($result) responseToClient('Update success', true);
+        responseToClient('Update failed');
+    }
+
+    public function getInfoUser () {
+        $infoUser = session()->get('info_user');
+        $username = $infoUser['username'];
+
+        $this->User = getInstance('User');
+        $data = $this->User->getData($username, null, null, null, null);
+
+        if (!empty($data)) responseToClient('Get info success', true, $data[0]);
+        responseToClient('No data user found');
     }
 }
 

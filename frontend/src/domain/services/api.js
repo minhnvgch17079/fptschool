@@ -18,5 +18,11 @@ export default {
   },
   addUser (data) {
     return http.post('user/register', data)
+  },
+  updateProfile (data) {
+    return http.post('user/updateProfile', data)
+  },
+  getInfoUser () {
+    return http.get('user/getInfoUser')
   }
 }
