@@ -167,5 +167,31 @@ class UserController extends Controller
         if (!empty($data)) responseToClient('Get info success', true, $data[0]);
         responseToClient('No data user found');
     }
+
+    public function changePassword () {
+        $oldPassword = $this->request->post('old_pass') ?? null;
+        $newPass     = $this->request->post('new_pass') ?? null;
+        $rePass      = $this->request->post('re_pass')  ?? null;
+        $infoUser    = session()->get('info_user');
+
+        if ($newPass != $rePass)  responseToClient('Password and confirm not match');
+        if (strlen($newPass) < 7) responseToClient('Password must more than 6 characters');
+
+        $this->User = getInstance('User');
+        $data = $this->User->getDataByUsername($infoUser['username']);
+
+        if (empty($data)) responseToClient('Wrong username or password');
+
+        if (!Hash::check($oldPassword, $data['password'])) responseToClient('Wrong old password');
+
+        $dataUpdate = [
+            'password' => bcrypt($newPass)
+        ];
+
+        $result = $this->User->updateById($dataUpdate, $infoUser['id']);
+
+        if (!empty($result)) responseToClient('Change password success', true);
+        responseToClient('Change password failed');
+    }
 }
 

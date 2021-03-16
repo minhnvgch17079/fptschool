@@ -23,7 +23,7 @@
             <b-btn class="w-100" variant="outline-warning" v-b-modal.profileEdit>Profile</b-btn>
           </b-dropdown-item>
           <b-dropdown-item>
-            <b-btn class="w-100" variant="outline-primary">
+            <b-btn class="w-100" variant="outline-primary" v-b-modal.changePass>
               Change Password
             </b-btn>
           </b-dropdown-item>
@@ -39,6 +39,10 @@
         <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
           <ProfileEdit/>
         </b-modal>
+
+        <b-modal id="changePass" title="Change pass" size="md" :hide-footer="true">
+          <change-pass />
+        </b-modal>
     </b-row>
 
   </div>
@@ -51,13 +55,14 @@
 import Service from "@/domain/services/api";
 import commonHelper from '@/infrastructures/common-helpers'
 import ProfileEdit from "@/views/components/student/ProfileEdit";
-
+import ChangePass from "@/views/components/student/ChangePassword";
 export default {
   data() {
     return {
     }
   },
   components: {
+    ChangePass,
     ProfileEdit
   },
   mounted() {

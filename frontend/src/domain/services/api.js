@@ -24,5 +24,8 @@ export default {
   },
   getInfoUser () {
     return http.get('user/getInfoUser')
+  },
+  changePassword (data) {
+    return http.post('user/changePassword', data)
   }
 }

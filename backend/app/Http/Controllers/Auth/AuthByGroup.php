@@ -6,10 +6,7 @@ class AuthByGroup {
     public static $groups = [
         1 => [],
         2 => [],
-        3 => [
-            'user/updateProfile',
-            'user/getInfoUser'
-        ],
+        3 => [],
         4 => [],
         5 => [],
         6 => [],

@@ -14,6 +14,11 @@ class Authentication
         'user/login',
         'user/logout'
     ];
+    private $listAccessAllLogin = [
+        'user/getInfoUser',
+        'user/changePassword',
+        'user/updateProfile'
+    ];
 
     public function handle($request, Closure $next)
     {
@@ -26,6 +31,8 @@ class Authentication
 
         if (in_array($api, $this->listPublicApiAccess)) return $next($request);
         if (empty(session()->get('info_user'))) responseToClient('No permission. Please login first');
+
+        if (in_array($api, $this->listAccessAllLogin))  return $next($request);
 
         // admin access all
         if ($groupId == 1) return $next($request);
