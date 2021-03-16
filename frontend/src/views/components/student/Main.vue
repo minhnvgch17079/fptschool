@@ -20,10 +20,7 @@
       <b-col>
         <b-dropdown id="dropdown-1" text="Manage Info" size="md" variant="outline-info">
           <b-dropdown-item>
-            <b-btn class="w-100" variant="outline-info">Profile</b-btn>
-          </b-dropdown-item>
-          <b-dropdown-item>
-            <b-btn class="w-100" variant="outline-warning" v-b-modal.profileEdit>Edit Profile</b-btn>
+            <b-btn class="w-100" variant="outline-warning" v-b-modal.profileEdit>Profile</b-btn>
           </b-dropdown-item>
           <b-dropdown-item>
             <b-btn class="w-100" variant="outline-primary">
@@ -39,7 +36,7 @@
     </b-row>
 
     <b-row>
-        <b-modal id="profileEdit" title="Profile Edit" size="md" :hide-footer="true">
+        <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
           <ProfileEdit/>
         </b-modal>
     </b-row>

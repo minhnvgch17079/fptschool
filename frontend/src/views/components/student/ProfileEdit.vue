@@ -50,8 +50,9 @@
       </b-row>
     <br>
     <b-row class="justify-content-end">
-      <b-btn variant="outline-success" class="ml-3 mr-3 w-48" @click="closeModel()">Cancel</b-btn>
-      <b-btn variant="outline-warning" class="ml-3 mr-3 w-48" @click="updateInfo()">Update</b-btn>
+      <b-btn class="ml-3 mr-3 w-100" v-if="isUpdate === false" @click="setEdit()" variant="outline-warning">Active Edit</b-btn>
+      <b-btn v-if="isUpdate === true" variant="outline-success" class="ml-3 mr-3 w-48" @click="closeModel()">Cancel</b-btn>
+      <b-btn v-if="isUpdate === true" variant="outline-warning" class="ml-3 mr-3 w-48" @click="updateInfo()">Update</b-btn>
     </b-row>
   </div>
 </template>
@@ -66,7 +67,8 @@ export default {
   name: 'profile-edit',
   data() {
     return {
-      infoUser: null
+      infoUser: null,
+      isUpdate: false
     }
   },
   components: {
@@ -77,6 +79,9 @@ export default {
     this.checkLogin()
   },
   methods: {
+    setEdit () {
+      this.isUpdate = true;
+    },
     closeModel () {
       this.$bvModal.hide('profileEdit')
     },
@@ -90,6 +95,8 @@ export default {
         commonHelper.showMessage('Failed to get info user', 'warning')
       }).catch(() => {
         commonHelper.showMessage('There something error. Please try again', 'warning')
+      }).finally(() => {
+        this.isUpdate = false
       })
     },
     updateInfo () {
@@ -102,6 +109,8 @@ export default {
         commonHelper.showMessage(res.data.message || 'There something error. Please try again', 'warning')
       }).catch(() => {
         commonHelper.showMessage('There something error. Please try again', 'warning')
+      }).finally(() => {
+        this.isUpdate = false
       })
     }
   },
