@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     logout() {
-      Service.logout().then(res => {
+      Service.logout().then(() => {
         commonHelper.showMessage('Logout Success', 'success')
         localStorage.removeItem("infoUser");
         window.location.href = '/adm/login'
