@@ -53,6 +53,7 @@ export default {
     updateAssignment () {
       const formData = new FormData()
       let fileNum = 0;
+      if (this.files === null) return commonHelper.showMessage('Please select file upload')
       for (let file of this.files) {
         formData.append(`files[${fileNum++}]`, file) // note, no square-brackets
       }

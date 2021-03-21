@@ -28,6 +28,9 @@ export default {
   changePassword (data) {
     return http.post('user/changePassword', data)
   },
+  uploadAssignment (data) {
+    return http.post('student/uploadAssignment', data)
+  },
   getListActive () {
     return http.get('faculty/getListActive')
   }

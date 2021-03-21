@@ -1,5 +1,12 @@
 <?php
 namespace App\Http\Components;
+use App\Models\Faculty;
+
+/**
+ * Class StudentComponent
+ * @package App\Http\Components
+ * @property Faculty Faculty
+ */
 class StudentComponent {
     public function validateFileUpload ($files) {
         $maxFileNum     = 4;
@@ -20,6 +27,15 @@ class StudentComponent {
 
             if (!in_array($fileType, $acceptFile)) return 'Only pdf or docx accepted';
         }
+
+        return false;
+    }
+
+    public function validateFaculty ($idFaculty) {
+        $this->Faculty = getInstance('Faculty');
+        $result        = $this->Faculty->getAll(date('Y-m-d'), $idFaculty);
+
+        if (empty($result)) return 'Faculty expired or invalid faculty for upload';
 
         return false;
     }

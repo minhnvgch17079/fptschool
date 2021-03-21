@@ -82,7 +82,7 @@
         <change-pass/>
       </b-modal>
 
-      <b-modal id="submission" title="Submission" size="md" :hide-footer="true">
+      <b-modal id="submission" title="Submission (Only docx, pdf accepted)" size="md" :hide-footer="true">
         <upload-file
           :id-faculty="idFaculty"
         />

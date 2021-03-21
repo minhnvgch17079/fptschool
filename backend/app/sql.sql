@@ -125,3 +125,18 @@ create table sessions (
                           payload text,
                           last_activity int
 );
+
+CREATE TABLE `faculty_uploads` (
+                                   `id` int(11) NOT NULL AUTO_INCREMENT,
+                                   `is_active` bool default true,
+                                   `note` varchar(500) DEFAULT NULL,
+                                   `file_upload_id` int(11) NOT NULL,
+                                   `group_comment_id` int(11) default null,
+                                   `created` datetime DEFAULT CURRENT_TIMESTAMP,
+                                   `created_by` int(11) DEFAULT NULL,
+                                   `modified` datetime DEFAULT CURRENT_TIMESTAMP,
+                                   `modified_by` int(11) DEFAULT NULL,
+                                   PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+
+alter table faculty_uploads add column faculty_id int

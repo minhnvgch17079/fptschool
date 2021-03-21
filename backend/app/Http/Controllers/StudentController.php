@@ -3,23 +3,41 @@
 namespace App\Http\Controllers;
 use App\Http\Services\UploadFile;
 use App\Http\Components\StudentComponent;
+use App\Models\FacultyUpload;
+
+
+/**
+ * Class StudentController
+ * @package App\Http\Controllers
+ * @property FacultyUpload FacultyUpload
+ */
+
 class StudentController extends Controller {
     public function uploadAssignment() {
-        $files = $this->request->file('files') ?? null;
+        $files      = $this->request->file('files')      ?? null;
+        $idFaculty  = $this->request->post('id_faculty') ?? null;
 
-        if (empty($files)) responseToClient('File upload required');
+        if (empty($files))      responseToClient('File upload required');
+        if (empty($idFaculty))  responseToClient('Invalid id faculty');
 
         $studentComponent = new StudentComponent();
         $validateFile     = $studentComponent->validateFileUpload($files);
+        $validateFaculty  = $studentComponent->validateFaculty($idFaculty);
 
-        if (!empty($validateFile)) responseToClient($validateFile);
+        if (!empty($validateFaculty)) responseToClient($validateFaculty);
+        if (!empty($validateFile))   responseToClient($validateFile);
 
         $upload = new UploadFile();
-        $result = true;
+        $this->FacultyUpload = getInstance('FacultyUpload');
 
         foreach ($files as $file) {
             $result = $upload->uploadSingleFile($file);
-            pd($result);
+
+            if (empty($result)) responseToClient('Failed to upload file ' .  $file->getClientOriginalName());
+
+            $result = $this->FacultyUpload->save([
+                ''
+            ]);
         }
     }
 
