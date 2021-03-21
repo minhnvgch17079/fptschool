@@ -139,4 +139,5 @@ CREATE TABLE `faculty_uploads` (
                                    PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
-alter table faculty_uploads add column faculty_id int
+alter table faculty_uploads add column faculty_id int;
+alter table faculty_uploads add column teacher_status varchar(255) default 'pending';
