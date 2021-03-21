@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Middleware\Authentication;
+
 class FacultyUpload extends BaseModel
 {
     protected $table   = 'faculty_uploads';
@@ -13,10 +15,17 @@ class FacultyUpload extends BaseModel
 
     public function getData () {
         $data = $this->model->table($this->table)
+            ->where("$this->table.created_by", Authentication::$info['id'])
+            ->where("fi.created_by", Authentication::$info['id'])
             ->join('faculties as f', 'f.id', '=', "$this->table.faculty_id")
             ->join('files_upload as fi', 'fi.id', '=', "$this->table.file_upload_id")
             ->orderBy("$this->table.id", 'desc')
-            ->get();
+            ->get([
+                "f.name as faculty_name",
+                "fi.name as file_name",
+                "fi.file_path as file_path",
+                "fi.created as created",
+            ]);
 
         return json_decode(json_encode($data), true);
     }

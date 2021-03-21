@@ -20,6 +20,8 @@ class Authentication
         'user/updateProfile'
     ];
 
+    public static $info = null;
+
     public function handle($request, Closure $next)
     {
         $api      = $request->path();
@@ -31,6 +33,7 @@ class Authentication
 
         if (in_array($api, $this->listPublicApiAccess)) return $next($request);
         if (empty($infoUser)) responseToClient('No permission. Please login first');
+        self::$info = $infoUser;
 
         if (in_array($api, $this->listAccessAllLogin))  return $next($request);
 
