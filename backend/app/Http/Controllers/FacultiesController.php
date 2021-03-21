@@ -37,8 +37,8 @@ class FacultiesController extends Controller {
 
         $result    = $this->Faculty->insertData($dataSave);
 
-        if ($result) return responseToClient('Create success', true, $dataSave);
-        return responseToClient('Create failed');
+        if ($result) responseToClient('Create success', true, $dataSave);
+        responseToClient('Create failed');
     }
 
     public function updateFaculty () {
@@ -67,8 +67,8 @@ class FacultiesController extends Controller {
         $result    = $this->Faculty->updateDataById($id, $dataSave);
 
 
-        if ($result) return $this->responseToClient('Update success', true);
-        return $this->responseToClient('Update failed');
+        if ($result) responseToClient('Update success', true);
+        responseToClient('Update failed');
     }
 
     public function deleteFaculty($id){
@@ -81,7 +81,6 @@ class FacultiesController extends Controller {
 
         if ($result) responseToClient('Update success', true);
         responseToClient('Update failed');
-
     }
 
 

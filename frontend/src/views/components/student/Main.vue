@@ -13,7 +13,7 @@
         </b-btn>
       </b-col>
       <b-col>
-        <b-btn variant="outline-danger" size="lg">
+        <b-btn variant="outline-danger" size="lg" v-b-modal.submission>
           Submission file
         </b-btn>
       </b-col>
@@ -36,13 +36,17 @@
     </b-row>
 
     <b-row>
-        <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
-          <ProfileEdit/>
-        </b-modal>
+      <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
+        <ProfileEdit/>
+      </b-modal>
 
-        <b-modal id="changePass" title="Change pass" size="md" :hide-footer="true">
-          <change-pass />
-        </b-modal>
+      <b-modal id="changePass" title="Change pass" size="md" :hide-footer="true">
+        <change-pass/>
+      </b-modal>
+
+      <b-modal id="submission" title="Submission" size="md" :hide-footer="true">
+        <upload-file/>
+      </b-modal>
     </b-row>
 
   </div>
@@ -56,14 +60,18 @@ import Service from "@/domain/services/api";
 import commonHelper from '@/infrastructures/common-helpers'
 import ProfileEdit from "@/views/components/student/ProfileEdit";
 import ChangePass from "@/views/components/student/ChangePassword";
+import Submission from "@/views/components/student/Submission";
+import UploadFile from "@/views/components/student/Submission";
 export default {
   data() {
     return {
     }
   },
   components: {
+    UploadFile,
     ChangePass,
-    ProfileEdit
+    ProfileEdit,
+    Submission
   },
   mounted() {
   },

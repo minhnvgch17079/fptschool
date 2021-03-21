@@ -58,7 +58,7 @@ export default {
       this.isUpdate = true;
     },
     closeModel () {
-      this.$bvModal.hide('profileEdit')
+      this.$bvModal.hide('changePass')
     },
     logout() {
       Service.logout().then(() => {
