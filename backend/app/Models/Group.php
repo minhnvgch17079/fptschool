@@ -5,6 +5,12 @@ namespace App\Models;
 class Group extends BaseModel
 {
     protected $table = 'groups';
+
+    public static $MARKETING_MANAGER     = 4;
+    public static $MARKETING_COORDINATOR = 2;
+    public static $ADMIN    = 1;
+    public static $STUDENT  = 3;
+
     public function getDataByGrouprname ($group_name) {
         $data = $this->model->table($this->table)
             ->where('group_name', '=', $group_name)
