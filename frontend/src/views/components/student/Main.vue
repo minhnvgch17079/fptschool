@@ -52,17 +52,37 @@
             class="ml-5 mr-5"
             hover
             striped
-            :fields="fieldActiveSubmission"
-            :items="dataActiveSubmission"
-            :per-page="perPageActiveSubmission"
-            :current-page="currentPageActiveSubmission"
+            :fields="fieldUpload"
+            :items="dataUpload"
+            :per-page="perPageUpload"
+            :current-page="currentPageUpload"
           >
             <template v-slot:cell(manage)="row">
-              <b-btn class="mr-3" variant="outline-primary" @click="uploadAssignment(row.item.faculty_id)">
-                Upload
+              <b-btn class="mr-3" variant="outline-success">
+                Set Active
+              </b-btn>
+              <b-btn class="mr-3" variant="outline-danger">
+                Set Disabled
               </b-btn>
             </template>
           </b-table>
+        </b-row>
+
+        <b-row>
+          <div class="d-flex justify-content-center w-100">
+            <b-pagination
+              align="center"
+              v-model="currentPageUpload"
+              :total-rows="rowsDataUpload"
+              :per-page="perPageUpload"
+              aria-controls="my-table"
+            >
+              <template #first-text><span class="text-success">First</span></template>
+              <template #prev-text><span class="text-danger">Prev</span></template>
+              <template #next-text><span class="text-warning">Next</span></template>
+              <template #last-text><span class="text-info">Last</span></template>
+            </b-pagination>
+          </div>
         </b-row>
 
 
@@ -88,6 +108,24 @@
             </template>
           </b-table>
         </b-row>
+
+        <b-row>
+          <div class="d-flex justify-content-center w-100">
+            <b-pagination
+              align="center"
+              v-model="currentPageActiveSubmission"
+              :total-rows="rowsActiveSubmission"
+              :per-page="perPageActiveSubmission"
+              aria-controls="my-table"
+            >
+              <template #first-text><span class="text-success">First</span></template>
+              <template #prev-text><span class="text-danger">Prev</span></template>
+              <template #next-text><span class="text-warning">Next</span></template>
+              <template #last-text><span class="text-info">Last</span></template>
+            </b-pagination>
+          </div>
+        </b-row>
+
       </b-col>
     </b-row>
 
@@ -134,19 +172,20 @@ export default {
       ],
       perPageActiveSubmission: 5,
       currentPageActiveSubmission: 1,
+      rowsActiveSubmission: 0,
       idFaculty: null,
 
       dataUpload: [],
       fieldUpload: [
         {key: 'faculty_name', label: 'Faculty Name', sortable: true},
-        {key: 'closure_name', label: 'Closure name', sortable: true},
-        {key: 'faculty_description', label: 'Description Faculty', sortable: true},
-        {key: 'first_closure_DATE', label: 'Start Date Submission', sortable: true},
-        {key: 'final_closure_DATE', label: 'End Date Submission', sortable: true},
-        {key: 'manage', label: 'Action', sortable: true},
+        {key: 'file_name', label: 'File name', sortable: true},
+        {key: 'file_path', label: 'Link download', sortable: true},
+        {key: 'created', label: 'Upload At', sortable: true},
+        {key: 'manage', label: 'Action', sortable: true}
       ],
       perPageUpload: 5,
-      currentPageUpload: 1
+      currentPageUpload: 1,
+      rowsDataUpload: 0
     }
   },
   components: {
@@ -159,6 +198,7 @@ export default {
   },
   created() {
     this.getListActive();
+    this.getListSubmission();
   },
   methods: {
     logout() {
@@ -173,6 +213,7 @@ export default {
       Service.getListActive().then(res => {
         if (res.data.success) {
           this.dataActiveSubmission = res.data.data;
+          this.rowsActiveSubmission = res.data.data.length
           return commonHelper.showMessage(res.data.message, 'success')
         }
         commonHelper.showMessage(res.data.message, 'warning')
@@ -183,6 +224,18 @@ export default {
     uploadAssignment (faculty_id) {
       this.idFaculty = faculty_id;
       this.$bvModal.show('submission')
+    },
+    getListSubmission () {
+      Service.getListSubmission().then(res => {
+        if (res.data.success) {
+          this.dataUpload = res.data.data;
+          this.rowsDataUpload = res.data.data.length
+          return commonHelper.showMessage(res.data.message, 'success')
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error. Please try again', 'success')
+      })
     }
   },
   watch: {

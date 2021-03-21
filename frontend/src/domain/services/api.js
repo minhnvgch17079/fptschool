@@ -33,5 +33,8 @@ export default {
   },
   getListActive () {
     return http.get('faculty/getListActive')
+  },
+  getListSubmission () {
+    return http.get('student/getListSubmission')
   }
 }
