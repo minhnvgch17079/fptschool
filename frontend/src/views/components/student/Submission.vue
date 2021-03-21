@@ -10,6 +10,9 @@
         </template>
       </b-form-file>
     </b-row>
+    <b-row>
+      <b-input class="m-3 mr-3" placeholder="Note for teacher"></b-input>
+    </b-row>
     <br>
     <b-row class="justify-content-end">
       <b-btn variant="outline-success" class="ml-3 mr-3 w-48" @click="closeModel()">Cancel</b-btn>
@@ -59,7 +62,11 @@ export default {
       }
       formData.append(`id_faculty`, this.idFaculty)
       Service.uploadAssignment(formData).then(res => {
-        console.log(res)
+        if (res.data.success) {
+          this.$bvModal.hide('submission')
+          return commonHelper.showMessage(res.data.message, 'success')
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
       }).catch(() => {
         commonHelper.showMessage('There something error, please try again', 'warning')
       })

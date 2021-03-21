@@ -16,6 +16,7 @@ class StudentController extends Controller {
     public function uploadAssignment() {
         $files      = $this->request->file('files')      ?? null;
         $idFaculty  = $this->request->post('id_faculty') ?? null;
+        $note       = $this->request->post('note')       ?? null;
 
         if (empty($files))      responseToClient('File upload required');
         if (empty($idFaculty))  responseToClient('Invalid id faculty');
@@ -31,14 +32,20 @@ class StudentController extends Controller {
         $this->FacultyUpload = getInstance('FacultyUpload');
 
         foreach ($files as $file) {
-            $result = $upload->uploadSingleFile($file);
+            $idUploadFile = $upload->uploadSingleFile($file);
 
-            if (empty($result)) responseToClient('Failed to upload file ' .  $file->getClientOriginalName());
+            if (empty($idUploadFile)) responseToClient('Failed to upload file ' .  $file->getClientOriginalName());
 
             $result = $this->FacultyUpload->save([
-                ''
+                'is_active' => 1,
+                'note' => $note,
+                'file_upload_id' => $idUploadFile,
             ]);
+
+            if (empty($result)) responseToClient('Failed to upload file ' .  $file->getClientOriginalName());
         }
+
+        responseToClient('Upload success', true);
     }
 
 }
