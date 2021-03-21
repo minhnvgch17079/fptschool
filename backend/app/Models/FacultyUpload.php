@@ -25,6 +25,7 @@ class FacultyUpload extends BaseModel
                 "fi.name as file_name",
                 "fi.file_path as file_path",
                 "fi.created as created",
+                "$this->table.teacher_status"
             ]);
 
         return json_decode(json_encode($data), true);

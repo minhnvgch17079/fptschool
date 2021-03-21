@@ -64,6 +64,7 @@ export default {
       Service.uploadAssignment(formData).then(res => {
         if (res.data.success) {
           this.$bvModal.hide('submission')
+          this.$emit('getListSubmission')
           return commonHelper.showMessage(res.data.message, 'success')
         }
         commonHelper.showMessage(res.data.message, 'warning')

@@ -3,17 +3,10 @@
     <notifications group="default" />
     <b-row>
       <b-col>
-        <b-btn variant="outline-primary" size="lg">
-          Home
-        </b-btn>
-      </b-col>
-      <b-col>
-        <b-btn variant="outline-success" size="lg">
-          Report Submission
-        </b-btn>
-      </b-col>
-      <b-col>
-        <b-dropdown id="dropdown-1" text="Manage Info" size="md" variant="outline-info">
+        <b-dropdown id="dropdown-1" text="Manage" size="md" variant="outline-info">
+          <b-dropdown-item>
+            <b-btn class="w-100" variant="outline-warning">Home</b-btn>
+          </b-dropdown-item>
           <b-dropdown-item>
             <b-btn class="w-100" variant="outline-warning" v-b-modal.profileEdit>Profile</b-btn>
           </b-dropdown-item>
@@ -29,9 +22,16 @@
         </b-dropdown>
       </b-col>
     </b-row>
+    <br>
 
     <b-row>
-      <b-col>
+      <b-col md="4">
+        <b-row>
+          <div class="ml-5 mr-5">
+            <h3><b-badge variant="info">List Faculty Uploaded</b-badge></h3>
+          </div>
+        </b-row>
+
         <b-row>
           <div class="ml-5 mr-5">
             <h3><b-badge variant="info">List Faculty Uploaded</b-badge></h3>
@@ -40,7 +40,7 @@
       </b-col>
 
 
-      <b-col>
+      <b-col md="8">
         <b-row>
           <div class="ml-5 mr-5">
             <h3><b-badge variant="info">List Faculty File Uploaded</b-badge></h3>
@@ -49,6 +49,7 @@
 
         <b-row>
           <b-table
+            responsive
             class="ml-5 mr-5"
             hover
             striped
@@ -58,12 +59,15 @@
             :current-page="currentPageUpload"
           >
             <template v-slot:cell(manage)="row">
-              <b-btn class="mr-3" variant="outline-success">
+              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-success">
                 Set Active
               </b-btn>
-              <b-btn class="mr-3" variant="outline-danger">
+              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-danger">
                 Set Disabled
               </b-btn>
+            </template>
+            <template v-slot:cell(teacher_status)="row">
+              <b-badge variant="info">{{row.item.teacher_status}}</b-badge>
             </template>
           </b-table>
         </b-row>
@@ -93,6 +97,7 @@
         </b-row>
         <b-row>
           <b-table
+            responsive
             class="ml-5 mr-5"
             hover
             striped
@@ -140,6 +145,7 @@
 
       <b-modal id="submission" title="Submission (Only docx, pdf accepted)" size="md" :hide-footer="true">
         <upload-file
+          @getListSubmission="getListSubmission"
           :id-faculty="idFaculty"
         />
       </b-modal>
@@ -177,6 +183,7 @@ export default {
 
       dataUpload: [],
       fieldUpload: [
+        {key: 'teacher_status', label: 'Teacher Status', sortable: true},
         {key: 'faculty_name', label: 'Faculty Name', sortable: true},
         {key: 'file_name', label: 'File name', sortable: true},
         {key: 'file_path', label: 'Link download', sortable: true},
@@ -226,6 +233,7 @@ export default {
       this.$bvModal.show('submission')
     },
     getListSubmission () {
+      this.dataUpload = []
       Service.getListSubmission().then(res => {
         if (res.data.success) {
           this.dataUpload = res.data.data;
