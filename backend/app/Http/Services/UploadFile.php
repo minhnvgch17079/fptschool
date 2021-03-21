@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Http\Middleware\Authentication;
 use App\Models\FileUpload;
 use function GuzzleHttp\Psr7\str;
 
@@ -39,9 +40,10 @@ class UploadFile {
             if (empty($result)) return false;
 
             $dataSave = [
-                'name'      => $fileNameDisplay,
-                'is_delete' => 0,
-                'file_path' => $pathSave
+                'name'       => $fileNameDisplay,
+                'is_delete'  => 0,
+                'file_path'  => $pathSave,
+                'created_by' => Authentication::$info['id'] ?? null
             ];
 
             $result = $this->FileUpload->save($dataSave);

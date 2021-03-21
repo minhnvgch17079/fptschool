@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Middleware\Authentication;
 use App\Http\Services\UploadFile;
 use App\Http\Components\StudentComponent;
 use App\Models\FacultyUpload;
@@ -40,7 +41,8 @@ class StudentController extends Controller {
                 'is_active'      => 1,
                 'note'           => $note,
                 'file_upload_id' => $idUploadFile,
-                'faculty_id'     => $idFaculty
+                'faculty_id'     => $idFaculty,
+                'created_by'     => Authentication::$info['id'] ?? null
             ]);
 
             if (empty($result)) responseToClient('Failed to upload file ' .  $file->getClientOriginalName());
