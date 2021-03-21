@@ -7,6 +7,7 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\SubmissionsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\FileDownloadController;
 use Illuminate\Support\Facades\Route;
 use \Illuminate\Http\Request;
 use App\Http\Controllers\GroupController;
@@ -51,9 +52,16 @@ Route::any('/faculty/{action}', function (Request $request) {
     $class  = new FacultiesController($request);
     return $class->$action();
 });
+
 Route::any('/student/{action}', function (Request $request) {
     $action = $request->action;
     $class  = new StudentController($request);
+    return $class->$action();
+});
+
+Route::any('/fileUpload/{action}', function (Request $request) {
+    $action = $request->action;
+    $class  = new FileDownloadController($request);
     return $class->$action();
 });
 //email

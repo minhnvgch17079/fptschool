@@ -4,12 +4,17 @@ namespace App\Http\Controllers\Auth;
 
 class AuthByGroup {
     public static $groups = [
-        1 => [],
-        2 => [],
+        1 => [
+            'fileUpload/downloadFile'
+        ],
+        2 => [
+            'fileUpload/downloadFile'
+        ],
         3 => [
             'student/uploadAssignment',
             'faculty/getListActive',
-            'student/getListSubmission'
+            'student/getListSubmission',
+            'fileUpload/downloadFile'
         ],
         4 => [],
         5 => [],

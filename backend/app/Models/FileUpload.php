@@ -10,4 +10,16 @@ class FileUpload extends BaseModel
         return $this->model->table($this->table)
             ->insertGetId($dataSave);
     }
+
+    public function getFileInfoById ($id, $userId) {
+        $query = $this->model->table($this->table)
+            ->where('id', $id)
+            ->where('is_delete', 0);
+
+        if (!empty($userId)) $query->where('created_by', $userId);
+
+        $data = $query->first();
+
+        return (array)$data;
+    }
 }

@@ -57,7 +57,7 @@ class StudentController extends Controller {
         $data = $this->FacultyUpload->getData();
 
         if (empty($data)) responseToClient('No file submission uploaded');
-        return responseToClient('Get list submission uploaded success', true, $data);
+        responseToClient('Get list submission uploaded success', true, $data);
     }
 
 }
