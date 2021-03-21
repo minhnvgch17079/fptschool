@@ -83,6 +83,12 @@ class FacultiesController extends Controller {
         responseToClient('Update failed');
     }
 
+    public function getListActive () {
+        $this->Faculty = getInstance('Faculty');
+        $result        = $this->Faculty->getAll(date('Y-m-d'));
 
+        if (empty($result)) responseToClient('There no faculty active now');
+        responseToClient('Get list faculty success', true, $result);
+    }
 
 }

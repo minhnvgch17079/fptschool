@@ -45,10 +45,11 @@ class UploadFile {
             ];
 
             $result = $this->FileUpload->save($dataSave);
-            if ($result) return true;
+            if ($result) return $result;
             return false;
         } catch (\Exception $e) {
             logErr("Class: " . __CLASS__ . "-function: " . __FUNCTION__ . "-line: " . __LINE__ . "-error: " . $e->getMessage());
         }
+        return false;
     }
 }

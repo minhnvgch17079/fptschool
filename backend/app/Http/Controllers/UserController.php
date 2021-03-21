@@ -99,7 +99,7 @@ class UserController extends Controller
     // todo: api get users for admin
     public function getUser()
     {
-        $username   =  $this->request->get('username')      ?? null;
+        $username   = $this->request->get('username')       ?? null;
         $fullName   = $this->request->get('full_name')      ?? null;
         $email      = $this->request->get('email')          ?? null;
         $phone      = $this->request->get('phone_number')   ?? null;
@@ -113,7 +113,7 @@ class UserController extends Controller
 
     public function updateProfile() {
 
-        $dataUpdate = $this->request->post('update') ?? null;
+        $dataUpdate = $this->request->post('update')  ?? null;
 
         $fullName   = $dataUpdate['full_name']        ?? null;
         $phone      = $dataUpdate['phone_number']     ?? null;

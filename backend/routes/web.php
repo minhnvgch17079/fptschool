@@ -6,6 +6,7 @@ use App\Http\Controllers\FacultiesController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\SubmissionsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 use \Illuminate\Http\Request;
 use App\Http\Controllers\GroupController;
@@ -48,6 +49,11 @@ Route::any('/closure-configs/{action}', function (Request $request) {
 Route::any('/faculty/{action}', function (Request $request) {
     $action = $request->action;
     $class  = new FacultiesController($request);
+    return $class->$action();
+});
+Route::any('/student/{action}', function (Request $request) {
+    $action = $request->action;
+    $class  = new StudentController($request);
     return $class->$action();
 });
 //email

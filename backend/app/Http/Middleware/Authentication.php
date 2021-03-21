@@ -30,13 +30,12 @@ class Authentication
         $apiUser  = AuthByUser::$users[$username]  ?? [];
 
         if (in_array($api, $this->listPublicApiAccess)) return $next($request);
-        if (empty(session()->get('info_user'))) responseToClient('No permission. Please login first');
+        if (empty($infoUser)) responseToClient('No permission. Please login first');
 
         if (in_array($api, $this->listAccessAllLogin))  return $next($request);
 
         // admin access all
         if ($groupId == 1) return $next($request);
-
         // access by rule
         if (in_array($api, $apiGroup))                  return $next($request);
         if (in_array($api, $apiUser))                   return $next($request);

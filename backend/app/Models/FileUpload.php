@@ -8,6 +8,6 @@ class FileUpload extends BaseModel
 
     public function save ($dataSave) {
         return $this->model->table($this->table)
-            ->insert($dataSave);
+            ->insertGetId($dataSave);
     }
 }
