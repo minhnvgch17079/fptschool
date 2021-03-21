@@ -42,7 +42,7 @@ class UploadFile {
             $dataSave = [
                 'name'       => $fileNameDisplay,
                 'is_delete'  => 0,
-                'file_path'  => "$pathSave$fileNameSave",
+                'file_path'  => "$fileNameSave",
                 'created_by' => Authentication::$info['id'] ?? null
             ];
 

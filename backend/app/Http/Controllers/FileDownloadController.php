@@ -25,7 +25,8 @@ class FileDownloadController extends Controller {
 
         if (empty($data)) responseToClient('No file found');
 
-        pd($data);
+        $path = $data['file_path'];
+        return response()->download(public_path($path));
     }
 
 }
