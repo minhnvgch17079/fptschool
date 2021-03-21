@@ -37,15 +37,25 @@ class StudentController extends Controller {
             if (empty($idUploadFile)) responseToClient('Failed to upload file ' .  $file->getClientOriginalName());
 
             $result = $this->FacultyUpload->save([
-                'is_active' => 1,
-                'note' => $note,
+                'is_active'      => 1,
+                'note'           => $note,
                 'file_upload_id' => $idUploadFile,
+                'faculty_id'     => $idFaculty
             ]);
 
             if (empty($result)) responseToClient('Failed to upload file ' .  $file->getClientOriginalName());
         }
 
         responseToClient('Upload success', true);
+    }
+
+    public function getListSubmission () {
+        $this->FacultyUpload = getInstance('FacultyUpload');
+
+        $data = $this->FacultyUpload->getData();
+
+        if (empty($data)) responseToClient('No file submission uploaded');
+        return responseToClient('Get list submission uploaded success', true, $data);
     }
 
 }

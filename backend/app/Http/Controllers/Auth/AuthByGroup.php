@@ -8,7 +8,8 @@ class AuthByGroup {
         2 => [],
         3 => [
             'student/uploadAssignment',
-            'faculty/getListActive'
+            'faculty/getListActive',
+            'student/getListSubmission'
         ],
         4 => [],
         5 => [],

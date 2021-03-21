@@ -47,6 +47,24 @@
           </div>
         </b-row>
 
+        <b-row>
+          <b-table
+            class="ml-5 mr-5"
+            hover
+            striped
+            :fields="fieldActiveSubmission"
+            :items="dataActiveSubmission"
+            :per-page="perPageActiveSubmission"
+            :current-page="currentPageActiveSubmission"
+          >
+            <template v-slot:cell(manage)="row">
+              <b-btn class="mr-3" variant="outline-primary" @click="uploadAssignment(row.item.faculty_id)">
+                Upload
+              </b-btn>
+            </template>
+          </b-table>
+        </b-row>
+
 
         <b-row>
           <div class="ml-5 mr-5">
@@ -116,7 +134,19 @@ export default {
       ],
       perPageActiveSubmission: 5,
       currentPageActiveSubmission: 1,
-      idFaculty: null
+      idFaculty: null,
+
+      dataUpload: [],
+      fieldUpload: [
+        {key: 'faculty_name', label: 'Faculty Name', sortable: true},
+        {key: 'closure_name', label: 'Closure name', sortable: true},
+        {key: 'faculty_description', label: 'Description Faculty', sortable: true},
+        {key: 'first_closure_DATE', label: 'Start Date Submission', sortable: true},
+        {key: 'final_closure_DATE', label: 'End Date Submission', sortable: true},
+        {key: 'manage', label: 'Action', sortable: true},
+      ],
+      perPageUpload: 5,
+      currentPageUpload: 1
     }
   },
   components: {
