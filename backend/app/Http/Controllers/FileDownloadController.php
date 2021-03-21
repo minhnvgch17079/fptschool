@@ -26,7 +26,12 @@ class FileDownloadController extends Controller {
         if (empty($data)) responseToClient('No file found');
 
         $path = $data['file_path'];
-        return response()->download(public_path($path));
+        try {
+            return response()->download(public_path($path));
+        } catch (\Exception $e) {
+            logErr($e->getMessage());
+        }
+        responseToClient('There some things error while trying to download file');
     }
 
 }
