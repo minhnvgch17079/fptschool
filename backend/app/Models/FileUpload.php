@@ -22,4 +22,16 @@ class FileUpload extends BaseModel
 
         return (array)$data;
     }
+
+    public function disabledFile ($id, $userId) {
+        $query = $this->model->table($this->table)
+            ->where('id', $id)
+            ->where('is_delete', 0);
+
+        if (!empty($userId)) $query->where('created_by', $userId);
+
+        return $query->update([
+            'is_delete' => 1
+        ]);
+    }
 }

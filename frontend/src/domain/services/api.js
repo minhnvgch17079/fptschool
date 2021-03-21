@@ -36,5 +36,11 @@ export default {
   },
   getListSubmission () {
     return http.get('student/getListSubmission')
-  }
+  },
+  disabledFile (data) {
+    return http.get('fileUpload/disabledFile', {'params': data})
+  },
+  downloadFile (data) {
+    return http.get('fileUpload/downloadFile', {'params': data})
+  },
 }

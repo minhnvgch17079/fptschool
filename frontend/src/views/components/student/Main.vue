@@ -59,11 +59,13 @@
             :current-page="currentPageUpload"
           >
             <template v-slot:cell(manage)="row">
-              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-success">
-                Set Active
-              </b-btn>
-              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-danger">
+              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-danger" @click="disabledFile(row.item.file_id)">
                 Set Disabled
+              </b-btn>
+            </template>
+            <template v-slot:cell(file_path)="row">
+              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-success" @click="downloadFile(row.item.file_id)">
+                Download
               </b-btn>
             </template>
             <template v-slot:cell(teacher_status)="row">
@@ -244,6 +246,21 @@ export default {
       }).catch(() => {
         commonHelper.showMessage('There something error. Please try again', 'success')
       })
+    },
+    disabledFile (idFile) {
+      Service.disabledFile({id: idFile}).then(res => {
+        if (res.data.success) {
+          this.getListSubmission()
+          return commonHelper.showMessage(res.data.message, 'success')
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error. Please try again', 'success')
+
+      })
+    },
+    downloadFile (idFile) {
+      window.location.href = `/fileUpload/downloadFile?id=${idFile}`
     }
   },
   watch: {
