@@ -3,31 +3,19 @@
   <div id="page-user-list">
     <b-row>
       <b-col>
-        <b-input :placeholder="`Role`" v-model="roleSearch"></b-input>
+        <b-input :placeholder="`Faculty name`" v-model="facultyNameSearch"></b-input>
       </b-col>
       <b-col>
-        <b-input :placeholder="`Username`" v-model="usernameSearch"></b-input>
-      </b-col>
-      <b-col>
-        <b-input :placeholder="`Full name`" v-model="fullNameSearch"></b-input>
-      </b-col>
-      <b-col>
-        <b-input :placeholder="`Phone Number`" v-model="phoneNumberSearch"></b-input>
-      </b-col>
-      <b-col>
-        <b-input :placeholder="`Email`" type="email" v-model="emailSearch"></b-input>
-      </b-col>
-      <b-col>
-        <b-btn class="mr-3" variant="outline-info" @click="getUser()">Search</b-btn>
-        <b-btn variant="outline-success" v-b-modal.modal-1>Add User</b-btn>
+        <b-btn class="mr-3" variant="outline-info">Search</b-btn>
+        <b-btn variant="outline-success" v-b-modal.modal-1>Add Faculty</b-btn>
       </b-col>
     </b-row>
     <b-modal centered id="modal-1" title="Add New User" @ok="addUser()">
       <b-row>
-        <b-input class="ml-3 mr-3 mb-3" v-model="usernameAdd" :placeholder="`Username`"></b-input>
+        <b-input class="ml-3 mr-3 mb-3" :placeholder="`Username`"></b-input>
       </b-row>
       <b-row>
-        <b-input class="ml-3 mr-3 mb-3" v-model="passwordAdd" :placeholder="`Password`"></b-input>
+        <b-input class="ml-3 mr-3 mb-3" :placeholder="`Password`"></b-input>
       </b-row>
       <b-row>
         <b-form-select class="ml-3 mr-3 mb-3" v-model="roleAdd" :options="optionsRole"></b-form-select>
@@ -54,8 +42,8 @@
         class="ml-5 mr-5"
         hover
         striped
-        :fields="fieldsDataUsers"
-        :items="dataUsers"
+        :fields="fieldsDataFaculty"
+        :items="dataFaculty"
         :per-page="perPage"
         :current-page="currentPage"
       >
@@ -96,41 +84,29 @@
 <script>
 import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
 import axios from 'axios'
-import Multiselect from 'vue-multiselect'
+import Service from '@/domain/services/api'
+import commonHelper from '@/infrastructures/common-helpers'
 
 export default {
   components: {
-    Multiselect
   },
   data() {
     return {
       perPage: 9,
       currentPage: 1,
-      fieldsDataUsers: [
-        {key: 'id', label: 'Id', sortable: true},
-        {key: 'username', label: 'Username', sortable: true},
-        {key: 'full_name', label: 'Full name', sortable: true},
-        {key: 'group_id', label: 'Role', sortable: true},
-        {key: 'phone_number', label: 'Phone Number', sortable: true},
-        {key: 'email', label: 'Email', sortable: true},
-        {key: 'last_change_password', label: 'Last change password', sortable: true},
-        {key: 'created', label: 'Created', sortable: true},
-        {key: 'created_by', label: 'Create by', sortable: true},
-        {key: 'modified', label: 'Modified', sortable: true},
-        {key: 'modified_by', label: 'Modified by', sortable: true},
-        {key: 'manage', label: 'Manage'}
+      fieldsDataFaculty: [
+        {key: 'faculty_name', label: 'Faculty name', sortable: true},
+        {key: 'faculty_description', label: 'Faculty description', sortable: true},
+        {key: 'first_closure_DATE', label: 'Start submission date', sortable: true},
+        {key: 'final_closure_DATE', label: 'Deadline submission date', sortable: true},
+        {key: 'closure_name', label: 'Closure name', sortable: true},
+        {key: 'manage', label: 'Action', sortable: true}
       ],
-      dataUsers: [],
+      dataFaculty: [],
       filter: null,
 
-      roleSearch: '',
-      usernameSearch: '',
-      fullNameSearch: '',
-      phoneNumberSearch: '',
-      emailSearch: '',
+      facultyNameSearch: '',
 
-      usernameAdd: '',
-      passwordAdd: '',
       optionsRole: [
         { value: null, text: 'Please select role' },
         { value: 1, text: 'Admin' },
@@ -146,29 +122,22 @@ export default {
   },
   computed: {
     rows() {
-      return this.dataUsers.length
+      return this.dataFaculty.length
     }
 
   },
   methods: {
-    getUser () {
-      let data = {
-        username: this.usernameSearch,
-        full_name: this.fullNameSearch,
-        phone_number: this.phoneNumberSearch,
-        email: this.emailSearch
-      }
-      this.dataUsers = []
-      axios({
-        method: 'get',
-        url: 'user/getUser',
-        params: data,
-        baseURL: 'http://fpt-school.com'
-      }).then(res => {
+    getListActive () {
+      this.dataFaculty = []
+      Service.getListActive().then(res => {
         if (res.data.success) {
-          this.dataUsers = res.data.data
+          this.dataFaculty = res.data.data
+          return commonHelper.showMessage(res.data.message, 'success')
         }
-      });
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error. Please try again', 'warning')
+      })
     },
 
     addUser () {
@@ -194,7 +163,7 @@ export default {
   mounted() {
   },
   created() {
-    this.getUser()
+    this.getListActive()
   }
 }
 
