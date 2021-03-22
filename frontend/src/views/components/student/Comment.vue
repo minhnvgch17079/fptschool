@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row class="ml-1 mr-1" v-for="data in dataComment" :key="data">
+    <b-row class="ml-1 mr-1" v-for="(data, i) in dataComment" :key="i">
       <b-row>
         <b-col>
           <b-badge class="mb-1 w-100" variant="primary">
