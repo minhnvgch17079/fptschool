@@ -15,10 +15,13 @@ class ClosureConfigs extends BaseModel
     }
 
 
-    public function isExist ($closureName) {
+    public function isExist ($closureName, $id = null) {
         $data = $this->model->table($this->table)
-            ->where('name', '=', $closureName)
-            ->first();
+            ->where('name', '=', $closureName);
+
+        if (!empty($id)) $data->where('id', '<>', $id);
+
+        $data = $data->first();
 
         return (array)$data;
     }

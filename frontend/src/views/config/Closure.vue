@@ -51,7 +51,7 @@
         :current-page="currentPage"
       >
         <template v-slot:cell(manage)="row">
-          <b-btn class="mr-3" variant="outline-warning">
+          <b-btn class="mr-3" variant="outline-warning" @click="editClosure(row.item)">
             <feather-icon icon="Edit3Icon" svgClasses="h-4 w-4"/>
           </b-btn>
           <b-btn variant="outline-danger" @click="deleteClosureConfigs(row.item.id)">
@@ -77,6 +77,12 @@
         </b-pagination>
       </div>
     </b-row>
+
+    <b-modal centered id="editClosure" title="Edit closure config" size="md" :hide-footer="true">
+      <closure-config
+        :configs="dataClosureUpdate"
+      />
+    </b-modal>
   </div>
 
 </template>
@@ -85,9 +91,11 @@
 import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
 import Service from "@/domain/services/api"
 import commonHelper from '@/infrastructures/common-helpers'
+import ClosureConfig from '@/views/config/EditClosure'
 
 export default {
   components: {
+    ClosureConfig
   },
   data() {
     return {
@@ -112,7 +120,9 @@ export default {
       endDateSearch: '',
 
       closureNameAdd: '',
-      startDateAdd: ''
+      startDateAdd: '',
+
+      dataClosureUpdate: []
     }
   },
   watch: {
@@ -165,6 +175,12 @@ export default {
       }).catch(() => {
         commonHelper.showMessage('There something error. Please try again', 'warning')
       })
+    },
+
+    editClosure (data) {
+      console.log(data)
+      this.dataClosureUpdate = data
+      this.$bvModal.show('editClosure')
     }
   },
   mounted() {

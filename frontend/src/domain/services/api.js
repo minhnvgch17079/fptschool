@@ -19,6 +19,9 @@ export default {
   getClosure (data) {
     return http.get('closure-configs/get', {'params': data})
   },
+  updateClosureConfigs (data) {
+    return http.post('closure-configs/updateClosureConfigs', data)
+  },
   getListUser (data) {
     return http.get('user/getUser', {'params': data})
   },

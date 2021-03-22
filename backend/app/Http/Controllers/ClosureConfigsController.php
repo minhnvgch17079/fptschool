@@ -49,18 +49,14 @@ class ClosureConfigsController extends Controller {
         $id                = $this->request->post('id')     ?? null;
         $closureName       = $this->request->post('name')   ?? null;
         $firstClosureDate  = $this->request->post('first_closure_date') ?? null;
-        $finalClosureDate  = $this->request->post('final_closure_date') ?? null;
 
         if (empty($closureName))              responseToClient('Invalid closure configs name');
         if (empty($firstClosureDate))         responseToClient('Invalid Closure date');
-        if (empty($finalClosureDate))         responseToClient('Invalid Closure date');
         if (!validateDate($firstClosureDate)) responseToClient('Invalid Closure date');
-        if (!validateDate($finalClosureDate)) responseToClient('Invalid Closure date');
-        if (countDate($firstClosureDate, $finalClosureDate) != 14) responseToClient('Only 14 days accepted');
 
         $this->ClosureConfigs = getInstance('ClosureConfigs');
         $closureModelUpdate   = $this->ClosureConfigs->getDataById($id);
-        $isExist              = $this->ClosureConfigs->isExist($closureName);
+        $isExist              = $this->ClosureConfigs->isExist($closureName, $id);
 
         if (empty($closureModelUpdate)) responseToClient('Invalid closure config');
         if (!empty($isExist))           responseToClient('Closure configs name is exist');
@@ -68,7 +64,7 @@ class ClosureConfigsController extends Controller {
         $dataSave  = [
             'name'               => $closureName,
             'first_closure_date' => $firstClosureDate,
-            'final_closure_date' => $finalClosureDate
+            'final_closure_date' => date('Y-m-d H:i:s', strtotime("+14 days", strtotime($firstClosureDate)))
         ];
 
         $result  = $this->ClosureConfigs->updateDataById($id, $dataSave);
