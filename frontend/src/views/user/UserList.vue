@@ -167,7 +167,7 @@ export default {
         }
         commonHelper.showMessage(res.data.message || 'There something error. Please try again', 'warning')
       }).catch(() => {
-        commonHelper.showMessage(res.data.message || 'There something error. Please try again', 'warning')
+        commonHelper.showMessage('There something error. Please try again', 'warning')
       });
     },
 

@@ -193,5 +193,7 @@ class UserController extends Controller
         if (!empty($result)) responseToClient('Change password success', true);
         responseToClient('Change password failed');
     }
+
+    public function disabled
 }
 

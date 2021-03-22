@@ -141,3 +141,4 @@ CREATE TABLE `faculty_uploads` (
 
 alter table faculty_uploads add column faculty_id int;
 alter table faculty_uploads add column teacher_status varchar(255) default 'pending';
+alter table users add column is_active bool default 1;
