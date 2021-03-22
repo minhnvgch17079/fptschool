@@ -205,8 +205,8 @@ class UserController extends Controller
         $this->User = getInstance('User');
 
         $dataUpdate = [
-            'is_active' => 0,
-            'modified_by' => Authentication::$info['id'] ?? null
+            'is_active'     => 0,
+            'modified_by'   => Authentication::$info['id'] ?? null
         ];
 
         $result = $this->User->updateById($dataUpdate, $id);
