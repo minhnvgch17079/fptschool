@@ -152,3 +152,4 @@ create table comments (
                           created datetime default current_timestamp
 );
 alter table comments add column username_created varchar(255);
+alter table logs add column status bool default 1;
