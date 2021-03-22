@@ -1,7 +1,7 @@
 export default [
   {
     url: null,
-    name: "Quản lý",
+    name: "Manage",
     tag: "2",
     tagColor: "success",
     icon: "HomeIcon",
