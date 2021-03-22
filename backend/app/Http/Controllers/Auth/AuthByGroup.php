@@ -12,7 +12,7 @@ class AuthByGroup {
         2 => [
             'fileUpload/downloadFile',
             'fileUpload/disabledFile',
-
+            'marketing-co/getListSubmission',
         ],
         3 => [
             'student/uploadAssignment',

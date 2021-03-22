@@ -53,8 +53,9 @@ class StudentController extends Controller {
 
     public function getListSubmission () {
         $this->FacultyUpload = getInstance('FacultyUpload');
+        $facultyId           = $this->request->get('faculty_id') ?? null;
 
-        $data = $this->FacultyUpload->getData();
+        $data = $this->FacultyUpload->getData(Authentication::$info['id'], $facultyId);
 
         if (empty($data)) responseToClient('No file submission uploaded');
         responseToClient('Get list submission uploaded success', true, $data);

@@ -87,6 +87,7 @@
 <script>
 import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
 import Service from "@/domain/services/api"
+import commonHelper from '@/infrastructures/common-helpers'
 
 export default {
   components: {
@@ -131,10 +132,11 @@ export default {
       Service.getClosure().then(res => {
         if (res.data.success) {
           this.data = res.data.data
+          return commonHelper.showMessage(res.data.message, 'success');
         }
-        alert(res.data.message || 'There something error')
+        commonHelper.showMessage(res.data.message, 'warning');
       }).catch(() => {
-        alert('There something error')
+        commonHelper.showMessage('There something error. Please try again')
       })
     },
 
@@ -146,11 +148,12 @@ export default {
 
       Service.createClosure(dataSend).then(res => {
         if (res.data.success) {
-          return alert(res.data.message)
+          this.getClosureConfig()
+          return commonHelper.showMessage(res.data.message, 'success')
         }
-        alert(res.data.message || 'There something error')
+        commonHelper.showMessage(res.data.message, 'warning')
       }).catch(() => {
-        alert('There something error')
+        commonHelper.showMessage('There something error. Please try again', 'warning')
       })
     }
   },
