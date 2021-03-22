@@ -2,40 +2,70 @@
   <div class="mt-10 ml-10 mr-10 mb-10">
     <notifications group="default" />
     <b-row>
-      <b-col>
-        <b-dropdown id="dropdown-1" text="Manage" size="md" variant="outline-info">
-          <b-dropdown-item>
-            <b-btn class="w-100" variant="outline-primary">Home</b-btn>
-          </b-dropdown-item>
-          <b-dropdown-item>
-            <b-btn class="w-100" variant="outline-warning" v-b-modal.profileEdit>Profile</b-btn>
-          </b-dropdown-item>
-          <b-dropdown-item>
-            <b-btn class="w-100" variant="outline-primary" v-b-modal.changePass>
-              Change Password
-            </b-btn>
-          </b-dropdown-item>
-          <b-dropdown-divider></b-dropdown-divider>
-          <b-dropdown-item>
-            <b-btn class="w-100" variant="outline-secondary" @click="logout()">Logout</b-btn>
-          </b-dropdown-item>
-        </b-dropdown>
-      </b-col>
-    </b-row>
-    <br>
-
-    <b-row>
       <b-col md="4">
         <b-row>
           <div class="ml-5 mr-5">
-            <h3><b-badge variant="info">List Faculty Uploaded</b-badge></h3>
+            <h3><b-badge variant="info">Information</b-badge></h3>
           </div>
         </b-row>
 
-        <b-row>
-          <div class="ml-5 mr-5">
-            <h3><b-badge variant="info">List Faculty Uploaded</b-badge></h3>
-          </div>
+        <b-row class="ml-1">
+          <b-card
+            img-src="https://picsum.photos/600/300/?image=25"
+            img-alt="Image"
+            img-top
+            tag="article"
+            style="max-width: 100%;"
+          >
+            <b-row>
+              <b-col>
+                <b-card-text>
+                  Full name: {{infoStudent.full_name}}
+                </b-card-text>
+                <b-card-text>
+                  Username: {{infoStudent.username}}
+                </b-card-text>
+                <b-card-text>
+                  Phone: {{infoStudent.phone_number}}
+                </b-card-text>
+                <b-card-text>
+                  Email: {{infoStudent.email}}
+                </b-card-text>
+                <b-card-text>
+                  Time join: {{infoStudent.created}}
+                </b-card-text>
+                <b-card-text>
+                  Birthday: {{infoStudent.DATE_of_birth}}
+                </b-card-text>
+              </b-col>
+              <b-col>
+                <b-card-text>
+                  Total file uploaded: 100
+                </b-card-text>
+                <b-card-text>
+                  other info
+                </b-card-text>
+                <b-card-text>
+                  other info
+                </b-card-text>
+                <b-card-text>
+                  other info
+                </b-card-text>
+                <b-card-text>
+                  other info
+                </b-card-text>
+              </b-col>
+            </b-row>
+
+            <br>
+            <div class="ml-3">
+              <b-btn class="mr-3" variant="outline-secondary" @click="logout()">Logout</b-btn>
+              <b-btn class="mr-3" variant="outline-warning" v-b-modal.profileEdit>Profile</b-btn>
+              <b-btn class="mr-3" variant="outline-primary" v-b-modal.changePass>
+                Change Password
+              </b-btn>
+            </div>
+          </b-card>
         </b-row>
       </b-col>
 
@@ -194,7 +224,10 @@ export default {
       ],
       perPageUpload: 5,
       currentPageUpload: 1,
-      rowsDataUpload: 0
+      rowsDataUpload: 0,
+
+      totalFacultyUpload: 0,
+      infoStudent: null
     }
   },
   components: {
@@ -208,6 +241,7 @@ export default {
   created() {
     this.getListActive();
     this.getListSubmission();
+    this.infoStudent = JSON.parse(localStorage.getItem('infoUser'))
   },
   methods: {
     logout() {

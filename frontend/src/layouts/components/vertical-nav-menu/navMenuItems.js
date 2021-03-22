@@ -2,7 +2,7 @@ export default [
   {
     url: null,
     name: "Manage",
-    tag: "2",
+    tag: "4",
     tagColor: "success",
     icon: "HomeIcon",
 

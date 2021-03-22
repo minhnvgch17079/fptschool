@@ -14,7 +14,7 @@
               <div class="px-8 pt-8 login-tabs-container">
 
                 <div class="vx-card__title mb-4">
-                  <h1 class="mb-4">Đăng Nhập Hệ Thống</h1>
+                  <h1 class="mb-4">Login</h1>
                 </div>
 
                 <vs-tabs :color="'success'">
