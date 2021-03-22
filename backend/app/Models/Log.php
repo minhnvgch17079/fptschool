@@ -9,4 +9,13 @@ class Log extends BaseModel {
         return $this->model->table($this->table)
             ->insert(['error' => $message]);
     }
+
+    public function getAllError () {
+        $data = $this->model->table($this->table)
+            ->limit(100)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return json_decode(json_encode($data), true);
+    }
 }

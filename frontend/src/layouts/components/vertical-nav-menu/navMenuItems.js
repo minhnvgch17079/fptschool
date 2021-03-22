@@ -21,6 +21,11 @@ export default [
         url: '/user/user-list',
         name: "Manage User",
         slug: "dashboard-analytics",
+      },
+      {
+        url: '/admin/report-error',
+        name: "Report Error",
+        slug: "dashboard-analytics",
       }
     ]
   },

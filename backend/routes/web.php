@@ -31,10 +31,6 @@ Route::any('/group/{action}', function (Request $request) {
     return $class->$action();
 });
 
-Route::group(['prefix'=>'/admin'], function() {
-    Route::get('/index', [AdminController::class, 'index']);
-});
-
 Route::group(['prefix'=>'/staff'], function() {
     Route::get('/{action}', function ($action) {
         $classController = new StaffController();
@@ -51,6 +47,12 @@ Route::any('/closure-configs/{action}', function (Request $request) {
 Route::any('/faculty/{action}', function (Request $request) {
     $action = $request->action;
     $class  = new FacultiesController($request);
+    return $class->$action();
+});
+
+Route::any('/admin/{action}', function (Request $request) {
+    $action = $request->action;
+    $class  = new AdminController($request);
     return $class->$action();
 });
 
@@ -72,13 +74,6 @@ Route::any('/marketing-co/{action}', function (Request $request) {
     return $class->$action();
 });
 
-//email
-//Route::any('/sendMail/{action}', function (Request $request) {
-//    pd("999999");
-//    $action = $request->action;
-//    $class  = new FacultiesController($request);
-//    return $class->$action();
-//});
 Route::get('send-mail', function () {
 
     $details = [

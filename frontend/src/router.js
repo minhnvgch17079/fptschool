@@ -48,6 +48,14 @@ const router = new Router({
                 }
               },
               {
+                path: '/admin/report-error',
+                name: 'dashboard-analytics',
+                component: () => import('./views/ReportError.vue'),
+                meta: {
+                  rule: 'editor',
+                }
+              },
+              {
                 path: '/config/closures',
                 name: 'dashboard-analytics',
                 component: () => import('./views/config/Closure.vue'),

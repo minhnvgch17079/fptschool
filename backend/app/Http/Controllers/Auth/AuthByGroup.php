@@ -7,7 +7,8 @@ class AuthByGroup {
         1 => [
             'fileUpload/downloadFile',
             'fileUpload/disabledFile',
-            'user/disableUser'
+            'user/disableUser',
+            'admin/getAllError'
         ],
         2 => [
             'fileUpload/downloadFile',

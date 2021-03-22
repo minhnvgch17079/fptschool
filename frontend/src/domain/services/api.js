@@ -58,4 +58,7 @@ export default {
   downloadFile (data) {
     return http.get('fileUpload/downloadFile', {'params': data})
   },
+  getReportError (data) {
+    return http.get('admin/getAllError', {'params': data})
+  }
 }
