@@ -59,6 +59,10 @@
         :per-page="perPage"
         :current-page="currentPage"
       >
+        <template v-slot:cell(is_active)="row">
+          <b-badge variant="success" v-if="row.item.is_active === 1">ACTIVE</b-badge>
+          <b-badge variant="danger" v-if="row.item.is_active !== 1">DISABLED</b-badge>
+        </template>
         <template v-slot:cell(manage)="row">
           <b-btn class="mr-3" variant="outline-warning">
             <feather-icon icon="Edit3Icon" svgClasses="h-4 w-4"/>
@@ -106,6 +110,7 @@ export default {
       fieldsDataUsers: [
         {key: 'id', label: 'Id', sortable: true},
         {key: 'username', label: 'Username', sortable: true},
+        {key: 'is_active', label: 'Status', sortable: true},
         {key: 'full_name', label: 'Full name', sortable: true},
         {key: 'group_id', label: 'Role', sortable: true},
         {key: 'phone_number', label: 'Phone Number', sortable: true},

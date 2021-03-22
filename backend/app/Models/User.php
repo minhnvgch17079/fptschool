@@ -39,7 +39,7 @@ class User extends \App\Models\BaseModel {
 
         $data = $query->get([
             'id', 'username', 'full_name', 'phone_number', 'email', 'last_change_password', 'created', 'created_by',
-            'modified', 'modified_by', 'age', 'DATE_of_birth'
+            'modified', 'modified_by', 'age', 'DATE_of_birth', 'is_active'
         ]);
 
         return json_decode(json_encode($data), true);
