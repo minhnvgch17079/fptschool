@@ -26,7 +26,8 @@ class User extends \App\Models\BaseModel {
     }
 
     public function getData ($username, $fullName, $email, $phone, $groupId) {
-        $query = $this->model->table($this->table);
+        $query = $this->model->table($this->table)
+            ->where('is_active', 1);
 
         if (!empty($username))  $query->where('username', '=', $username);
         if (!empty($phone))     $query->where('phone_number', '=', $phone);

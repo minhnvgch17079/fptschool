@@ -63,12 +63,9 @@
           <b-btn class="mr-3" variant="outline-warning">
             <feather-icon icon="Edit3Icon" svgClasses="h-4 w-4"/>
           </b-btn>
-          <b-btn variant="outline-danger">
+          <b-btn variant="outline-danger" @click="disabledAccount(row.item.id)">
             <feather-icon icon="TrashIcon" svgClasses="h-4 w-4"/>
           </b-btn>
-        </template>
-        <template v-slot:cell(full_name)="row">
-          <b-badge variant="info">123</b-badge>
         </template>
       </b-table>
     </b-row>
@@ -185,8 +182,21 @@ export default {
         }
         commonHelper.showMessage(res.data.message || 'There something error. Please try again', 'warning')
       }).catch(() => {
-        commonHelper.showMessage(res.data.message || 'There something error. Please try again', 'warning')
+        commonHelper.showMessage('There something error. Please try again', 'warning')
       });
+    },
+    disabledAccount (idAccount) {
+      if (!confirm('Are you sure want to block this account?')) return 1
+
+      Service.disabledAccount({'id': idAccount}).then(res => {
+        if (res.data.success) {
+          this.getUser()
+          return commonHelper.showMessage(res.data.message, 'success')
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error. Please try again', 'warning')
+      })
     }
   },
   mounted() {

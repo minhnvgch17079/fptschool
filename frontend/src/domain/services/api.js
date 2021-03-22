@@ -7,6 +7,9 @@ export default {
   logout (data) {
     return http.get('user/logout', {'params': data})
   },
+  disabledAccount (data) {
+    return http.get('user/disableUser', {'params': data})
+  },
   createClosure (data) {
     return http.post('closure-configs/create', data)
   },

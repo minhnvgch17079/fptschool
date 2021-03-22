@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Authentication;
 use App\Http\Services\UploadFile;
 use App\Models\User;
 use App\Models\Group;
@@ -45,6 +46,8 @@ class UserController extends Controller
         $this->User = getInstance('User');
 
         $data = $this->User->getDataByUsername($username);
+
+        if (empty($data['is_active'])) responseToClient('Your account is blocking. Please contact admin for help');
 
         if (empty($data)) responseToClient('Wrong username or password');
 
@@ -194,6 +197,22 @@ class UserController extends Controller
         responseToClient('Change password failed');
     }
 
-    public function disabled
+    public function disableUser () {
+        $id = $this->request->get('id') ?? null;
+
+        if (empty($id)) responseToClient('Id user is invalid');
+
+        $this->User = getInstance('User');
+
+        $dataUpdate = [
+            'is_active' => 0,
+            'modified_by' => Authentication::$info['id'] ?? null
+        ];
+
+        $result = $this->User->updateById($dataUpdate, $id);
+
+        if ($result) responseToClient('Disable account success', true);
+        responseToClient('Failed to disable account');
+    }
 }
 
