@@ -101,7 +101,7 @@ export default {
         title: {
           text: 'Report bug'
         },
-        color: ['black', 'red', 'green'],
+        color: ['green', 'red'],
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -140,23 +140,16 @@ export default {
         },
         series: [
           {
-            name: 'Total bug',
-            type: 'line',
-            stack: 'totalBugs',
-            areaStyle: {},
-            data: []
-          },
-          {
             name: 'Fixed',
             type: 'line',
-            stack: 'fixed',
+            stack: 'bugs',
             areaStyle: {},
             data: []
           },
           {
             name: 'Not Fix',
             type: 'line',
-            stack: 'notFix',
+            stack: 'bugs',
             areaStyle: {},
             data: []
           }
@@ -176,7 +169,12 @@ export default {
     getError () {
       Service.getReportError().then(res => {
         if (res.data.success) {
-          this.dataError = res.data.data
+          Object.values(res.data.data).forEach(errorByDate => {
+            errorByDate.forEach(error => {
+              this.dataError.push(error)
+            })
+          })
+          this.drawChartOverView(Object.values(res.data.data))
           return commonHelper.showMessage(res.data.message, 'success');
         }
         commonHelper.showMessage(res.data.message, 'success')
@@ -184,21 +182,27 @@ export default {
         commonHelper.showMessage('There something error. Please try again')
       })
     },
-    drawChartOverView () {
+    drawChartOverView (dataDraw) {
       this.quantity.xAxis.data = []
       this.quantity.series[0].data = []
       this.quantity.series[1].data = []
-      this.quantity.series[2].data = []
 
-      this.quantity.series[0].data.push(parseInt(5))
-      this.quantity.series[1].data.push(parseInt(2))
-      this.quantity.series[2].data.push(parseInt(3))
+      dataDraw.forEach(dateError => {
+        this.quantity.xAxis.data.push(`${dateError[0].date}`)
+        let er = 0
+        let fixed = 0;
+        dateError.forEach(error => {
+          if (error.status === 1) er++
+          else fixed++
+        })
+        this.quantity.series[0].data.push(fixed)
+        this.quantity.series[1].data.push(er)
+      })
     }
   },
   mounted() {
   },
   created() {
-    this.drawChartOverView()
     this.getError()
   }
 }

@@ -12,10 +12,26 @@ class Log extends BaseModel {
 
     public function getAllError () {
         $data = $this->model->table($this->table)
-            ->limit(100)
+            ->limit(500)
             ->orderBy('id', 'desc')
             ->get();
 
-        return json_decode(json_encode($data), true);
+        if (empty($data)) return null;
+
+        $dataReturn = [];
+
+        foreach ($data as $datum) {
+            $date = date('Y-m-d', strtotime($datum->created));
+            $dataReturn[$date][] = [
+                'id' => $datum->id,
+                'error' => $datum->error,
+                'created' => $datum->created,
+                'status' => $datum->status,
+                'date' => $date
+            ];
+
+        }
+
+        return $dataReturn;
     }
 }
