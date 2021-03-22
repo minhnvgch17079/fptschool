@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClosureConfigs;
-use Illuminate\Http\Request;
 use App\Models\Faculty;
 /**
  * @property Faculty Faculty
@@ -29,8 +28,8 @@ class FacultiesController extends Controller {
 
 
         $dataSave  = [
-            'name' => $facultyName,
-            'description' => $facultyDescription,
+            'name'              => $facultyName,
+            'description'       => $facultyDescription,
             'closure_config_id' => $closureConfigsId
         ];
 
