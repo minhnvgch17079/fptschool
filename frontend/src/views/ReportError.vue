@@ -36,6 +36,7 @@
               </template>
               <template v-slot:cell(status)="row">
                 <b-badge v-if="row.item.status === 1" variant="danger">BUG</b-badge>
+                <b-badge v-if="row.item.status !== 1" variant="success">FIXED</b-badge>
               </template>
               <template v-slot:cell(full_name)="row">
                 <b-badge variant="info">123</b-badge>
@@ -90,9 +91,9 @@ export default {
       currentPage: 1,
       fieldsDataError: [
         {key: 'id', label: 'Id error', sortable: true},
+        {key: 'status', label: 'Status', sortable: true},
         {key: 'error', label: 'Error detail', sortable: true},
         {key: 'created', label: 'Created at', sortable: true},
-        {key: 'status', label: 'Status', sortable: true},
         {key: 'manage', label: 'Manage', sortable: true}
       ],
       dataError: [],

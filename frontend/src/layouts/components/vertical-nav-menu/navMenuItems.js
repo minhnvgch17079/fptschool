@@ -2,11 +2,16 @@ export default [
   {
     url: null,
     name: "Manage",
-    tag: "4",
+    tag: "5",
     tagColor: "success",
     icon: "HomeIcon",
 
     submenu: [
+      {
+        url: '/dashboard/analytics',
+        name: "Home",
+        slug: "dashboard-analytics",
+      },
       {
         url: '/config/closures',
         name: "Manage Closures",
