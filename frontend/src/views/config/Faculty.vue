@@ -11,9 +11,12 @@
       </b-col>
     </b-row>
 
-    <b-modal centered id="modal-1" title="Add New Faculty" @ok="addUser()">
+    <b-modal centered id="modal-1" title="Add New Faculty" @ok="addFaculty()">
       <b-row>
         <b-input class="ml-3 mr-3 mb-3" v-model="facultyNameAdd" :placeholder="`Faculty name`"></b-input>
+      </b-row>
+      <b-row>
+        <b-input class="ml-3 mr-3 mb-3" v-model="facultyDescriptionAdd" :placeholder="`Faculty description`"></b-input>
       </b-row>
       <b-row>
         <b-input class="ml-3 mr-3 mb-3" v-model="facultyStart" :placeholder="`Start date submission`" type="date"></b-input>
@@ -110,7 +113,8 @@ export default {
 
       facultyNameAdd: null,
       facultyStart: null,
-      facultyConfigClosure: null
+      facultyConfigClosure: null,
+      facultyDescriptionAdd: null
     }
   },
   watch: {
@@ -122,7 +126,7 @@ export default {
 
   },
   methods: {
-    getListActive () {
+    getListClosureConfig () {
       this.dataFaculty = []
       Service.getClosure().then(res => {
         if (res.data.success) {
@@ -144,10 +148,10 @@ export default {
       })
     },
 
-    getListClosureConfig () {
-      Service.getClosure().then(res => {
+    getListFaculty () {
+      Service.getListActive().then(res => {
         if (res.data.success) {
-          this.optionsClosureConfig = res.data.data
+          this.dataFaculty = res.data.data
           return commonHelper.showMessage(res.data.message, 'success')
         }
         commonHelper.showMessage(res.data.message, 'warning')
@@ -156,13 +160,28 @@ export default {
       })
     },
 
-    addUser () {
+    addFaculty () {
+      let dataSend = {
+        name: this.facultyNameAdd,
+        description: this.facultyDescriptionAdd,
+        closure_config_id: this.facultyConfigClosure,
+      }
+      Service.createFaculty(dataSend).then(res => {
+        if (res.data.success) {
+          this.getListFaculty()
+          return commonHelper.showMessage(res.data.message, 'success')
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error. Please try again', 'warning')
+      })
     }
   },
   mounted() {
   },
   created() {
-    this.getListActive()
+    this.getListClosureConfig()
+    this.getListFaculty()
   }
 }
 

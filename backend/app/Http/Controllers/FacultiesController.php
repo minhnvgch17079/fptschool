@@ -13,7 +13,6 @@ use App\Models\Faculty;
 
 class FacultiesController extends Controller {
     public function createFaculty () {
-        // missing only admin can access
         $facultyName        = $this->request->post('name')              ?? null;
         $facultyDescription = $this->request->post('description')       ?? null;
         $closureConfigsId   = $this->request->post('closure_config_id') ?? null;

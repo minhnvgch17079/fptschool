@@ -43,6 +43,9 @@ export default {
   getListActive () {
     return http.get('faculty/getListActive')
   },
+  createFaculty (data) {
+    return http.post('faculty/createFaculty', data)
+  },
   getListSubmission () {
     return http.get('student/getListSubmission')
   },
