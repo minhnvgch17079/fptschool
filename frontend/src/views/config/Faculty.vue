@@ -6,7 +6,7 @@
         <b-input :placeholder="`Faculty name`" v-model="facultyNameSearch"></b-input>
       </b-col>
       <b-col>
-        <b-btn class="mr-3" variant="outline-info">Search</b-btn>
+        <b-btn class="mr-3" variant="outline-info" @click="getListFaculty()">Search</b-btn>
         <b-btn variant="outline-success" v-b-modal.modal-1>Add Faculty</b-btn>
       </b-col>
     </b-row>
