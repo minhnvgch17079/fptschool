@@ -49,4 +49,13 @@ class FacultyUpload extends BaseModel
             ->where('id', $id)
             ->update($dataUpdate);
     }
+
+    public function getOwnFileByGroupId ($groupId) {
+        $data = $this->model->table($this->table)
+            ->where('created_by', Authentication::$info['id'])
+            ->where('group_comment_id', $groupId)
+            ->first();
+
+        return (array)$data;
+    }
 }

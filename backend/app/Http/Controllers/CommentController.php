@@ -70,6 +70,13 @@ class CommentController extends Controller {
 
         if (empty($groupId)) responseToClient('No group comment found');
 
+        if (Authentication::$info['group_id'] == 3) {
+            $this->FacultyUpload = getInstance('FacultyUpload');
+            $isOwn = $this->FacultyUpload->getOwnFileByGroupId($groupId);
+
+            if (empty($isOwn)) responseToClient('No permission for read comment');
+        }
+
         $data = $this->Comment->getDataByGroup($groupId);
 
         if (empty($data)) responseToClient('No comment found');
