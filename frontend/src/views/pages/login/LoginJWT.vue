@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div style="position: fixed; top: 35%; left: 45%">
+    <h1 style="color: white">Login</h1>
     <notifications group="default" />
     <vs-input
         v-validate="'required|min:3'"
@@ -28,9 +29,7 @@
         class="w-full mt-6" />
     <span class="text-danger text-sm">{{ errors.first('password') }}</span>
     <br>
-    <div class="flex flex-wrap justify-between mb-3">
-      <b-btn variant="outline-success" :disabled="!validateForm" @click="login()" size="lg">Đăng Nhập</b-btn>
-    </div>
+    <b-btn style="background-color: white; color: black" @click="login()" size="lg">Đăng Nhập</b-btn>
   </div>
 </template>
 
