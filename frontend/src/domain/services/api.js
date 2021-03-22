@@ -10,6 +10,9 @@ export default {
   createClosure (data) {
     return http.post('closure-configs/create', data)
   },
+  deleteClosureConfigs (data) {
+    return http.get('closure-configs/deleteClosureConfigs', {'params': data})
+  },
   getClosure (data) {
     return http.get('closure-configs/get', {'params': data})
   },

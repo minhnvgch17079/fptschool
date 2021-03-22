@@ -82,6 +82,8 @@ class ClosureConfigsController extends Controller {
 
         if (empty($id)) responseToClient('Invalid id for delete');
 
+        $this->ClosureConfigs = getInstance('ClosureConfigs');
+
         $dataSave  = ['is_delete' => 1];
         $result    = $this->ClosureConfigs->updateDataById($id, $dataSave);
 

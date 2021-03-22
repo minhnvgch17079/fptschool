@@ -47,6 +47,7 @@ class ClosureConfigs extends BaseModel
 
     public function getAllData () {
         $data = $this->model->table($this->table)
+            ->where('is_delete', 0)
             ->get();
 
         return json_decode(json_encode($data), true);

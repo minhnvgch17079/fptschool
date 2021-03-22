@@ -54,12 +54,9 @@
           <b-btn class="mr-3" variant="outline-warning">
             <feather-icon icon="Edit3Icon" svgClasses="h-4 w-4"/>
           </b-btn>
-          <b-btn variant="outline-danger">
+          <b-btn variant="outline-danger" @click="deleteClosureConfigs(row.item.id)">
             <feather-icon icon="TrashIcon" svgClasses="h-4 w-4"/>
           </b-btn>
-        </template>
-        <template v-slot:cell(full_name)="row">
-          <b-badge variant="info">123</b-badge>
         </template>
       </b-table>
     </b-row>
@@ -133,6 +130,19 @@ export default {
         if (res.data.success) {
           this.data = res.data.data
           return commonHelper.showMessage(res.data.message, 'success');
+        }
+        commonHelper.showMessage(res.data.message, 'warning');
+      }).catch(() => {
+        commonHelper.showMessage('There something error. Please try again')
+      })
+    },
+
+    deleteClosureConfigs (idDelete) {
+      if (!confirm('Are you sure to delete this closure config?')) return 1
+      Service.deleteClosureConfigs({'id': idDelete}).then(res => {
+        if (res.data.success) {
+          this.getClosureConfig()
+          return commonHelper.showMessage(res.data.message, 'success')
         }
         commonHelper.showMessage(res.data.message, 'warning');
       }).catch(() => {
