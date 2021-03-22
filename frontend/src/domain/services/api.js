@@ -46,6 +46,9 @@ export default {
   createFaculty (data) {
     return http.post('faculty/createFaculty', data)
   },
+  updateFaculty (data) {
+    return http.post('faculty/updateFaculty', data)
+  },
   getListSubmission () {
     return http.get('student/getListSubmission')
   },

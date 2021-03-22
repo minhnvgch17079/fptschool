@@ -42,7 +42,7 @@ class FacultiesController extends Controller {
 
     public function updateFaculty () {
         // missing only admin can access
-        $id                = $this->request->post('id')     ?? null;
+        $id                 = $this->request->post('id')                ?? null;
         $facultyName        = $this->request->post('name')              ?? null;
         $facultyDescription = $this->request->post('description')       ?? null;
         $closureConfigsId   = $this->request->post('closure_config_id') ?? null;
@@ -52,7 +52,7 @@ class FacultiesController extends Controller {
         if (empty($facultyName))              responseToClient('Invalid faculty name');
         if (empty($closureConfigsId))         responseToClient('Invalid closure config id');
 
-        $this->Faculty = getInstance('faculties');
+        $this->Faculty = getInstance('Faculty');
         $isExist       = $this->ClosureConfigs->isExist($facultyName);
 
         if (!empty($isExist)) responseToClient('faculty name is exist');

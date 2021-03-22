@@ -67,6 +67,7 @@ class Faculty extends BaseModel
             "$this->table.id as faculty_id",
             "$this->table.name as faculty_name",
             "$this->table.description as faculty_description",
+            "c.id as closure_id"
         ]);
         return json_decode(json_encode($data), true);
     }

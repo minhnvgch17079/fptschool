@@ -18,9 +18,6 @@
       <b-row>
         <b-input class="ml-3 mr-3 mb-3" v-model="facultyDescriptionAdd" :placeholder="`Faculty description`"></b-input>
       </b-row>
-      <b-row>
-        <b-input class="ml-3 mr-3 mb-3" v-model="facultyStart" :placeholder="`Start date submission`" type="date"></b-input>
-      </b-row>
       <b-form-select v-model="facultyConfigClosure" :options="optionsClosureConfig"></b-form-select>
     </b-modal>
 
@@ -51,7 +48,7 @@
         :current-page="currentPage"
       >
         <template v-slot:cell(manage)="row">
-          <b-btn class="mr-3" variant="outline-warning">
+          <b-btn class="mr-3" variant="outline-warning" v-b-modal.modal-1 @click="editFaculty(row.item)">
             <feather-icon icon="Edit3Icon" svgClasses="h-4 w-4"/>
           </b-btn>
           <b-btn variant="outline-danger">
@@ -114,7 +111,8 @@ export default {
       facultyNameAdd: null,
       facultyStart: null,
       facultyConfigClosure: null,
-      facultyDescriptionAdd: null
+      facultyDescriptionAdd: null,
+      facultyId: null
     }
   },
   watch: {
@@ -166,15 +164,42 @@ export default {
         description: this.facultyDescriptionAdd,
         closure_config_id: this.facultyConfigClosure,
       }
-      Service.createFaculty(dataSend).then(res => {
-        if (res.data.success) {
-          this.getListFaculty()
-          return commonHelper.showMessage(res.data.message, 'success')
+
+      if (this.idFaculty !== null) {
+        dataSend = {
+          'id': this.facultyId,
+          'name': this.facultyNameAdd,
+          'description': this.facultyDescriptionAdd,
+          'closure_config_id': this.facultyConfigClosure
         }
-        commonHelper.showMessage(res.data.message, 'warning')
-      }).catch(() => {
-        commonHelper.showMessage('There something error. Please try again', 'warning')
-      })
+
+        Service.updateFaculty(dataSend).then(res => {
+          if (res.data.success) {
+            this.getListFaculty()
+            return commonHelper.showMessage(res.data.message, 'success')
+          }
+          commonHelper.showMessage(res.data.message, 'warning')
+        }).catch(() => {
+          commonHelper.showMessage('There something error. Please try again', 'warning')
+        })
+      } else {
+        Service.createFaculty(dataSend).then(res => {
+          if (res.data.success) {
+            this.getListFaculty()
+            return commonHelper.showMessage(res.data.message, 'success')
+          }
+          commonHelper.showMessage(res.data.message, 'warning')
+        }).catch(() => {
+          commonHelper.showMessage('There something error. Please try again', 'warning')
+        })
+      }
+    },
+
+    editFaculty (data) {
+      this.facultyNameAdd = data.faculty_name
+      this.facultyDescriptionAdd = data.faculty_description
+      this.facultyConfigClosure = data.closure_id
+      this.facultyId = data.faculty_id
     }
   },
   mounted() {
