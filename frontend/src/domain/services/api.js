@@ -60,5 +60,11 @@ export default {
   },
   getReportError (data) {
     return http.get('admin/getAllError', {'params': data})
+  },
+  commentSubFile (data) {
+    return http.post('comment/fileSubmissionComment', data)
+  },
+  fileSubmissionGetComment (data) {
+    return http.get('comment/fileSubmissionGetComment', {'params': data})
   }
 }

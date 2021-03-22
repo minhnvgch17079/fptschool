@@ -17,7 +17,9 @@ class Authentication
     private $listAccessAllLogin = [
         'user/getInfoUser',
         'user/changePassword',
-        'user/updateProfile'
+        'user/updateProfile',
+        'comment/fileSubmissionComment',
+        'comment/fileSubmissionGetComment'
     ];
 
     public static $info = null;

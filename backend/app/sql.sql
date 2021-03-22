@@ -142,3 +142,13 @@ CREATE TABLE `faculty_uploads` (
 alter table faculty_uploads add column faculty_id int;
 alter table faculty_uploads add column teacher_status varchar(255) default 'pending';
 alter table users add column is_active bool default 1;
+
+create table comments (
+                          id int primary key auto_increment,
+                          group_id int not null,
+                          message varchar(255) not null,
+                          file_id int,
+                          created_by int,
+                          created datetime default current_timestamp
+);
+alter table comments add column username_created varchar(255);

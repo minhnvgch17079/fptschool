@@ -98,6 +98,11 @@
                 Download
               </b-btn>
             </template>
+            <template v-slot:cell(comment)="row">
+              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-info" @click="comment(row.item)">
+                Comment
+              </b-btn>
+            </template>
             <template v-slot:cell(teacher_status)="row">
               <b-badge variant="info">{{row.item.teacher_status}}</b-badge>
             </template>
@@ -181,6 +186,12 @@
           :id-faculty="idFaculty"
         />
       </b-modal>
+
+      <b-modal id="comment" title="Comment" size="lg" :hide-footer="true">
+        <Comment
+          :file-upload-info="infoFileUpload"
+        />
+      </b-modal>
     </b-row>
 
   </div>
@@ -196,6 +207,7 @@ import ProfileEdit from "@/views/components/student/ProfileEdit";
 import ChangePass from "@/views/components/student/ChangePassword";
 import Submission from "@/views/components/student/Submission";
 import UploadFile from "@/views/components/student/Submission";
+import Comment from "@/views/components/student/Comment"
 export default {
   data() {
     return {
@@ -218,6 +230,7 @@ export default {
         {key: 'teacher_status', label: 'Teacher Status', sortable: true},
         {key: 'faculty_name', label: 'Faculty Name', sortable: true},
         {key: 'file_name', label: 'File name', sortable: true},
+        {key: 'comment', label: 'Comment', sortable: true},
         {key: 'file_path', label: 'Link download', sortable: true},
         {key: 'created', label: 'Upload At', sortable: true},
         {key: 'manage', label: 'Action', sortable: true}
@@ -227,14 +240,16 @@ export default {
       rowsDataUpload: 0,
 
       totalFacultyUpload: 0,
-      infoStudent: null
+      infoStudent: null,
+      infoFileUpload: null
     }
   },
   components: {
     UploadFile,
     ChangePass,
     ProfileEdit,
-    Submission
+    Submission,
+    Comment
   },
   mounted() {
   },
@@ -295,6 +310,10 @@ export default {
     },
     downloadFile (idFile) {
       window.location.href = `/fileUpload/downloadFile?id=${idFile}`
+    },
+    comment (data) {
+      this.infoFileUpload = data
+      this.$bvModal.show('comment')
     }
   },
   watch: {

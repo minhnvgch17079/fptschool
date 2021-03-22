@@ -36,9 +36,17 @@ class FacultyUpload extends BaseModel
                 "fi.file_path as file_path",
                 "fi.created as created",
                 "$this->table.teacher_status",
-                "fi.id as file_id"
+                "fi.id as file_id",
+                "$this->table.group_comment_id",
+                "$this->table.id as faculty_upload_id",
             ]);
 
         return json_decode(json_encode($data), true);
+    }
+
+    public function updateById ($dataUpdate, $id) {
+        return $this->model->table($this->table)
+            ->where('id', $id)
+            ->update($dataUpdate);
     }
 }
