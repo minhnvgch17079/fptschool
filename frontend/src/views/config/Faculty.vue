@@ -10,17 +10,17 @@
         <b-btn variant="outline-success" v-b-modal.modal-1>Add Faculty</b-btn>
       </b-col>
     </b-row>
-    <b-modal centered id="modal-1" title="Add New User" @ok="addUser()">
+
+    <b-modal centered id="modal-1" title="Add New Faculty" @ok="addUser()">
       <b-row>
-        <b-input class="ml-3 mr-3 mb-3" :placeholder="`Username`"></b-input>
+        <b-input class="ml-3 mr-3 mb-3" v-model="facultyNameAdd" :placeholder="`Faculty name`"></b-input>
       </b-row>
       <b-row>
-        <b-input class="ml-3 mr-3 mb-3" :placeholder="`Password`"></b-input>
+        <b-input class="ml-3 mr-3 mb-3" v-model="facultyStart" :placeholder="`Start date submission`" type="date"></b-input>
       </b-row>
-      <b-row>
-        <b-form-select class="ml-3 mr-3 mb-3" v-model="roleAdd" :options="optionsRole"></b-form-select>
-      </b-row>
+      <b-form-select v-model="facultyConfigClosure" :options="optionsClosureConfig"></b-form-select>
     </b-modal>
+
     <br>
     <br>
     <b-row>
@@ -83,7 +83,6 @@
 
 <script>
 import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
-import axios from 'axios'
 import Service from '@/domain/services/api'
 import commonHelper from '@/infrastructures/common-helpers'
 
@@ -107,15 +106,11 @@ export default {
 
       facultyNameSearch: '',
 
-      optionsRole: [
-        { value: null, text: 'Please select role' },
-        { value: 1, text: 'Admin' },
-        { value: 2, text: 'Marketing Coordinator' },
-        { value: 3, text: 'Student' },
-        { value: 4, text: 'Marketing Manager' },
-        { value: 5, text: 'Guest' },
-      ],
-      roleAdd: null
+      optionsClosureConfig: [],
+
+      facultyNameAdd: null,
+      facultyStart: null,
+      facultyConfigClosure: null
     }
   },
   watch: {
@@ -129,9 +124,30 @@ export default {
   methods: {
     getListActive () {
       this.dataFaculty = []
-      Service.getListActive().then(res => {
+      Service.getClosure().then(res => {
         if (res.data.success) {
-          this.dataFaculty = res.data.data
+          this.optionsClosureConfig = res.data.data.map(e => {
+            return {
+              value: e.id,
+              text: 'Closure ' + e.name + ' (' + e.first_closure_DATE + '-' + e.final_closure_DATE + ')'
+            }
+          })
+          this.optionsClosureConfig.push({
+            value: null,
+            text: 'Please select closure'
+          })
+          return commonHelper.showMessage(res.data.message, 'success')
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error. Please try again', 'warning')
+      })
+    },
+
+    getListClosureConfig () {
+      Service.getClosure().then(res => {
+        if (res.data.success) {
+          this.optionsClosureConfig = res.data.data
           return commonHelper.showMessage(res.data.message, 'success')
         }
         commonHelper.showMessage(res.data.message, 'warning')
@@ -141,23 +157,6 @@ export default {
     },
 
     addUser () {
-      const params = new URLSearchParams();
-      params.append('username', this.usernameAdd);
-      params.append('password', this.passwordAdd);
-      params.append('group_id', this.roleAdd);
-
-      axios({
-        method: 'POST',
-        url: 'user/register',
-        data: params,
-        baseURL: 'http://fpt-school.com',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      }).then(res => {
-        if (res.data.success) {
-          this.usernameSearch = this.usernameAdd
-          this.getUser()
-        }
-      });
     }
   },
   mounted() {
