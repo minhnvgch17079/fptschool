@@ -1,7 +1,9 @@
 <template>
   <div class="mt-10 ml-10 mr-10 mb-10 w-100">
     <notifications group="default" />
-    <WebViewer initialDoc="https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf" />
+    <div>
+      <WebViewer :path="`${publicPath}lib`" url="https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo.pdf"/>
+    </div>
     <b-row>
       <b-col md="4">
         <b-row>
@@ -213,6 +215,7 @@ import WebViewer from "@/views/file/WebViewer";
 export default {
   data() {
     return {
+      publicPath: process.env.BASE_URL,
       dataActiveSubmission: [],
       fieldActiveSubmission: [
         {key: 'faculty_name', label: 'Faculty Name', sortable: true},
