@@ -166,7 +166,7 @@
     </div>
 
     <b-row>
-      <b-modal id="editPdf" title="Edit Pdf" size="lg" :hide-footer="true">
+      <b-modal modal-class="w-100" id="editPdf" title="Edit Pdf" size="lg" :hide-footer="true">
         <WebViewer :path="`${publicPath}lib`" :url="getUrlPdf()"/>
       </b-modal>
 

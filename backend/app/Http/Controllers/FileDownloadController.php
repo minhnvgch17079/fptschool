@@ -51,7 +51,7 @@ class FileDownloadController extends Controller {
     }
 
     public function readPdfFile () {
-        $idFile  = $this->request->get('id')         ?? null;
+        $idFile  = $this->request->get('id') ?? null;
         $idUser  = null;
 
         if (empty($idFile)) responseToClient('Can not get id of file for read');
