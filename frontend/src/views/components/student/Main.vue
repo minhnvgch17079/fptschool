@@ -1,6 +1,7 @@
 <template>
   <div class="mt-10 ml-10 mr-10 mb-10 w-100">
     <notifications group="default" />
+    <WebViewer initialDoc="https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf" />
     <b-row>
       <b-col md="4">
         <b-row>
@@ -208,6 +209,7 @@ import ChangePass from "@/views/components/student/ChangePassword";
 import Submission from "@/views/components/student/Submission";
 import UploadFile from "@/views/components/student/Submission";
 import Comment from "@/views/components/student/Comment"
+import WebViewer from "@/views/file/WebViewer";
 export default {
   data() {
     return {
@@ -245,6 +247,7 @@ export default {
     }
   },
   components: {
+    WebViewer,
     UploadFile,
     ChangePass,
     ProfileEdit,

@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build": "vue-cli-service build && npm run move-static",
+    "lint": "vue-cli-service lint",
+    "move-static": "cp -a ./node_modules/@pdftron/webviewer/public/. ./dist/public/webviewer"
   },
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^1.1.2",
+    "@pdftron/webviewer": "^7.0.1",
     "ag-grid-community": "^21.0.1",
     "ag-grid-vue": "^21.0.1",
     "algoliasearch": "^3.33.0",
