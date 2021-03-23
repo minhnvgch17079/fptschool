@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\FileDownloadController;
 use App\Http\Controllers\MarketingCoordinatorController;
+use App\Http\Controllers\MarketingManagerController;
 use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use \Illuminate\Http\Request;
@@ -78,6 +79,12 @@ Route::any('/comment/{action}', function (Request $request) {
 Route::any('/marketing-co/{action}', function (Request $request) {
     $action = $request->action;
     $class  = new MarketingCoordinatorController($request);
+    return $class->$action();
+});
+
+Route::any('/marketing-ma/{action}', function (Request $request) {
+    $action = $request->action;
+    $class  = new MarketingManagerController($request);
     return $class->$action();
 });
 

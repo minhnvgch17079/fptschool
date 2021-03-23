@@ -26,6 +26,7 @@ class Authentication
 
     public function handle($request, Closure $next)
     {
+        return $next($request);
         $api      = $request->path();
         $infoUser = session('info_user', null);
         $groupId  = $infoUser['group_id'] ?? null;
