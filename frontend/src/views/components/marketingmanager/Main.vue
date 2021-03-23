@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div class="ml-10 mr-10 mt-10 mb-10">
     <div><notifications group="default" /></div>
     <b-row>
       <b-col md="4">
@@ -165,7 +165,7 @@
     </b-row>
 
 
-    <b-modal modal-class="modal-xl" id="editPdf" title="Edit Pdf" size="lg" :hide-footer="true">
+    <b-modal id="editPdf" title="Edit Pdf" size="lg" :hide-footer="true">
       <WebViewer :path="`${publicPath}lib`" :url="getUrlPdf()"/>
     </b-modal>
 
