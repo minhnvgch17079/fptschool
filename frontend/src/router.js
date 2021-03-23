@@ -113,6 +113,14 @@ const router = new Router({
           }
         },
         {
+          path: '/marketing-manager',
+          name: 'Marketing-Manager',
+          component: () => import('@/views/components/marketingmanager/Main.vue'),
+          meta: {
+            rule: 'editor',
+          }
+        },
+        {
             path: '*',
             redirect: '/pages/error-404'
         }

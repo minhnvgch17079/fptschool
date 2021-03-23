@@ -66,5 +66,8 @@ export default {
   },
   fileSubmissionGetComment (data) {
     return http.get('comment/fileSubmissionGetComment', {'params': data})
+  },
+  getNumContriForFaculty (data) {
+    return http.get('marketing-ma/getNumContriForFaculty', {'params': data})
   }
 }

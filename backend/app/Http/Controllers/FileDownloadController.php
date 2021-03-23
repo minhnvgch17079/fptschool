@@ -50,4 +50,31 @@ class FileDownloadController extends Controller {
         responseToClient('Disabled file successfully', true);
     }
 
+    public function readPdfFile () {
+        $idFile  = $this->request->get('id')         ?? null;
+        $idUser  = null;
+
+        if (empty($idFile)) responseToClient('Can not get id of file for read');
+
+        $this->FileUpload = getInstance('FileUpload');
+        $data             = $this->FileUpload->getFileInfoById($idFile, $idUser);
+
+        if (empty($data)) responseToClient('No file found');
+
+        $path = $data['file_path'];
+
+        try {
+            $file     = public_path('files/') . $path;
+            $filename = $path;
+
+            header('Content-type: application/pdf');
+            header('Content-Disposition: inline; filename="' . $filename . '"');
+            header('Content-Transfer-Encoding: binary');
+            header('Accept-Ranges: bytes');
+            @readfile($file);
+        } catch (\Exception $e) {
+            logErr($e->getMessage());
+        }
+    }
+
 }

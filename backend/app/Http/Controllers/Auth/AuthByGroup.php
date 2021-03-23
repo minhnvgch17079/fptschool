@@ -22,7 +22,13 @@ class AuthByGroup {
             'fileUpload/downloadFile',
             'fileUpload/disabledFile',
         ],
-        4 => [],
+        4 => [
+            'fileUpload/downloadFile',
+            'fileUpload/readPdfFile',
+            'student/getListSubmission',
+            'faculty/getListActive',
+            'marketing-ma/getNumContriForFaculty'
+        ],
         5 => [],
         6 => [],
         7 => [],

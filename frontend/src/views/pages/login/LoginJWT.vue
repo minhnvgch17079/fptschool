@@ -80,7 +80,7 @@ export default {
           commonHelper.showMessage(res.data.message, 'success')
           localStorage.setItem('infoUser', JSON.stringify(res.data.data))
           if (res.data.data.group_id === 1) return window.location.href = '/adm'
-          if (res.data.data.group_id === 2) return window.location.href = '/adm/marketing'
+          if (res.data.data.group_id === 4) return window.location.href = '/adm/marketing-manager'
           if (res.data.data.group_id === 3) return window.location.href = '/adm/student'
           return window.location.href = '/adm'
         }
