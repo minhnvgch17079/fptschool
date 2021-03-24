@@ -1,9 +1,6 @@
 <template>
   <div class="mt-10 ml-10 mr-10 mb-10 w-100">
     <notifications group="default" />
-    <div>
-      <WebViewer :path="`${publicPath}lib`" url="https://pdftron.s3.amazonaws.com/downloads/pl/webviewer-demo.pdf"/>
-    </div>
     <b-row>
       <b-col md="4">
         <b-row>
