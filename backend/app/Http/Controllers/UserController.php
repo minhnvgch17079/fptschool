@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Components\AuthComponent;
 use App\Http\Middleware\Authentication;
 use App\Http\Services\UploadFile;
 use App\Models\User;
@@ -36,7 +37,7 @@ class UserController extends Controller
     }
     // todo: api login
     public function login () {
-        if (!empty(session()->get('info_user'))) responseToClient('Login success', true, session()->get('info_user'));
+        if (!empty(AuthComponent::user())) responseToClient('Login success', true, AuthComponent::user());
         $username = $this->request->post('username') ?? null;
         $password = $this->request->post('password') ?? null;
 
@@ -53,17 +54,14 @@ class UserController extends Controller
 
         if (!Hash::check($password, $data['password'])) responseToClient('Wrong username or password');
 
-        session()->put('username', $username);
-        session()->put('info_user', $data);
-        session()->save();
+        AuthComponent::setUserLogin($data);
 
         responseToClient('Login success', true, $data);
     }
 
     // todo: api logout
     public function logout () {
-        session()->forget(['username', 'info_user']);
-        session()->save();
+        AuthComponent::setUserLogout();
         responseToClient('logout success',true);
     }
 

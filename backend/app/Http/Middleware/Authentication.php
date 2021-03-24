@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Components\AuthComponent;
 use App\Http\Controllers\Auth\AuthByUser;
 use App\Http\Controllers\Auth\AuthByGroup;
 
 use Closure;
-use function Composer\Autoload\includeFile;
 
 class Authentication
 {
@@ -27,7 +27,7 @@ class Authentication
     public function handle($request, Closure $next)
     {
         $api      = $request->path();
-        $infoUser = session('info_user', null);
+        $infoUser = AuthComponent::user();
         $groupId  = $infoUser['group_id'] ?? null;
         $username = $infoUser['username'] ?? null;
         $apiGroup = AuthByGroup::$groups[$groupId] ?? [];
