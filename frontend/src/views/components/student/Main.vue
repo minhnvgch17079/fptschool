@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-10 ml-10 mr-10 mb-10 w-100">
+  <div class="container-fluid">
     <notifications group="default" />
     <b-row>
       <b-col md="4">
@@ -63,6 +63,9 @@
               <b-btn class="mr-3" variant="outline-warning" v-b-modal.profileEdit>Profile</b-btn>
               <b-btn class="mr-3" variant="outline-primary" v-b-modal.changePass>
                 Change Password
+              </b-btn>
+              <b-btn class="mr-3" variant="outline-success" @click="uploadAvatar()">
+                Upload Avatar
               </b-btn>
             </div>
           </b-card>
@@ -192,6 +195,11 @@
           :file-upload-info="infoFileUpload"
         />
       </b-modal>
+
+      <upload-avatar
+        :show="isUploadAvatar"
+        @uploadAvatarSuccess="uploadAvatarSuccess"
+      />
     </b-row>
 
   </div>
@@ -205,6 +213,7 @@ import Service from "@/domain/services/api";
 import commonHelper from '@/infrastructures/common-helpers'
 import ProfileEdit from "@/views/components/student/ProfileEdit";
 import ChangePass from "@/views/components/student/ChangePassword";
+import UploadAvatar from "@/views/components/student/UploadAvatar";
 import Submission from "@/views/components/student/Submission";
 import UploadFile from "@/views/components/student/Submission";
 import Comment from "@/views/components/student/Comment"
@@ -243,13 +252,15 @@ export default {
 
       totalFacultyUpload: 0,
       infoStudent: null,
-      infoFileUpload: null
+      infoFileUpload: null,
+      isUploadAvatar: false
     }
   },
   components: {
     WebViewer,
     UploadFile,
     ChangePass,
+    UploadAvatar,
     ProfileEdit,
     Submission,
     Comment
@@ -317,6 +328,13 @@ export default {
     comment (data) {
       this.infoFileUpload = data
       this.$bvModal.show('comment')
+    },
+    uploadAvatar () {
+      this.isUploadAvatar = false
+      this.isUploadAvatar = true
+    },
+    uploadAvatarSuccess () {
+      commonHelper.showMessage('Upload avatar success', 'success')
     }
   },
   watch: {

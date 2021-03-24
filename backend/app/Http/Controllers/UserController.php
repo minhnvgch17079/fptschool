@@ -212,5 +212,27 @@ class UserController extends Controller
         if ($result) responseToClient('Disable account success', true);
         responseToClient('Failed to disable account');
     }
+
+    public function updateAvatar () {
+        $avatar = $this->request->file('img') ?? null;
+
+        if (empty($avatar)) responseToClient('Invalid avatar for set');
+
+        $fileUpload = new UploadFile();
+
+        $result     = $fileUpload->uploadSingleFile($avatar);
+
+        if (empty($result)) responseToClient('Upload avatar failed');
+
+        $dataUpdate = [
+            'image' => $result
+        ];
+
+        $this->User = getInstance('User');
+        $result = $this->User->updateById($dataUpdate, AuthComponent::user('id'));
+
+        if ($result) responseToClient('Upload avatar success', true);
+        responseToClient('Upload avatar failed, please try again');
+    }
 }
 
