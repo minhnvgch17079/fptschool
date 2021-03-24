@@ -153,3 +153,4 @@ create table comments (
 );
 alter table comments add column username_created varchar(255);
 alter table logs add column status bool default 1;
+alter table users add column image varchar(255) default null;
