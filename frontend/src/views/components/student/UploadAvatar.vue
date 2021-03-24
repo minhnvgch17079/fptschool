@@ -12,7 +12,6 @@
                :params="params"
                :headers="headers"
                img-format="png"></my-upload>
-    <img :src="imgDataUrl">
   </div>
 </template>
 
@@ -60,8 +59,7 @@ export default {
      * [param] field
      */
     cropUploadSuccess(jsonData, field){
-      this.$emit('uploadAvatarSuccess')
-      this.show = false;
+      this.$emit('uploadAvatarSuccess', this.imgDataUrl)
       console.log('-------- upload success --------');
       console.log(jsonData);
       console.log('field: ' + field);

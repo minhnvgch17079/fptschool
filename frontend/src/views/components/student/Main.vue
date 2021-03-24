@@ -19,6 +19,7 @@
           >
             <b-row>
               <b-col>
+                <img style="width: 50px; height: 50px; border-radius: 50%" :src="imgDataUrl">
                 <b-card-text>
                   Full name: {{infoStudent.full_name}}
                 </b-card-text>
@@ -253,7 +254,8 @@ export default {
       totalFacultyUpload: 0,
       infoStudent: null,
       infoFileUpload: null,
-      isUploadAvatar: false
+      isUploadAvatar: false,
+      imgDataUrl: null
     }
   },
   components: {
@@ -333,7 +335,8 @@ export default {
       this.isUploadAvatar = false
       this.isUploadAvatar = true
     },
-    uploadAvatarSuccess () {
+    uploadAvatarSuccess (urlImg) {
+      this.imgDataUrl = urlImg
       commonHelper.showMessage('Upload avatar success', 'success')
     }
   },
