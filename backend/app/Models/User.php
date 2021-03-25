@@ -50,4 +50,13 @@ class User extends \App\Models\BaseModel {
             ->where('id', '=', $id)
             ->update($dataUpdate);
     }
+
+    public function getCoordinatorByUserId ($userId) {
+        $data = $this->model->table($this->table)
+            ->where('id', $userId)
+            ->where('group_id', 2)
+            ->first();
+
+        return (array)$data;
+    }
 }
