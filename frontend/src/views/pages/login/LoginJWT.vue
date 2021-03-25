@@ -1,6 +1,6 @@
 <template>
   <div class="login-form">
-    <h1 style="color: white" class="text-center">Login</h1>
+    <img style="height: 25%" src="@/assets/images/greenwich/greenwich.svg" alt="Logo">
     <notifications group="default" />
     <vs-input
         v-validate="'required|min:3'"
@@ -29,7 +29,9 @@
         class="w-full mt-6" />
     <span class="text-info text-sm">{{ errors.first('password') }}</span>
     <br>
-    <b-btn variant="outline-info" @click="login()" size="lg">Đăng Nhập</b-btn>
+    <div class="d-block text-center">
+      <b-btn variant="info" @click="login()" size="lg">Login</b-btn>
+    </div>
     <Loading :active.sync="isLoading"
              :can-cancel="true"
              :on-cancel="onCancel"
@@ -39,11 +41,15 @@
 </template>
 
 <style type="text/css" scoped>
+  button:hover {
+    transform: scale(1.5);
+    border: 3px solid #f1f1f1;
+  }
   .login-form {
     padding: 5px;
     position: fixed; top: 35%; left: 38%;
     width: 25%;
-    height: 30%;
+    height: 29%;
     border-radius: 20px;
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
