@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form-select v-model="facultySelect" :options="options"></b-form-select>
+    <b-form-select :options="options" v-model="selected"></b-form-select>
     <b-btn class="mt-3" variant="outline-success" @click="addUserToFaculty()">Add Faculty</b-btn>
     <b-btn class="mt-3 ml-3" variant="outline-danger" @click="closeThis()">Close</b-btn>
   </div>
@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      facultySelect: null,
+      selected: null,
       options: []
     }
   },

@@ -165,7 +165,7 @@ export default {
         closure_config_id: this.facultyConfigClosure,
       }
 
-      if (this.idFaculty !== null) {
+      if (this.facultyId !== null) {
         dataSend = {
           'id': this.facultyId,
           'name': this.facultyNameAdd,
