@@ -94,17 +94,17 @@
             :current-page="currentPageUpload"
           >
             <template v-slot:cell(manage)="row">
-              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-danger" @click="disabledFile(row.item.file_id)">
+              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="danger" @click="disabledFile(row.item.file_id)">
                 Set Disabled
               </b-btn>
             </template>
             <template v-slot:cell(file_path)="row">
-              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-success" @click="downloadFile(row.item.file_id)">
+              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="success" @click="downloadFile(row.item.file_id)">
                 Download
               </b-btn>
             </template>
             <template v-slot:cell(comment)="row">
-              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-info" @click="comment(row.item)">
+              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="info" @click="comment(row.item)">
                 Comment
               </b-btn>
             </template>
@@ -149,7 +149,7 @@
             :current-page="currentPageActiveSubmission"
           >
             <template v-slot:cell(manage)="row">
-              <b-btn class="mr-3" variant="outline-primary" @click="uploadAssignment(row.item.faculty_id)">
+              <b-btn class="mr-3" variant="primary" @click="uploadAssignment(row.item.faculty_id)">
                 Upload
               </b-btn>
             </template>
@@ -205,7 +205,8 @@
   </div>
 </template>
 
-<style></style>
+<style type="scss" scoped>
+</style>
 <script>
 
 

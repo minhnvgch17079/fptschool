@@ -28,7 +28,8 @@
   </div>
 </template>
 
-<style></style>
+<style type="text/css" scoped>
+</style>
 <script>
 
 import Service from '@/domain/services/api'
