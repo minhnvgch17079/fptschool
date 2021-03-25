@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * Class UserController
- * 
+ *
  * @package App\Http\Controllers
  * @property User User
  * @property FileUpload FileUpload
@@ -137,7 +137,7 @@ class UserController extends Controller
             if (!validateDate($dateBirth, 'Y-m-d')) responseToClient('Invalid date of birth');
         }
 
-        $infoUpdate = session()->get('info_user');
+        $infoUpdate = AuthComponent::user();
         $idAction   = $infoUpdate['id'];
         $idUpdate   = $infoUpdate['id'];
 
@@ -162,7 +162,7 @@ class UserController extends Controller
     }
 
     public function getInfoUser () {
-        $infoUser = session()->get('info_user');
+        $infoUser = AuthComponent::user();
         $username = $infoUser['username'];
 
         $this->User = getInstance('User');
@@ -176,7 +176,7 @@ class UserController extends Controller
         $oldPassword = $this->request->post('old_pass') ?? null;
         $newPass     = $this->request->post('new_pass') ?? null;
         $rePass      = $this->request->post('re_pass')  ?? null;
-        $infoUser    = session()->get('info_user');
+        $infoUser    = AuthComponent::user();
 
         if ($newPass != $rePass)  responseToClient('Password and confirm not match');
         if (strlen($newPass) < 7) responseToClient('Password must more than 6 characters');

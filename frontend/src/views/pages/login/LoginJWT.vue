@@ -30,22 +30,32 @@
     <span class="text-danger text-sm">{{ errors.first('password') }}</span>
     <br>
     <b-btn style="background-color: white; color: black" @click="login()" size="lg">Đăng Nhập</b-btn>
+    <Loading :active.sync="isLoading"
+             :can-cancel="true"
+             :on-cancel="onCancel"
+             :is-full-page="fullPage"></Loading>
+
   </div>
 </template>
 
 <script>
 import Service from "@/domain/services/api"
 import commonHelper from "@/infrastructures/common-helpers"
-
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
-  components: {},
+  components: {Loading},
   comments: {
-    Service
+    Service,
+    Loading
   },
   data() {
     return {
       username: '',
-      password: ''
+      password: '',
+      isLoading: false,
+      fullPage: true
     }
   },
   computed: {
@@ -70,7 +80,11 @@ export default {
         commonHelper.showMessage('There something error', 'warning')
       })
     },
+    onCancel() {
+      console.log('User cancelled the loader.')
+    },
     login() {
+      this.isLoading = true;
       let dataSend = {
         username: this.username,
         password: this.password
@@ -87,6 +101,8 @@ export default {
         commonHelper.showMessage(res.data.message || 'There something error', 'warning')
       }).catch(() => {
         commonHelper.showMessage('There something error', 'warning')
+      }).finally(() => {
+        this.isLoading = false;
       })
     }
   }
