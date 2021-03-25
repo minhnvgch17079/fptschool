@@ -42,9 +42,13 @@ export default {
           })
           this.options = Object.values(res.data.data).map(e => {
             return {
-              value: e.id,
+              value: e.faculty_id,
               text: e.faculty_name
             }
+          })
+          this.options.push({
+            value: null,
+            text: 'Please select faculty'
           })
           return commonHelper.showMessage(res.data.message, 'success')
         }
@@ -54,8 +58,7 @@ export default {
       })
     },
     addUserToFaculty () {
-      console.log(this.facultySelect)
-      Service.addUserToFaculty({user_id: this.userId, faculty_id: this.facultySelect}).then(res => {
+      Service.addUserToFaculty({user_id: this.userId, faculty_id: this.selected}).then(res => {
         if (res.data.success) {
           this.$bvModal.hide('AddFaculty')
           return commonHelper.showMessage(res.data.message, 'success')
