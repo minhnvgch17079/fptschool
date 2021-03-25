@@ -1,5 +1,6 @@
 <template>
-  <div class="container-fluid">
+  <div>
+    <img style="position:fixed;  filter: blur(5px);" src="@/assets/images/logo/backgroupLogin.jpg" alt="login" class="mx-auto">
     <notifications group="default" />
     <b-row>
       <b-col md="4">
@@ -175,33 +176,31 @@
       </b-col>
     </b-row>
 
-    <b-row>
-      <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
-        <ProfileEdit/>
-      </b-modal>
+    <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
+      <ProfileEdit/>
+    </b-modal>
 
-      <b-modal id="changePass" title="Change pass" size="md" :hide-footer="true">
-        <change-pass/>
-      </b-modal>
+    <b-modal id="changePass" title="Change pass" size="md" :hide-footer="true">
+      <change-pass/>
+    </b-modal>
 
-      <b-modal id="submission" title="Submission (Only docx, pdf accepted)" size="md" :hide-footer="true">
-        <upload-file
-          @getListSubmission="getListSubmission"
-          :id-faculty="idFaculty"
-        />
-      </b-modal>
-
-      <b-modal id="comment" title="Comment" size="lg" :hide-footer="true">
-        <Comment
-          :file-upload-info="infoFileUpload"
-        />
-      </b-modal>
-
-      <upload-avatar
-        :show="isUploadAvatar"
-        @uploadAvatarSuccess="uploadAvatarSuccess"
+    <b-modal id="submission" title="Submission (Only docx, pdf accepted)" size="md" :hide-footer="true">
+      <upload-file
+        @getListSubmission="getListSubmission"
+        :id-faculty="idFaculty"
       />
-    </b-row>
+    </b-modal>
+
+    <b-modal id="comment" title="Comment" size="lg" :hide-footer="true">
+      <Comment
+        :file-upload-info="infoFileUpload"
+      />
+    </b-modal>
+
+    <upload-avatar
+      :show="isUploadAvatar"
+      @uploadAvatarSuccess="uploadAvatarSuccess"
+    />
 
   </div>
 </template>
