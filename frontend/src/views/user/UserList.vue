@@ -53,6 +53,7 @@
         :filter="filter"
         class="ml-5 mr-5"
         hover
+        responsive
         striped
         :fields="fieldsDataUsers"
         :items="dataUsers"
@@ -62,6 +63,9 @@
         <template v-slot:cell(is_active)="row">
           <b-badge variant="success" v-if="row.item.is_active === 1">ACTIVE</b-badge>
           <b-badge variant="danger" v-if="row.item.is_active !== 1">DISABLED</b-badge>
+        </template>
+        <template v-slot:cell(setFaculty)="row">
+          <b-btn variant="outline-primary" size="sm" @click="addFaculty(row.item)">Set Faculty</b-btn>
         </template>
         <template v-slot:cell(manage)="row">
           <b-btn class="mr-3" variant="outline-warning">
@@ -90,6 +94,12 @@
         </b-pagination>
       </div>
     </b-row>
+
+    <b-modal id="AddFaculty" title="Add Faculty" size="md" :hide-footer="true" centered>
+      <faculty-select
+        :user-id="userIdAddFaculty"
+      />
+    </b-modal>
   </div>
 
 </template>
@@ -99,9 +109,11 @@ import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
 import Multiselect from 'vue-multiselect'
 import Service from "@/domain/services/api"
 import commonHelper from "@/infrastructures/common-helpers"
+import FacultySelect from "@/views/components/component/FacultySelect";
 export default {
   components: {
-    Multiselect
+    Multiselect,
+    FacultySelect
   },
   data() {
     return {
@@ -110,6 +122,7 @@ export default {
       fieldsDataUsers: [
         {key: 'id', label: 'Id', sortable: true},
         {key: 'username', label: 'Username', sortable: true},
+        {key: 'setFaculty', label: 'Set Faculty', sortable: true},
         {key: 'is_active', label: 'Status', sortable: true},
         {key: 'full_name', label: 'Full name', sortable: true},
         {key: 'group_id', label: 'Role', sortable: true},
@@ -141,7 +154,8 @@ export default {
         { value: 4, text: 'Marketing Manager' },
         { value: 5, text: 'Guest' },
       ],
-      roleAdd: null
+      roleAdd: null,
+      userIdAddFaculty: null
     }
   },
   watch: {
@@ -153,6 +167,10 @@ export default {
 
   },
   methods: {
+    addFaculty (dataUser) {
+      this.userIdAddFaculty = dataUser.id
+      this.$bvModal.show('AddFaculty')
+    },
     getUser () {
       let data = {
         username: this.usernameSearch,

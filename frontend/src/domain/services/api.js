@@ -61,6 +61,9 @@ export default {
   getReportError (data) {
     return http.get('admin/getAllError', {'params': data})
   },
+  addUserToFaculty (data) {
+    return http.get('admin/addUserToFaculty', {'params': data})
+  },
   commentSubFile (data) {
     return http.post('comment/fileSubmissionComment', data)
   },
