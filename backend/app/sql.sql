@@ -154,3 +154,8 @@ create table comments (
 alter table comments add column username_created varchar(255);
 alter table logs add column status bool default 1;
 alter table users add column image varchar(255) default null;
+create table coordinator_faculty (
+                                     id int primary key auto_increment,
+                                     user_id int not null,
+                                     faculty_id int not null
+);
