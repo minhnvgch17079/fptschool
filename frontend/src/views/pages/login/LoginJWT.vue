@@ -1,6 +1,6 @@
 <template>
-  <div style="position: fixed; top: 35%; left: 45%">
-    <h1 style="color: white">Login</h1>
+  <div class="login-form">
+    <h1 style="color: white" class="text-center">Login</h1>
     <notifications group="default" />
     <vs-input
         v-validate="'required|min:3'"
@@ -13,7 +13,7 @@
         placeholder="username"
         color="#28a745"
         class="w-full"/>
-    <span class="text-danger text-sm">{{ errors.first('username') }}</span>
+    <span class="text-info text-sm">{{ errors.first('username') }}</span>
 
     <vs-input
         data-vv-validate-on="blur"
@@ -27,9 +27,9 @@
         placeholder="password"
         color="#28a745"
         class="w-full mt-6" />
-    <span class="text-danger text-sm">{{ errors.first('password') }}</span>
+    <span class="text-info text-sm">{{ errors.first('password') }}</span>
     <br>
-    <b-btn style="background-color: white; color: black" @click="login()" size="lg">Đăng Nhập</b-btn>
+    <b-btn variant="outline-info" @click="login()" size="lg">Đăng Nhập</b-btn>
     <Loading :active.sync="isLoading"
              :can-cancel="true"
              :on-cancel="onCancel"
@@ -37,6 +37,20 @@
 
   </div>
 </template>
+
+<style type="text/css" scoped>
+  .login-form {
+    padding: 5px;
+    position: fixed; top: 35%; left: 38%;
+    width: 25%;
+    height: 30%;
+    border-radius: 20px;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+    border: 3px solid #f1f1f1;
+    font-weight: bold;
+  }
+</style>
 
 <script>
 import Service from "@/domain/services/api"
