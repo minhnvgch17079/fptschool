@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Components\AuthComponent;
 use App\Http\Middleware\Authentication;
 use App\Http\Services\UploadFile;
+use App\Models\FileUpload;
 use App\Models\User;
 use App\Models\Group;
 use http\Url;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Storage;
  * Class UserController
  * @package App\Http\Controllers
  * @property User User
+ * @property FileUpload FileUpload
  */
 
 
@@ -233,6 +235,28 @@ class UserController extends Controller
 
         if ($result) responseToClient('Upload avatar success', true);
         responseToClient('Upload avatar failed, please try again');
+    }
+
+    public function getAvatar () {
+        $image = AuthComponent::user('image') ?? null;
+
+        if (empty($image)) responseToClient('Please upload your image');
+
+        $this->FileUpload = getInstance('FileUpload');
+
+        $dataImage = $this->FileUpload->getFileInfoById($image, null);
+
+        if (empty($dataImage)) responseToClient('Please upload your image');
+
+        $url = public_path(). "/files/" .$dataImage['file_path'];
+
+        try {
+            $img = file_get_contents($url);
+            return response($img)->header('Content-type','image/png');
+        } catch (\Exception $exception) {
+            logErr($exception->getMessage());
+        }
+        responseToClient('Cannot get avatar');
     }
 }
 

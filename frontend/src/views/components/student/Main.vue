@@ -19,7 +19,7 @@
           >
             <b-row>
               <b-col>
-                <img style="width: 50px; height: 50px; border-radius: 50%" :src="imgDataUrl">
+                <img style="width: 50px; height: 50px; border-radius: 50%" :src="'/user/getAvatar'">
                 <b-card-text>
                   Full name: {{infoStudent.full_name}}
                 </b-card-text>
@@ -338,7 +338,7 @@ export default {
     uploadAvatarSuccess (urlImg) {
       this.imgDataUrl = urlImg
       commonHelper.showMessage('Upload avatar success', 'success')
-    }
+    },
   },
   watch: {
   }

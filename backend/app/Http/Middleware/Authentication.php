@@ -19,6 +19,7 @@ class Authentication
         'user/changePassword',
         'user/updateProfile',
         'user/updateAvatar',
+        'user/getAvatar',
         'comment/fileSubmissionComment',
         'comment/fileSubmissionGetComment'
     ];
