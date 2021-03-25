@@ -1,180 +1,122 @@
 <template>
   <div>
-    <img style="position:fixed;  filter: blur(5px);" src="@/assets/images/logo/backgroupLogin.jpg" alt="login" class="mx-auto">
     <notifications group="default" />
-    <b-row>
-      <b-col md="4">
-        <b-row>
-          <div class="ml-5 mr-5">
-            <h3><b-badge variant="info">Information</b-badge></h3>
-          </div>
-        </b-row>
+    <div style="background: linear-gradient(-30deg, #56ab2f, #5b86e5); position: fixed; z-index: 10; width: 100%">
+      <!-- As a heading -->
+      <b-row style="height: 70px">
+        <b-col md="10" class="mt-5 ml-5">
+          <logo style="width: 30px; height: 30px"></logo>
+        </b-col>
+        <b-col>
+          <b-collapse id="collapse-1" class="mt-2">
+            <b-btn class="mr-3 mb-1" style="width: 150px" variant="warning" v-b-modal.profileEdit>Profile</b-btn>
+            <b-btn class="mr-3 mb-1" style="width: 150px" variant="success" @click="uploadAvatar()">
+              Upload Avatar
+            </b-btn>
+            <b-btn style="width: 150px" class="mr-3 mb-1" variant="primary" v-b-modal.changePass>
+              Change Password
+            </b-btn>
+            <b-btn style="width: 150px" class="mr-1" variant="secondary" @click="logout()">Logout</b-btn>
+          </b-collapse>
+        </b-col>
+        <b-col class="mt-3">
+          <img v-b-toggle.collapse-1 style="width: 50px; height: 50px; border-radius: 50%" :src="'/user/getAvatar'">
+        </b-col>
+      </b-row>
+    </div>
+    <br>
+    <img style="position:fixed;  filter: blur(5px);" src="@/assets/images/logo/backgroupLogin.jpg" alt="login" class="mx-auto">
+    <br>
+    <br>
+    <br>
 
-        <b-row class="ml-1">
-          <b-card
-            img-src="https://picsum.photos/600/300/?image=25"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 100%;"
-          >
-            <b-row>
-              <b-col>
-                <img style="width: 50px; height: 50px; border-radius: 50%" :src="'/user/getAvatar'">
-                <b-card-text>
-                  Full name: {{infoStudent.full_name}}
-                </b-card-text>
-                <b-card-text>
-                  Username: {{infoStudent.username}}
-                </b-card-text>
-                <b-card-text>
-                  Phone: {{infoStudent.phone_number}}
-                </b-card-text>
-                <b-card-text>
-                  Email: {{infoStudent.email}}
-                </b-card-text>
-                <b-card-text>
-                  Time join: {{infoStudent.created}}
-                </b-card-text>
-                <b-card-text>
-                  Birthday: {{infoStudent.DATE_of_birth}}
-                </b-card-text>
-              </b-col>
-              <b-col>
-                <b-card-text>
-                  Total file uploaded: 100
-                </b-card-text>
-                <b-card-text>
-                  other info
-                </b-card-text>
-                <b-card-text>
-                  other info
-                </b-card-text>
-                <b-card-text>
-                  other info
-                </b-card-text>
-                <b-card-text>
-                  other info
-                </b-card-text>
-              </b-col>
-            </b-row>
-
-            <br>
-            <div class="ml-3">
-              <b-btn class="mr-3" variant="outline-secondary" @click="logout()">Logout</b-btn>
-              <b-btn class="mr-3" variant="outline-warning" v-b-modal.profileEdit>Profile</b-btn>
-              <b-btn class="mr-3" variant="outline-primary" v-b-modal.changePass>
-                Change Password
-              </b-btn>
-              <b-btn class="mr-3" variant="outline-success" @click="uploadAvatar()">
-                Upload Avatar
-              </b-btn>
-            </div>
-          </b-card>
-        </b-row>
-      </b-col>
-
-
-      <b-col md="8">
-        <b-row>
-          <div class="ml-5 mr-5">
-            <h3><b-badge variant="info">List Faculty File Uploaded</b-badge></h3>
-          </div>
-        </b-row>
-
-        <b-row>
-          <b-table
-            responsive
-            class="ml-5 mr-5"
-            hover
-            striped
-            :fields="fieldUpload"
-            :items="dataUpload"
-            :per-page="perPageUpload"
-            :current-page="currentPageUpload"
-          >
-            <template v-slot:cell(manage)="row">
-              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="danger" @click="disabledFile(row.item.file_id)">
-                Set Disabled
-              </b-btn>
-            </template>
-            <template v-slot:cell(file_path)="row">
-              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="success" @click="downloadFile(row.item.file_id)">
-                Download
-              </b-btn>
-            </template>
-            <template v-slot:cell(comment)="row">
-              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="info" @click="comment(row.item)">
-                Comment
-              </b-btn>
-            </template>
-            <template v-slot:cell(teacher_status)="row">
-              <b-badge variant="info">{{row.item.teacher_status}}</b-badge>
-            </template>
-          </b-table>
-        </b-row>
-
-        <b-row>
-          <div class="d-flex justify-content-center w-100">
-            <b-pagination
-              align="center"
-              v-model="currentPageUpload"
-              :total-rows="rowsDataUpload"
+    <b-col>
+      <b-tabs card>
+        <b-tab title="List Submission Uploaded" active>
+          <b-row>
+            <b-table
+              thead-class="green-bg bg-info text-white"
+              class="ml-5 mr-5"
+              hover
+              :fields="fieldUpload"
+              :items="dataUpload"
               :per-page="perPageUpload"
-              aria-controls="my-table"
+              :current-page="currentPageUpload"
             >
-              <template #first-text><span class="text-success">First</span></template>
-              <template #prev-text><span class="text-danger">Prev</span></template>
-              <template #next-text><span class="text-warning">Next</span></template>
-              <template #last-text><span class="text-info">Last</span></template>
-            </b-pagination>
-          </div>
-        </b-row>
-
-
-        <b-row>
-          <div class="ml-5 mr-5">
-            <h3><b-badge variant="info">List Faculty Active For Upload</b-badge></h3>
-          </div>
-        </b-row>
-        <b-row>
-          <b-table
-            responsive
-            class="ml-5 mr-5"
-            hover
-            striped
-            :fields="fieldActiveSubmission"
-            :items="dataActiveSubmission"
-            :per-page="perPageActiveSubmission"
-            :current-page="currentPageActiveSubmission"
-          >
-            <template v-slot:cell(manage)="row">
-              <b-btn class="mr-3" variant="primary" @click="uploadAssignment(row.item.faculty_id)">
-                Upload
-              </b-btn>
-            </template>
-          </b-table>
-        </b-row>
-
-        <b-row>
-          <div class="d-flex justify-content-center w-100">
-            <b-pagination
-              align="center"
-              v-model="currentPageActiveSubmission"
-              :total-rows="rowsActiveSubmission"
+              <template v-slot:cell(manage)="row">
+                <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="danger" @click="disabledFile(row.item.file_id)">
+                  Set Disabled
+                </b-btn>
+              </template>
+              <template v-slot:cell(file_path)="row">
+                <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="success" @click="downloadFile(row.item.file_id)">
+                  Download
+                </b-btn>
+              </template>
+              <template v-slot:cell(comment)="row">
+                <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="info" @click="comment(row.item)">
+                  Comment
+                </b-btn>
+              </template>
+              <template v-slot:cell(teacher_status)="row">
+                <b-badge variant="info">{{row.item.teacher_status}}</b-badge>
+              </template>
+            </b-table>
+          </b-row>
+          <b-row>
+            <div class="d-flex justify-content-center w-100">
+              <b-pagination
+                align="center"
+                v-model="currentPageUpload"
+                :total-rows="rowsDataUpload"
+                :per-page="perPageUpload"
+                aria-controls="my-table"
+              >
+                <template #first-text><span class="text-success">First</span></template>
+                <template #prev-text><span class="text-danger">Prev</span></template>
+                <template #next-text><span class="text-warning">Next</span></template>
+                <template #last-text><span class="text-info">Last</span></template>
+              </b-pagination>
+            </div>
+          </b-row>
+        </b-tab>
+        <b-tab title="List Faculty Assign">
+          <b-row>
+            <b-table
+              thead-class="green-bg bg-info text-white"
+              class="ml-5 mr-5"
+              hover
+              :fields="fieldActiveSubmission"
+              :items="dataActiveSubmission"
               :per-page="perPageActiveSubmission"
-              aria-controls="my-table"
+              :current-page="currentPageActiveSubmission"
             >
-              <template #first-text><span class="text-success">First</span></template>
-              <template #prev-text><span class="text-danger">Prev</span></template>
-              <template #next-text><span class="text-warning">Next</span></template>
-              <template #last-text><span class="text-info">Last</span></template>
-            </b-pagination>
-          </div>
-        </b-row>
-
-      </b-col>
-    </b-row>
+              <template v-slot:cell(manage)="row">
+                <b-btn class="mr-3" variant="info" @click="uploadAssignment(row.item.faculty_id)">
+                  Upload
+                </b-btn>
+              </template>
+            </b-table>
+          </b-row>
+          <b-row>
+            <div class="d-flex justify-content-center w-100">
+              <b-pagination
+                align="center"
+                v-model="currentPageActiveSubmission"
+                :total-rows="rowsActiveSubmission"
+                :per-page="perPageActiveSubmission"
+                aria-controls="my-table"
+              >
+                <template #first-text><span class="text-success">First</span></template>
+                <template #prev-text><span class="text-danger">Prev</span></template>
+                <template #next-text><span class="text-warning">Next</span></template>
+                <template #last-text><span class="text-info">Last</span></template>
+              </b-pagination>
+            </div>
+          </b-row>
+        </b-tab>
+      </b-tabs>
+    </b-col>
 
     <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
       <ProfileEdit/>
@@ -206,6 +148,10 @@
 </template>
 
 <style type="scss" scoped>
+  button:hover {
+    transform: scale(1.2);
+    transform: rotate(10deg);
+  }
 </style>
 <script>
 
@@ -219,6 +165,7 @@ import Submission from "@/views/components/student/Submission";
 import UploadFile from "@/views/components/student/Submission";
 import Comment from "@/views/components/student/Comment"
 import WebViewer from "@/views/file/WebViewer";
+import Logo from "@/layouts/components/Logo";
 export default {
   data() {
     return {
@@ -259,6 +206,7 @@ export default {
     }
   },
   components: {
+    Logo,
     WebViewer,
     UploadFile,
     ChangePass,
