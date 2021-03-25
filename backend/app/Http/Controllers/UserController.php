@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 
 /**
  * Class UserController
+ * 
  * @package App\Http\Controllers
  * @property User User
  * @property FileUpload FileUpload
