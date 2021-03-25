@@ -29,9 +29,10 @@
     <br>
     <br>
     <br>
+    <br>
 
     <b-col>
-      <b-tabs card>
+      <b-tabs card class="form-tab">
         <b-tab title="List Submission Uploaded" active>
           <b-row>
             <b-table
@@ -117,6 +118,12 @@
         </b-tab>
       </b-tabs>
     </b-col>
+    <br>
+    <b-col>
+      <div class="center">
+        <p>© Copyright 2021 By Group 5. All rights reserved.</p>
+      </div>
+    </b-col>
 
     <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
       <ProfileEdit/>
@@ -151,6 +158,27 @@
   button:hover {
     transform: scale(1.2);
     transform: rotate(10deg);
+  }
+  .form-tab {
+    padding: 5px;
+    width: 100%;
+    height: 29%;
+    border-radius: 20px;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+    border: 3px solid #f1f1f1;
+    font-weight: bold;
+  }
+
+  .center {
+    margin: 5px auto;
+    width: 20%;
+    padding: 10px;
+    color: black;
+    border-radius: 20px;
+    background: #00a4e4;
+    opacity: 50%;
+    box-shadow: 1px 1px 1px black;
   }
 </style>
 <script>
