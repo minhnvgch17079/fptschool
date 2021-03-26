@@ -38,12 +38,15 @@
         <b-tab title="" active>
           <template #title>
             <i>List Submission Uploaded</i>
+            <b-input v-model="filterSub" placeholder="Filter..."></b-input>
+
           </template>
           <b-row>
             <b-table
               thead-class="green-bg bg-info text-white"
               class="ml-5 mr-5"
               hover
+              :filter="filterSub"
               :fields="fieldUpload"
               :items="dataUpload"
               :per-page="perPageUpload"
@@ -89,12 +92,14 @@
         <b-tab title="List Faculty Assign">
           <template #title>
             <i>List Faculty Assign</i>
+            <b-input v-model="filterUpload" placeholder="Filter..."></b-input>
           </template>
           <b-row>
             <b-table
               thead-class="green-bg bg-info text-white"
               class="ml-5 mr-5"
               hover
+              :filter="filterUpload"
               :fields="fieldActiveSubmission"
               :items="dataActiveSubmission"
               :per-page="perPageActiveSubmission"
@@ -129,7 +134,7 @@
     <br>
     <b-col>
       <div class="center">
-        <p><b-badge variant="info">© Copyright 2021 By Group 5. All rights reserved.</b-badge></p>
+        <h4><b-badge variant="info">© Copyright 2021 By Group 5. All rights reserved.</b-badge></h4>
       </div>
     </b-col>
 
@@ -164,7 +169,6 @@
 
 <style type="scss" scoped>
   button:hover {
-    transform: scale(1.2);
     transform: rotate(10deg);
   }
   .form-tab {
@@ -213,6 +217,7 @@ export default {
         {key: 'manage', label: 'Action', sortable: true},
       ],
       perPageActiveSubmission: 10,
+      filterSub: null,
       currentPageActiveSubmission: 1,
       rowsActiveSubmission: 0,
       idFaculty: null,
@@ -227,6 +232,7 @@ export default {
         {key: 'created', label: 'Upload At', sortable: true},
         {key: 'manage', label: 'Action', sortable: true}
       ],
+      filterUpload: null,
       perPageUpload: 10,
       currentPageUpload: 1,
       rowsDataUpload: 0,
