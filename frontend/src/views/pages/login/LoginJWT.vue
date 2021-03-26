@@ -42,7 +42,7 @@
 
 <style type="text/css" scoped>
   button:hover {
-    transform: scale(1.5);
+    transform: scale(1.2) rotate(10deg);
     border: 3px solid #f1f1f1;
   }
   .login-form {

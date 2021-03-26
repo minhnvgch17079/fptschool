@@ -32,8 +32,13 @@
     <br>
 
     <b-col>
-      <b-tabs card class="form-tab">
-        <b-tab title="List Submission Uploaded" active>
+      <b-tabs
+        active-nav-item-class="font-weight-bold text-uppercase text-white"
+        pills card vertical class="form-tab">
+        <b-tab title="" active>
+          <template #title>
+            <i>List Submission Uploaded</i>
+          </template>
           <b-row>
             <b-table
               thead-class="green-bg bg-info text-white"
@@ -82,6 +87,9 @@
           </b-row>
         </b-tab>
         <b-tab title="List Faculty Assign">
+          <template #title>
+            <i>List Faculty Assign</i>
+          </template>
           <b-row>
             <b-table
               thead-class="green-bg bg-info text-white"
@@ -121,7 +129,7 @@
     <br>
     <b-col>
       <div class="center">
-        <p>© Copyright 2021 By Group 5. All rights reserved.</p>
+        <p><b-badge variant="info">© Copyright 2021 By Group 5. All rights reserved.</b-badge></p>
       </div>
     </b-col>
 
@@ -165,20 +173,17 @@
     height: 29%;
     border-radius: 20px;
     background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+    background-color: rgba(0,0,0, 0.2); /* Black w/opacity/see-through */
     border: 3px solid #f1f1f1;
     font-weight: bold;
   }
 
   .center {
     margin: 5px auto;
-    width: 20%;
+    font-weight: bold;
+    width: 17%;
     padding: 10px;
-    color: black;
-    border-radius: 20px;
-    background: #00a4e4;
-    opacity: 50%;
-    box-shadow: 1px 1px 1px black;
+    color: white;
   }
 </style>
 <script>
@@ -207,7 +212,7 @@ export default {
         {key: 'final_closure_DATE', label: 'End Date Submission', sortable: true},
         {key: 'manage', label: 'Action', sortable: true},
       ],
-      perPageActiveSubmission: 5,
+      perPageActiveSubmission: 10,
       currentPageActiveSubmission: 1,
       rowsActiveSubmission: 0,
       idFaculty: null,
@@ -222,7 +227,7 @@ export default {
         {key: 'created', label: 'Upload At', sortable: true},
         {key: 'manage', label: 'Action', sortable: true}
       ],
-      perPageUpload: 5,
+      perPageUpload: 10,
       currentPageUpload: 1,
       rowsDataUpload: 0,
 
