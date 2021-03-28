@@ -24,112 +24,24 @@
         </b-col>
       </b-row>
     </div>
-
-    <br>
-    <img style="position:fixed;  filter: blur(5px);" src="@/assets/images/logo/backgroupLogin.jpg" alt="login" class="mx-auto">
-    <br>
-    <br>
-    <br>
-    <br>
-
-    <b-col>
-      <b-table
-        responsive
-        class="ml-5 mr-5"
-        hover
-        striped
-        :fields="fieldActiveSubmission"
-        :items="dataActiveSubmission"
-        :per-page="perPageActiveSubmission"
-        :current-page="currentPageActiveSubmission"
-      >
-        <template v-slot:cell(manage)="row">
-          <b-btn class="mr-3" variant="outline-primary" @click="getSubmission(row.item.faculty_id)">
-            Get Submission
-          </b-btn>
-        </template>
-      </b-table>
-    </b-col>
-    <b-col>
-      <div class="d-flex justify-content-center w-100">
-        <b-pagination
-          align="center"
-          v-model="currentPageActiveSubmission"
-          :total-rows="rowsActiveSubmission"
-          :per-page="perPageActiveSubmission"
-          aria-controls="my-table"
-        >
-          <template #first-text><span class="text-success">First</span></template>
-          <template #prev-text><span class="text-danger">Prev</span></template>
-          <template #next-text><span class="text-warning">Next</span></template>
-          <template #last-text><span class="text-info">Last</span></template>
-        </b-pagination>
-      </div>
-    </b-col>
-
-    <b-col>
-      <b-table
-        responsive
-        class="ml-5 mr-5"
-        hover
-        striped
-        :fields="fieldUpload"
-        :items="dataUpload"
-        :per-page="perPageUpload"
-        :current-page="currentPageUpload"
-      >
-        <template v-slot:cell(manage)="row">
-          <b-btn variant="outline-primary" @click="editPdf(row.item)">Edit Pdf</b-btn>
-        </template>
-        <template v-slot:cell(file_path)="row">
-          <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-success" @click="downloadFile(row.item.file_id)">
-            Download
-          </b-btn>
-        </template>
-        <template v-slot:cell(comment)="row">
-          <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-info" @click="comment(row.item)">
-            Comment
-          </b-btn>
-        </template>
-        <template v-slot:cell(teacher_status)="row">
-          <b-badge variant="info">{{row.item.teacher_status}}</b-badge>
-        </template>
-      </b-table>
-    </b-col>
-    <b-col>
-      <div class="d-flex justify-content-center w-100">
-        <b-pagination
-          align="center"
-          v-model="currentPageUpload"
-          :total-rows="rowsDataUpload"
-          :per-page="perPageUpload"
-          aria-controls="my-table"
-        >
-          <template #first-text><span class="text-success">First</span></template>
-          <template #prev-text><span class="text-danger">Prev</span></template>
-          <template #next-text><span class="text-warning">Next</span></template>
-          <template #last-text><span class="text-info">Last</span></template>
-        </b-pagination>
-      </div>
-    </b-col>
-
-
-    <b-modal id="editPdf" title="Edit Pdf" size="lg" :hide-footer="true">
-      <WebViewer :path="`${publicPath}lib`" :url="getUrlPdf()"/>
-    </b-modal>
-
+    <br><br><hr>
+    <div style="background: linear-gradient(-30deg, #56ab2f, #5b86e5); width: 100%">
+      <b-row>
+        <b-col>
+          <b-badge variant="info" class="d-block"><h3>Total submission {{this.totalFacultySubmission}}</h3></b-badge>
+          <br>
+          <b-col>
+            <ECharts :options="faculty"/>
+          </b-col>
+        </b-col>
+      </b-row>
+    </div>
     <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
       <ProfileEdit/>
     </b-modal>
 
     <b-modal id="changePass" title="Change pass" size="md" :hide-footer="true">
       <change-pass/>
-    </b-modal>
-
-    <b-modal id="comment" title="Comment" size="lg" :hide-footer="true">
-      <Comment
-        :file-upload-info="infoFileUpload"
-      />
     </b-modal>
 
     <upload-avatar
@@ -159,68 +71,93 @@ import Service from "@/domain/services/api";
 import commonHelper from '@/infrastructures/common-helpers'
 import ProfileEdit from "@/views/components/student/ProfileEdit";
 import ChangePass from "@/views/components/student/ChangePassword";
-import Submission from "@/views/components/student/Submission";
-import Comment from "@/views/components/student/Comment"
 import WebViewer from "@/views/file/WebViewer";
 import Logo from "@/layouts/components/Logo";
 import UploadAvatar from "@/views/components/student/UploadAvatar";
+import ECharts from 'vue-echarts/components/ECharts.vue'
+import 'echarts/lib/chart/pie'
+import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/legend'
 export default {
   data() {
     return {
       publicPath: process.env.BASE_URL,
-      dataActiveSubmission: [],
-      fieldActiveSubmission: [
-        {key: 'faculty_name', label: 'Faculty Name', sortable: true},
-        {key: 'closure_name', label: 'Closure name', sortable: true},
-        {key: 'faculty_description', label: 'Description Faculty', sortable: true},
-        {key: 'first_closure_DATE', label: 'Start Date Submission', sortable: true},
-        {key: 'final_closure_DATE', label: 'End Date Submission', sortable: true},
-        {key: 'manage', label: 'Action', sortable: true},
-      ],
-      perPageActiveSubmission: 5,
-      currentPageActiveSubmission: 1,
-      rowsActiveSubmission: 0,
       idFaculty: null,
-
-      dataUpload: [],
-      fieldUpload: [
-        {key: 'teacher_status', label: 'Teacher Status', sortable: true},
-        {key: 'faculty_name', label: 'Faculty Name', sortable: true},
-        {key: 'file_name', label: 'File name', sortable: true},
-        {key: 'comment', label: 'Comment', sortable: true},
-        {key: 'file_path', label: 'Link download', sortable: true},
-        {key: 'created', label: 'Upload At', sortable: true},
-        {key: 'manage', label: 'Action', sortable: true}
-      ],
-      perPageUpload: 5,
-      currentPageUpload: 1,
-      rowsDataUpload: 0,
-
       totalFacultyUpload: 0,
       infoStudent: null,
       infoFileUpload: null,
       idEditFile: null,
       isUploadAvatar: false,
-      imgDataUrl: null
+      imgDataUrl: null,
+      totalFacultySubmission: 0,
+      faculty: {
+        title: {
+          text: 'Faculty Report',
+          subtext: 'Faculty Report',
+          left: 'center'
+        },
+        color: [],
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left',
+        },
+        series: [
+          {
+            name: 'Faculty Report',
+            type: 'pie',
+            radius: '50%',
+            data: [],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
+      },
     }
   },
   components: {
+    ECharts,
     UploadAvatar,
     Logo,
     WebViewer,
     ChangePass,
     ProfileEdit,
-    Submission,
-    Comment
   },
   mounted() {
   },
   created() {
-    this.getListActive();
-    this.getListSubmission();
+    this.getReportFaculty()
     this.infoStudent = JSON.parse(localStorage.getItem('infoUser'))
   },
   methods: {
+    getReportFaculty () {
+      this.faculty.series[0].data = []
+      this.faculty.color = []
+      this.totalFacultySubmission = 0
+      Service.FacultyReport({closure_id: this.closureSelect}).then(res => {
+        if (res.data.success) {
+          for (let facultyName in res.data.data.detail) {
+            this.totalFacultySubmission += res.data.data.detail[facultyName]
+            this.faculty.color.push(commonHelper.randomColor())
+            this.faculty.series[0].data.push({
+              value: res.data.data.detail[facultyName],
+              name: facultyName
+            })
+          }
+          return commonHelper.showMessage(res.data.message, 'success');
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error, please try again', 'warning')
+      })
+    },
     uploadAvatarSuccess (urlImg) {
       this.imgDataUrl = urlImg
       commonHelper.showMessage('Upload avatar success', 'success')
@@ -231,68 +168,6 @@ export default {
         localStorage.removeItem("infoUser");
         window.location.href = '/adm/login'
       })
-    },
-    getListActive () {
-      this.dataActiveSubmission = []
-      Service.getListActive().then(res => {
-        if (res.data.success) {
-          this.dataActiveSubmission = res.data.data;
-          this.rowsActiveSubmission = res.data.data.length
-          return commonHelper.showMessage(res.data.message, 'success')
-        }
-        commonHelper.showMessage(res.data.message, 'warning')
-      }).catch(() => {
-        commonHelper.showMessage('There something error. Please try again', 'success')
-      })
-    },
-    getListSubmission () {
-      this.dataUpload = []
-      Service.getNumContriForFaculty().then(res => {
-        if (res.data.success) {
-          this.dataUpload = res.data.data
-          return commonHelper.showMessage(res.data.message, 'success')
-        }
-        commonHelper.showMessage(res.data.message, 'warning')
-      }).catch(() => {
-        commonHelper.showMessage('There something error. Please try again', 'success')
-      })
-    },
-    disabledFile (idFile) {
-      Service.disabledFile({id: idFile}).then(res => {
-        if (res.data.success) {
-          this.getListSubmission()
-          return commonHelper.showMessage(res.data.message, 'success')
-        }
-        commonHelper.showMessage(res.data.message, 'warning')
-      }).catch(() => {
-        commonHelper.showMessage('There something error. Please try again', 'success')
-
-      })
-    },
-    downloadFile (idFile) {
-      window.location.href = `/fileUpload/downloadFile?id=${idFile}`
-    },
-    comment (data) {
-      this.infoFileUpload = data
-      this.$bvModal.show('comment')
-    },
-    editPdf (data) {
-      this.idEditFile = data.file_id
-      this.$bvModal.show('editPdf')
-    },
-    getSubmission (facultyId) {
-      Service.getNumContriForFaculty({faculty_id: facultyId}).then(res => {
-        if (res.data.success) {
-          this.dataUpload = res.data.data
-          return commonHelper.showMessage(res.data.message, 'success')
-        }
-        commonHelper.showMessage(res.data.message, 'warning')
-      }).catch(() => {
-        commonHelper.showMessage('There something error. Please try again', 'success')
-      })
-    },
-    getUrlPdf () {
-      return 'http://fpt-school.com/fileUpload/readPdfFile?id=' + this.idEditFile
     }
   },
   watch: {
