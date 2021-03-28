@@ -68,9 +68,6 @@
           <b-btn variant="outline-primary" size="sm" @click="addFaculty(row.item)">Set Faculty</b-btn>
         </template>
         <template v-slot:cell(manage)="row">
-          <b-btn class="mr-3" variant="outline-warning">
-            <feather-icon icon="Edit3Icon" svgClasses="h-4 w-4"/>
-          </b-btn>
           <b-btn variant="outline-danger" @click="disabledAccount(row.item.id)">
             <feather-icon icon="TrashIcon" svgClasses="h-4 w-4"/>
           </b-btn>

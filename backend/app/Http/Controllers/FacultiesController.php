@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\ClosureConfigs;
 use App\Models\Faculty;
+use App\Models\FacultyUpload;
+
 /**
  * @property Faculty Faculty
  * @property ClosureConfigs ClosureConfigs
+ * @property FacultyUpload FacultyUpload
  */
 
 
@@ -87,6 +90,28 @@ class FacultiesController extends Controller {
 
         if (empty($result)) responseToClient('There no faculty active now');
         responseToClient('Get list faculty success', true, $result);
+    }
+
+    public function report () {
+        $this->Faculty       = getInstance('Faculty');
+        $this->FacultyUpload = getInstance('FacultyUpload');
+
+        $allFaculty    = $this->Faculty->getAll(null);
+        $dataReport    = null;
+
+        if (!empty($allFaculty)) {
+            $dataReport['total_faculty'] = count($allFaculty);
+
+            foreach ($allFaculty as $faculty) {
+                $numberSubmission = $this->FacultyUpload->countUpload($faculty['faculty_id']);
+                $dataReport['detail'][$faculty['faculty_name']] = $numberSubmission;
+            }
+
+        }
+
+        if (empty($dataReport)) responseToClient('No data report found');
+
+        responseToClient('Get report faculty success', true, $dataReport);
     }
 
 }

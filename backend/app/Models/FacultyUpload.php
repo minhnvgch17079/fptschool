@@ -58,4 +58,11 @@ class FacultyUpload extends BaseModel
 
         return (array)$data;
     }
+
+    public function countUpload ($facultyId) {
+        return $this->model->table($this->table)
+            ->where('faculty_id', $facultyId)
+            ->where('is_active', 1)
+            ->count('id');
+    }
 }
