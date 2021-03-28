@@ -1,7 +1,7 @@
 <template>
   <div>
     <notifications group="default" />
-    <div style="position: fixed; z-index: 10; width: 100%; box-shadow: 1px 1px black">
+    <div style="position: fixed; z-index: 10; width: 100%; box-shadow: 1px 1px black; background-color: white">
       <!-- As a heading -->
       <b-row class="ml-10 mr-10 mt-3">
         <b-col md="1" class="mb-1">
