@@ -21,7 +21,8 @@ class AuthByGroup {
             'fileUpload/readPdfFile',
             'student/getListSubmission',
             'faculty/getListActive',
-            'marketing-ma/getNumContriForFaculty'
+            'marketing-ma/getNumContriForFaculty',
+            'marketing-co/getSubmissionForFaculty'
         ],
         3 => [
             'student/uploadAssignment',
