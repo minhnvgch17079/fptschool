@@ -18,6 +18,10 @@ class AuthByGroup {
             'fileUpload/downloadFile',
             'fileUpload/disabledFile',
             'marketing-co/getListSubmission',
+            'fileUpload/readPdfFile',
+            'student/getListSubmission',
+            'faculty/getListActive',
+            'marketing-ma/getNumContriForFaculty'
         ],
         3 => [
             'student/uploadAssignment',
