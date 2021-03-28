@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <div><notifications group="default" /></div>
     <div style="background: linear-gradient(-30deg, #56ab2f, #5b86e5); position: fixed; z-index: 10; width: 100%">
       <!-- As a heading -->
@@ -26,7 +26,7 @@
     </div>
 
     <br>
-    <img style="position:fixed;  filter: blur(5px);" src="@/assets/images/logo/backgroupLogin.jpg" alt="login" class="mx-auto">
+    <img style="position:fixed;  filter: blur(50px);" src="@/assets/images/logo/backgroupLogin.jpg" alt="login" class="mx-auto">
     <br>
     <br>
     <br>
@@ -44,7 +44,7 @@
         :current-page="currentPageActiveSubmission"
       >
         <template v-slot:cell(manage)="row">
-          <b-btn class="mr-3" variant="outline-primary" @click="getSubmission(row.item.faculty_id)">
+          <b-btn class="mr-3" variant="primary" @click="getSubmission(row.item.faculty_id)">
             Get Submission
           </b-btn>
         </template>
@@ -66,7 +66,8 @@
         </b-pagination>
       </div>
     </b-col>
-
+    <br>
+    <br>
     <b-col>
       <b-table
         responsive
@@ -79,15 +80,15 @@
         :current-page="currentPageUpload"
       >
         <template v-slot:cell(manage)="row">
-          <b-btn variant="outline-primary" @click="editPdf(row.item)">Edit Pdf</b-btn>
+          <b-btn variant="primary" @click="editPdf(row.item)">View Pdf</b-btn>
         </template>
         <template v-slot:cell(file_path)="row">
-          <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-success" @click="downloadFile(row.item.file_id)">
+          <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="success" @click="downloadFile(row.item.file_id)">
             Download
           </b-btn>
         </template>
         <template v-slot:cell(comment)="row">
-          <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="outline-info" @click="comment(row.item)">
+          <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="info" @click="comment(row.item)">
             Comment
           </b-btn>
         </template>
@@ -112,7 +113,6 @@
         </b-pagination>
       </div>
     </b-col>
-
 
     <b-modal id="editPdf" title="Edit Pdf" size="lg" :hide-footer="true">
       <WebViewer :path="`${publicPath}lib`" :url="getUrlPdf()"/>
@@ -150,7 +150,6 @@
   /*width: 70vw;*/
     width: 100%;
   }
-
 </style>
 <script>
 
