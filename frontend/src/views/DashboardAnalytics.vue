@@ -20,13 +20,13 @@
     <hr style="background-color: black">
     <b-row>
       <b-col>
-        <b-badge variant="primary" class="d-block"><h3>Total Closure Config {{this.totalClosureConfig}}</h3></b-badge>
+        <b-badge variant="primary" class="d-block"><h3>Total Group User {{this.totalGroup}}</h3></b-badge>
         <br>
         <br>
-        <b-badge variant="info" class="d-block"><h3>Total submission {{this.totalFacultySubmission}}</h3></b-badge>
+        <b-badge variant="info" class="d-block"><h3>Total User Found {{this.totalUser}}</h3></b-badge>
         <br>
         <br>
-        <b-form-select :options="closure" v-model="closureSelect"></b-form-select>
+        <b-form-select :options="groupOption" v-model="groupSelect"></b-form-select>
         <br>
         <br>
         <b-btn variant="outline-primary" @click="changeFacultyColor">Change Color</b-btn>
@@ -35,6 +35,7 @@
         <ECharts :options="user"/>
       </b-col>
     </b-row>
+    <hr style="background-color: black">
 
     <b-row>
       <div class="center">
@@ -101,7 +102,6 @@ export default {
       closureSelect: null,
       totalFacultySubmission: 0,
       totalClosureConfig: 0,
-
       user: {
         title: {
           text: 'User Report',
@@ -132,6 +132,10 @@ export default {
           }
         ]
       },
+      totalUser: 0,
+      totalGroup: 0,
+      groupOption: [],
+      groupSelect: null
     }
   },
   components: {
@@ -141,13 +145,37 @@ export default {
     this.getReportFaculty()
     this.getClosureConfig()
     this.getReportUser()
+    this.getListGroup()
   },
   watch: {
     closureSelect () {
       this.getReportFaculty()
+    },
+    groupSelect () {
+      this.getReportUser()
     }
   },
   methods: {
+    getListGroup () {
+      Service.getAllGroup().then(res => {
+        if (res.data.success) {
+          this.groupOption = Object.values(res.data.data).map(e => {
+            return {
+              value: e.id,
+              text: e.name
+            }
+          })
+          this.groupOption.push({
+            value: null,
+            text: 'Select group...'
+          })
+          return commonHelper.showMessage(res.data.message, 'success')
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error, please try again', 'warning')
+      })
+    },
     changeFacultyColor () {
       let numColor = this.faculty.color.length
       this.faculty.color = []
@@ -203,9 +231,13 @@ export default {
     getReportUser () {
       this.user.series[0].data = []
       this.user.color = []
-      Service.userReport({closure_id: this.closureSelect}).then(res => {
+      this.totalUser = 0;
+      this.totalGroup = 0;
+      Service.userReport({group_id: this.groupSelect}).then(res => {
         if (res.data.success) {
           for (let userGroup in res.data.data.detail) {
+            this.totalGroup++
+            this.totalUser += res.data.data.detail[userGroup]
             this.user.color.push(commonHelper.randomColor())
             this.user.series[0].data.push({
               value: res.data.data.detail[userGroup],
