@@ -8,10 +8,26 @@
         Test
       </b-col>
     </b-row>
-    <hr>
+    <hr style="background-color: black">
+    <b-row>
+      <div class="center">
+        <h4><b-badge variant="info">© Copyright 2021 By Group 5. All rights reserved.</b-badge></h4>
+      </div>
+    </b-row>
 
   </div>
 </template>
+
+
+<style>
+.center {
+  margin: 5px auto;
+  font-weight: bold;
+  width: 17%;
+  padding: 10px;
+  color: white;
+}
+</style>
 
 <script>
 import ECharts from 'vue-echarts/components/ECharts.vue'

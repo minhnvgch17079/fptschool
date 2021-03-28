@@ -1,87 +1,100 @@
-<!-- =========================================================================================
-  File Name: TheNavbar.vue
-  Description: Navbar component
-  Component Name: TheNavbar
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
-
 <template>
-<div class="relative">
-  <div class="vx-navbar-wrapper navbar-full p-0">
-    <vs-navbar class="navbar-custom navbar-skelton" :class="navbarClasses"  :style="navbarStyle" :color="navbarColor">
+  <div>
+    <notifications group="default" />
+    <div style="position: fixed; z-index: 10; width: 100%; box-shadow: 1px 1px black">
+      <!-- As a heading -->
+      <b-row class="ml-10 mr-10 mt-3">
+        <b-col md="1" class="mb-1">
+          <img v-b-toggle.collapse-1 style="width: 50px; height: 50px; border-radius: 50%" :src="'/user/getAvatar'">
+        </b-col>
+        <b-col md="1">
+          <b-btn class="mr-3" style="width: 150px" variant="warning" v-b-modal.profileEdit>Profile</b-btn>
+        </b-col>
+        <b-col md="1">
+          <b-btn class="mr-3" style="width: 150px" variant="success" @click="uploadAvatar()">
+            Upload Avatar
+          </b-btn>
+        </b-col>
+        <b-col md="1">
+          <b-btn style="width: 150px" class="mr-3" variant="primary" v-b-modal.changePass>
+            Change Password
+          </b-btn>
+        </b-col>
+        <b-col>
+          <b-btn style="width: 150px" class="mr-1" variant="secondary" @click="logout()">Logout</b-btn>
+        </b-col>
+      </b-row>
+    </div>
+    <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
+      <ProfileEdit/>
+    </b-modal>
 
-      <bookmarks :navbarColor="navbarColor" v-if="windowWidth >= 992" />
+    <b-modal id="changePass" title="Change pass" size="md" :hide-footer="true">
+      <change-pass/>
+    </b-modal>
 
-      <router-link tag="div" to="/" class="vx-logo cursor-pointer mx-auto flex items-center">
-        <logo class="w-10 mr-4 fill-current text-primary" />
-        <span class="vx-logo-text text-primary">Vuexy</span>
-      </router-link>
+    <upload-avatar
+      :show="isUploadAvatar"
+      @uploadAvatarSuccess="uploadAvatarSuccess"
+    />
 
-      <search-bar />
-
-      <cart-drop-down />
-
-      <notification-drop-down />
-      <notifications group="default" />
-
-      <profile-drop-down />
-
-    </vs-navbar>
   </div>
-</div>
 </template>
 
-<script>
-import Bookmarks            from "./components/Bookmarks.vue"
-import SearchBar            from "./components/SearchBar.vue"
-import CartDropDown         from "./components/CartDropDown.vue"
-import NotificationDropDown from "./components/NotificationDropDown.vue"
-import ProfileDropDown      from "./components/ProfileDropDown.vue"
-import Logo                 from "../Logo.vue"
+<style type="scss" scoped>
+button:hover {
+  transform: rotate(10deg);
+}
 
+</style>
+<script>
+
+
+import Service from "@/domain/services/api";
+import commonHelper from '@/infrastructures/common-helpers'
+import ProfileEdit from "@/views/components/student/ProfileEdit";
+import ChangePass from "@/views/components/student/ChangePassword";
+import UploadAvatar from "@/views/components/student/UploadAvatar";
+import WebViewer from "@/views/file/WebViewer";
 export default {
-  name: "the-navbar-horizontal",
-  props: {
-    logo: { type: String                                                                                                          },
-    navbarType: {
-      type: String,
-      required: true
+  data() {
+    return {
+      publicPath: process.env.BASE_URL,
+      infoStudent: null,
+      infoFileUpload: null,
+      isUploadAvatar: false,
+      imgDataUrl: null
     }
   },
   components: {
-    Logo,
-    Bookmarks,
-    SearchBar,
-    CartDropDown,
-    NotificationDropDown,
-    ProfileDropDown,
+    WebViewer,
+    ChangePass,
+    UploadAvatar,
+    ProfileEdit
   },
-  computed: {
-    navbarColor() {
-      let color = "#fff"
-      if (this.navbarType === "sticky") color = "#f7f7f7"
-      else if (this.navbarType === 'static') {
-        if (this.scrollY < 50) {
-          color = "#f7f7f7"
-        }
-      }
-
-      this.isThemedark === "dark" ? color === "#fff" ? color = "#10163a" : color = "#262c49" : null
-
-      return color
+  mounted() {
+  },
+  created() {
+    this.infoStudent = JSON.parse(localStorage.getItem('infoUser'))
+  },
+  methods: {
+    logout() {
+      Service.logout().then(() => {
+        commonHelper.showMessage('Logout Success', 'success')
+        localStorage.removeItem("infoUser");
+        window.location.href = '/adm/login'
+      })
     },
-    isThemedark()          { return this.$store.state.theme                                                                       },
-    navbarStyle()          { return this.navbarType === "static" ? {transition: "all .25s ease-in-out"} : {}                      },
-    navbarClasses()        { return this.scrollY > 5 && this.navbarType === "static" ? null : "d-theme-dark-light-bg shadow-none" },
-    scrollY()              { return this.$store.state.scrollY                                                                     },
-    verticalNavMenuWidth() { return this.$store.state.verticalNavMenuWidth                                                        },
-    windowWidth()          { return this.$store.state.windowWidth                                                                 },
+    uploadAvatar () {
+      this.isUploadAvatar = false
+      this.isUploadAvatar = true
+    },
+    uploadAvatarSuccess (urlImg) {
+      this.imgDataUrl = urlImg
+      commonHelper.showMessage('Upload avatar success', 'success')
+    },
+  },
+  watch: {
   }
 }
-
 </script>
-
