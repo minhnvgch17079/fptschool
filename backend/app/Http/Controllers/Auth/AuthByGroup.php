@@ -10,7 +10,7 @@ class AuthByGroup {
             'user/disableUser',
             'admin/getAllError',
             'admin/addUserToFaculty',
-
+            'user/getAllGroup',
         ],
         2 => [
             'fileUpload/downloadFile',

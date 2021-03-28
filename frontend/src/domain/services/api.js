@@ -31,6 +31,9 @@ export default {
   updateProfile (data) {
     return http.post('user/updateProfile', data)
   },
+  getAllGroup () {
+    return http.get('user/getAllGroup')
+  },
   getInfoUser () {
     return http.get('user/getInfoUser')
   },

@@ -8,11 +8,7 @@ use App\Http\Services\UploadFile;
 use App\Models\FileUpload;
 use App\Models\User;
 use App\Models\Group;
-use http\Url;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 
 
 /**
@@ -21,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
  * @package App\Http\Controllers
  * @property User User
  * @property FileUpload FileUpload
+ * @property Group Group
  */
 
 
@@ -258,6 +255,15 @@ class UserController extends Controller
             logErr($exception->getMessage());
         }
         responseToClient('Cannot get avatar');
+    }
+
+    public function getAllGroup () {
+        $this->Group = getInstance('Group');
+        $data        = $this->Group->getAllGroup();
+
+        if (empty($data)) responseToClient('No group found');
+
+        responseToClient('Get list group success', true, $data);
     }
 }
 

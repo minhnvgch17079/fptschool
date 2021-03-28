@@ -159,3 +159,11 @@ create table coordinator_faculty (
                                      user_id int not null,
                                      faculty_id int not null
 );
+
+insert into `groups` (name) values
+('admin'),
+('student'),
+('marketing_coordinator'),
+('marketing_manager'),
+('guest')
+;

@@ -48,4 +48,11 @@ class Group extends BaseModel
 
         return $query->get();
     }
+
+    public function getAllGroup () {
+        $data = $this->model->table($this->table)
+            ->get();
+
+        return json_decode(json_encode($data), true);
+    }
 }

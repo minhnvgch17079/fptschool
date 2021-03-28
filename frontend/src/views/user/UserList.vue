@@ -3,7 +3,7 @@
   <div id="page-user-list">
     <b-row>
       <b-col>
-        <b-input :placeholder="`Role`" v-model="roleSearch"></b-input>
+        <b-form-select v-model="roleSearch" :options="listGroup"></b-form-select>
       </b-col>
       <b-col>
         <b-input :placeholder="`Username`" v-model="usernameSearch"></b-input>
@@ -138,7 +138,7 @@ export default {
       dataUsers: [],
       filter: null,
 
-      roleSearch: '',
+      roleSearch: null,
       usernameSearch: '',
       fullNameSearch: '',
       phoneNumberSearch: '',
@@ -155,7 +155,8 @@ export default {
         { value: 5, text: 'Guest' },
       ],
       roleAdd: null,
-      userIdAddFaculty: null
+      userIdAddFaculty: null,
+      listGroup: [],
     }
   },
   watch: {
@@ -167,6 +168,26 @@ export default {
 
   },
   methods: {
+    getListGroup () {
+      Service.getAllGroup().then(res => {
+        if (res.data.success) {
+          this.listGroup = Object.values(res.data.data).map(e => {
+            return {
+              value: e.id,
+              text: e.name
+            }
+          })
+          this.listGroup.push({
+            value: null,
+            text: 'Select role...'
+          })
+          return commonHelper.showMessage(res.data.message, 'success')
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error, please try again', 'warning')
+      })
+    },
     addFaculty (dataUser) {
       this.userIdAddFaculty = dataUser.id
       this.$bvModal.show('AddFaculty')
@@ -226,6 +247,7 @@ export default {
   },
   created() {
     this.getUser()
+    this.getListGroup()
   }
 }
 
