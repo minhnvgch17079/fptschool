@@ -26,25 +26,26 @@ class AdminController extends Controller
     }
 
     public function addUserToFaculty () {
-        $userId     = $this->request->get('user_id') ?? null;
+        $userId     = $this->request->get('user_id')    ?? null;
         $facultyId  = $this->request->get('faculty_id') ?? null;
+
         if (empty($userId))     responseToClient('Invalid user');
         if (empty($facultyId))  responseToClient('Invalid faculty');
 
         $this->User = getInstance('User');
 
-        $isCoordinator = $this->User->getCoordinatorByUserId($userId);
+        $is = $this->User->isAddFaculty($userId);
 
-        if (empty($isCoordinator)) responseToClient('Invalid marketing coordinator');
+        if (empty($is)) responseToClient('Only student or marketing coordinator');
 
         $this->CoordinatorFaculty = getInstance('CoordinatorFaculty');
 
         $isExist = $this->CoordinatorFaculty->isExist($userId, $facultyId);
 
-        if (!empty($isExist)) responseToClient('Marketing coordinator was added');
+        if (!empty($isExist)) responseToClient('User was added for this faculty');
 
         $dataSave = [
-            'user_id' => $userId,
+            'user_id'    => $userId,
             'faculty_id' => $facultyId
         ];
 

@@ -29,10 +29,10 @@ class User extends \App\Models\BaseModel {
         $query = $this->model->table($this->table)
             ->where('is_active', 1);
 
-        if (!empty($username))  $query->where('username', '=', $username);
-        if (!empty($phone))     $query->where('phone_number', '=', $phone);
+        if (!empty($username))  $query->where('username', 'like', "%$username%");
+        if (!empty($phone))     $query->where('phone_number', 'like', "%$phone%");
         if (!empty($fullName))  $query->where('full_name', 'like', "%$fullName%");
-        if (!empty($email))     $query->where('email', '=', $email);
+        if (!empty($email))     $query->where('email', '=', "%$email%");
         if (!empty($groupId))   $query->where('group_id', '=', $groupId);
 
         $query->limit(100);
@@ -51,10 +51,10 @@ class User extends \App\Models\BaseModel {
             ->update($dataUpdate);
     }
 
-    public function getCoordinatorByUserId ($userId) {
+    public function isAddFaculty ($userId) {
         $data = $this->model->table($this->table)
             ->where('id', $userId)
-            ->where('group_id', 2)
+            ->whereIn('group_id', [2, 3])
             ->first();
 
         return (array)$data;
