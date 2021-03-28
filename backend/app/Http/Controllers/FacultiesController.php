@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClosureConfigs;
+use App\Models\Comment;
 use App\Models\Faculty;
 use App\Models\FacultyUpload;
 
@@ -10,6 +11,7 @@ use App\Models\FacultyUpload;
  * @property Faculty Faculty
  * @property ClosureConfigs ClosureConfigs
  * @property FacultyUpload FacultyUpload
+ * @property Comment Comment
  */
 
 
@@ -116,6 +118,34 @@ class FacultiesController extends Controller {
         if (empty($dataReport)) responseToClient('No data report found');
 
         responseToClient('Get report faculty success', true, $dataReport);
+    }
+
+    public function reportComment () {
+        $facultyId = $this->request->get('faculty_id') ?? null;
+
+        $this->Faculty       = getInstance('Faculty');
+        $this->Comment       = getInstance('Comment');
+        $this->FacultyUpload = getInstance('FacultyUpload');
+
+        $dataFaculty = $this->Faculty->getAll(null, $facultyId);
+
+        if (empty($dataFaculty)) responseToClient('No faculty found');
+
+        $dataReturn = [
+            'total_comment' => 0,
+            'detail' => []
+        ];
+
+        foreach ($dataFaculty as $faculty) {
+            $facultyId   = $faculty['faculty_id'];
+            $facultyName = $faculty['faculty_name'];
+            $listGroup   = $this->FacultyUpload->getGroupByFacultyId($facultyId);
+            $numComment  = $this->Comment->countMessageByListGroup($listGroup);
+            $dataReturn['total_comment'] += $numComment;
+            $dataReturn['detail'][$facultyName] = $numComment;
+        }
+
+        responseToClient('Get report comment success', true, $dataReturn);
     }
 
 }

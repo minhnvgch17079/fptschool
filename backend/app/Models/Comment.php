@@ -25,4 +25,11 @@ class Comment extends BaseModel
 
         return json_decode(json_encode($data), true);
     }
+
+    public function countMessageByListGroup ($groupId) {
+        return $this->model->table($this->table)
+            ->whereIn('group_id', $groupId)
+            ->count();
+
+    }
 }

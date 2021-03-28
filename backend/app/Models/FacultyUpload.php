@@ -65,4 +65,23 @@ class FacultyUpload extends BaseModel
             ->where('is_active', 1)
             ->count('id');
     }
+
+    public function getGroupByFacultyId ($facultyId) {
+        $data = $this->model->table($this->table)
+            ->where('faculty_id', $facultyId)
+            ->get([
+                'group_comment_id'
+            ]);
+
+        if (empty($data)) return null;
+
+        $dataReturn = [];
+
+        foreach ($data as $datum) {
+            if (empty($datum->group_comment_id)) continue;
+            $dataReturn[$datum->group_comment_id] = $datum->group_comment_id;
+        }
+
+        return $dataReturn;
+    }
 }

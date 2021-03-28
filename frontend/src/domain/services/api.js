@@ -52,6 +52,9 @@ export default {
   FacultyReport (data) {
     return http.get('faculty/report', {params: data})
   },
+  CommentReport (data) {
+    return http.get('faculty/reportComment', {params: data})
+  },
   createFaculty (data) {
     return http.post('faculty/createFaculty', data)
   },

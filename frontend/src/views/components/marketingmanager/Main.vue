@@ -28,6 +28,11 @@
     <div style="background: linear-gradient(-30deg, #56ab2f, #5b86e5); width: 100%">
       <b-row>
         <b-col>
+          <b-badge variant="info" class="d-block"><h3>Total comment {{this.totalComment}}</h3></b-badge>
+          <br>
+          <ECharts :options="comment"/>
+        </b-col>
+        <b-col>
           <b-badge variant="info" class="d-block"><h3>Total submission {{this.totalFacultySubmission}}</h3></b-badge>
           <br>
           <b-col>
@@ -120,6 +125,37 @@ export default {
           }
         ]
       },
+      comment: {
+        title: {
+          text: 'Comment Report',
+          subtext: 'Comment Report',
+          left: 'center'
+        },
+        color: [],
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left',
+        },
+        series: [
+          {
+            name: 'Comment Report',
+            type: 'pie',
+            radius: '50%',
+            data: [],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
+      },
+      totalComment: 0
     }
   },
   components: {
@@ -134,9 +170,31 @@ export default {
   },
   created() {
     this.getReportFaculty()
+    this.getReportComment()
     this.infoStudent = JSON.parse(localStorage.getItem('infoUser'))
   },
   methods: {
+    getReportComment () {
+      this.comment.series[0].data = []
+      this.comment.color = []
+      this.totalComment = 0
+      Service.CommentReport({closure_id: this.closureSelect}).then(res => {
+        if (res.data.success) {
+          for (let facultyName in res.data.data.detail) {
+            this.totalComment += res.data.data.detail[facultyName]
+            this.comment.color.push(commonHelper.randomColor())
+            this.comment.series[0].data.push({
+              value: res.data.data.detail[facultyName],
+              name: facultyName
+            })
+          }
+          return commonHelper.showMessage(res.data.message, 'success');
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error, please try again', 'warning')
+      })
+    },
     getReportFaculty () {
       this.faculty.series[0].data = []
       this.faculty.color = []

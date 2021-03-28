@@ -36,6 +36,7 @@ class AuthByGroup {
             'fileUpload/readPdfFile',
             'student/getListSubmission',
             'faculty/getListActive',
+            'faculty/reportComment',
             'marketing-ma/getNumContriForFaculty',
             'faculty/report',
         ],
