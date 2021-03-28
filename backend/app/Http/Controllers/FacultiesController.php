@@ -95,8 +95,12 @@ class FacultiesController extends Controller {
     public function report () {
         $this->Faculty       = getInstance('Faculty');
         $this->FacultyUpload = getInstance('FacultyUpload');
+        $closureId           = $this->request->get('closure_id') ?? null;
 
-        $allFaculty    = $this->Faculty->getAll(null);
+        $allFaculty    = $this->Faculty->getAll(null, null, $closureId);
+
+        if (empty($allFaculty)) responseToClient('Invalid faculty or no submission for faculty');
+
         $dataReport    = null;
 
         if (!empty($allFaculty)) {

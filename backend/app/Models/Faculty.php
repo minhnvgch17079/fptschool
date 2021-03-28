@@ -49,7 +49,7 @@ class Faculty extends BaseModel
         return (array)$data;
     }
 
-    public function getAll ($date, $id = null) {
+    public function getAll ($date, $id = null, $closureId = null) {
         $query = $this->model->table($this->table)
             ->join('closure_configs as c', "$this->table.closure_config_id", '=', "c.id");
 
@@ -59,6 +59,7 @@ class Faculty extends BaseModel
         }
 
         if (!empty($id)) $query->where("$this->table.id", $id);
+        if (!empty($closureId)) $query->where("c.id", $closureId);
 
         $data = $query->get([
             'c.first_closure_DATE as first_closure_DATE',

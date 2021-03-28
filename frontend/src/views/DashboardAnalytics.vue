@@ -85,6 +85,11 @@ export default {
     this.getReportFaculty()
     this.getClosureConfig()
   },
+  watch: {
+    closureSelect () {
+      this.getReportFaculty()
+    }
+  },
   methods: {
     changeFacultyColor () {
       let numColor = this.faculty.color.length
@@ -116,7 +121,9 @@ export default {
       })
     },
     getReportFaculty () {
-      Service.FacultyReport().then(res => {
+      this.faculty.series[0].data = []
+      this.faculty.color = []
+      Service.FacultyReport({closure_id: this.closureSelect}).then(res => {
         if (res.data.success) {
           for (let facultyName in res.data.data.detail) {
             this.faculty.color.push(commonHelper.randomColor())
