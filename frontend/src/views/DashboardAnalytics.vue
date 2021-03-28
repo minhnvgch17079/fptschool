@@ -29,7 +29,7 @@
         <b-form-select :options="groupOption" v-model="groupSelect"></b-form-select>
         <br>
         <br>
-        <b-btn variant="outline-primary" @click="changeFacultyColor">Change Color</b-btn>
+        <b-btn variant="outline-primary" @click="changeUserColor">Change Color</b-btn>
       </b-col>
       <b-col>
         <ECharts :options="user"/>
@@ -179,11 +179,16 @@ export default {
     changeFacultyColor () {
       let numColor = this.faculty.color.length
       this.faculty.color = []
-
       for (let i = 0; i < numColor; i++) {
         this.faculty.color.push(commonHelper.randomColor())
       }
-
+    },
+    changeUserColor () {
+      let numColor = this.user.color.length
+      this.user.color = []
+      for (let i = 0; i < numColor; i++) {
+        this.user.color.push(commonHelper.randomColor())
+      }
     },
     getClosureConfig () {
       this.totalClosureConfig = 0
