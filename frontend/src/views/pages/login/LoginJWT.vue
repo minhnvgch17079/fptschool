@@ -93,6 +93,7 @@ export default {
           commonHelper.showMessage(res.data.message, 'success')
           if (res.data.data.group_id === 1) return window.location.href = '/adm'
           if (res.data.data.group_id === 3) return window.location.href = '/adm/student'
+          if (res.data.data.group_id === 4) return window.location.href = '/adm/marketing-manager'
           return window.location.href = '/adm'
         }
         commonHelper.showMessage(res.data.message || 'There something error', 'warning')

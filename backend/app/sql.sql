@@ -162,8 +162,8 @@ create table coordinator_faculty (
 
 insert into `groups` (name) values
 ('admin'),
-('student'),
 ('marketing_coordinator'),
+('student'),
 ('marketing_manager'),
 ('guest')
 ;
