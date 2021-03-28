@@ -19,7 +19,21 @@
     </b-row>
     <hr style="background-color: black">
     <b-row>
-
+      <b-col>
+        <b-badge variant="primary" class="d-block"><h3>Total Closure Config {{this.totalClosureConfig}}</h3></b-badge>
+        <br>
+        <br>
+        <b-badge variant="info" class="d-block"><h3>Total submission {{this.totalFacultySubmission}}</h3></b-badge>
+        <br>
+        <br>
+        <b-form-select :options="closure" v-model="closureSelect"></b-form-select>
+        <br>
+        <br>
+        <b-btn variant="outline-primary" @click="changeFacultyColor">Change Color</b-btn>
+      </b-col>
+      <b-col>
+        <ECharts :options="user"/>
+      </b-col>
     </b-row>
 
     <b-row>
@@ -86,7 +100,38 @@ export default {
       closure: [],
       closureSelect: null,
       totalFacultySubmission: 0,
-      totalClosureConfig: 0
+      totalClosureConfig: 0,
+
+      user: {
+        title: {
+          text: 'User Report',
+          subtext: 'User Report',
+          left: 'center'
+        },
+        color: [],
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left',
+        },
+        series: [
+          {
+            name: 'User Report',
+            type: 'pie',
+            radius: '50%',
+            data: [],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
+      },
     }
   },
   components: {
@@ -95,6 +140,7 @@ export default {
   created() {
     this.getReportFaculty()
     this.getClosureConfig()
+    this.getReportUser()
   },
   watch: {
     closureSelect () {
@@ -145,6 +191,25 @@ export default {
             this.faculty.series[0].data.push({
               value: res.data.data.detail[facultyName],
               name: facultyName
+            })
+          }
+          return commonHelper.showMessage(res.data.message, 'success');
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error, please try again', 'warning')
+      })
+    },
+    getReportUser () {
+      this.user.series[0].data = []
+      this.user.color = []
+      Service.userReport({closure_id: this.closureSelect}).then(res => {
+        if (res.data.success) {
+          for (let userGroup in res.data.data.detail) {
+            this.user.color.push(commonHelper.randomColor())
+            this.user.series[0].data.push({
+              value: res.data.data.detail[userGroup],
+              name: userGroup
             })
           }
           return commonHelper.showMessage(res.data.message, 'success');
