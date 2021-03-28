@@ -21,7 +21,8 @@ class Authentication
         'user/updateAvatar',
         'user/getAvatar',
         'comment/fileSubmissionComment',
-        'comment/fileSubmissionGetComment'
+        'comment/fileSubmissionGetComment',
+        'chat/pushMessage'
     ];
 
     public static $info = null;

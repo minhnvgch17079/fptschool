@@ -11,6 +11,7 @@ use App\Http\Controllers\FileDownloadController;
 use App\Http\Controllers\MarketingCoordinatorController;
 use App\Http\Controllers\MarketingManagerController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ChatController;
 use Illuminate\Support\Facades\Route;
 use \Illuminate\Http\Request;
 use App\Http\Controllers\GroupController;
@@ -85,6 +86,12 @@ Route::any('/marketing-co/{action}', function (Request $request) {
 Route::any('/marketing-ma/{action}', function (Request $request) {
     $action = $request->action;
     $class  = new MarketingManagerController($request);
+    return $class->$action();
+});
+
+Route::any('/chat/{action}', function (Request $request) {
+    $action = $request->action;
+    $class  = new ChatController($request);
     return $class->$action();
 });
 

@@ -141,6 +141,9 @@
 </template>
 
 <style lang="scss" scoped>
+  button:hover {
+    transform: rotate(10deg);
+  }
   .modal-xl .modal-dialog {
   /*max-width: 70% !important;*/
   /*transform: translate(-50%, -50%);*/
