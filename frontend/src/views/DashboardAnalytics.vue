@@ -1,8 +1,15 @@
 <template>
   <div>
     <b-row>
-      <ECharts :options="faculty"/>
+      <b-col>
+        <ECharts :options="faculty"/>
+      </b-col>
+      <b-col>
+        Test
+      </b-col>
     </b-row>
+    <hr>
+
   </div>
 </template>
 
@@ -18,34 +25,31 @@ export default {
   data() {
     return {
       faculty: {
-        legend: {},
-        tooltip: {
-          trigger: 'axis',
-          showContent: false
+        title: {
+          text: 'Faculty Report',
+          subtext: 'Faculty Report',
+          left: 'center'
         },
         color: [],
-        dataset: {
-          source: [
-            ['faculty', '2021']
-          ]
+        tooltip: {
+          trigger: 'item'
         },
-        xAxis: {type: 'category'},
-        yAxis: {gridIndex: 0},
-        grid: {top: '55%'},
+        legend: {
+          orient: 'vertical',
+          left: 'left',
+        },
         series: [
           {
+            name: 'Faculty Report',
             type: 'pie',
-            id: 'pie',
-            radius: '30%',
-            center: ['50%', '25%'],
-            emphasis: {focus: 'data'},
-            label: {
-              formatter: '{b}: {@2021} ({d}%)'
-            },
-            encode: {
-              itemName: 'faculty',
-              value: '2021',
-              tooltip: '2021'
+            radius: '50%',
+            data: [],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
             }
           }
         ]
@@ -70,9 +74,10 @@ export default {
               color += letters[Math.floor(Math.random() * 16)];
             }
             this.faculty.color.push(color)
-            let arr = [facultyName]
-            arr.push(res.data.data.detail[facultyName])
-            this.faculty.dataset.source.push(arr)
+            this.faculty.series[0].data.push({
+              value: res.data.data.detail[facultyName],
+              name: facultyName
+            })
           }
           return commonHelper.showMessage(res.data.message, 'success');
         }
