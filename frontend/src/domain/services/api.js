@@ -4,6 +4,9 @@ export default {
   login (data) {
     return http.post('user/login', data)
   },
+  userReport (data) {
+    return http.get('user/report', {params: data})
+  },
   logout (data) {
     return http.get('user/logout', {'params': data})
   },

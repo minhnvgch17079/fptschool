@@ -265,5 +265,23 @@ class UserController extends Controller
 
         responseToClient('Get list group success', true, $data);
     }
+
+    public function report () {
+        $groupId    = $this->request->get('group_id') ?? null;
+        $this->User = getInstance('User');
+        $data       = $this->User->getData(null, null, null, null, $groupId, null);
+
+        $dataReturn = [];
+
+        foreach ($data as $datum) {
+            $groupName = $datum['group_name'];
+            $dataReturn['total_account'] =  $dataReturn['total_account'] ?? 0;
+            $dataReturn['total_account']++;
+            $dataReturn['detail'][$groupName] = $dataReturn['detail'][$groupName] ?? 0;
+            $dataReturn['detail'][$groupName]++;
+        }
+
+        responseToClient('Get report user success', true, $dataReturn);
+    }
 }
 

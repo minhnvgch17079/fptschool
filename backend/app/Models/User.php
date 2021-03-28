@@ -25,9 +25,10 @@ class User extends \App\Models\BaseModel {
         return (array)$data;
     }
 
-    public function getData ($username, $fullName, $email, $phone, $groupId) {
+    public function getData ($username, $fullName, $email, $phone, $groupId, $limit = 100) {
         $query = $this->model->table($this->table)
-            ->where('is_active', 1);
+            ->where('is_active', 1)
+            ->join('groups as g', 'g.id', '=', "$this->table.group_id");
 
         if (!empty($username))  $query->where('username', 'like', "%$username%");
         if (!empty($phone))     $query->where('phone_number', 'like', "%$phone%");
@@ -35,11 +36,13 @@ class User extends \App\Models\BaseModel {
         if (!empty($email))     $query->where('email', '=', "%$email%");
         if (!empty($groupId))   $query->where('group_id', '=', $groupId);
 
-        $query->limit(100);
+        if (!empty($limit)) $query->limit($limit);
 
         $data = $query->get([
-            'id', 'username', 'full_name', 'phone_number', 'email', 'last_change_password', 'created', 'created_by',
-            'modified', 'modified_by', 'age', 'DATE_of_birth', 'is_active'
+            "g.name as group_name",
+            "$this->table.id", 'username', 'full_name', 'phone_number', 'email', 'last_change_password', "$this->table.created",
+            "$this->table.created_by",
+            "$this->table.modified", "$this->table.modified_by", 'age', 'DATE_of_birth', 'is_active'
         ]);
 
         return json_decode(json_encode($data), true);

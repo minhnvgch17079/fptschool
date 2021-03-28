@@ -12,6 +12,7 @@ class AuthByGroup {
             'admin/addUserToFaculty',
             'user/getAllGroup',
             'faculty/report',
+            'user/report',
         ],
         2 => [
             'fileUpload/downloadFile',
