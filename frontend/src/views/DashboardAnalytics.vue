@@ -1,6 +1,8 @@
 <template>
   <div>
-    <ECharts :options="faculty"/>
+    <b-row>
+      <ECharts :options="faculty"/>
+    </b-row>
   </div>
 </template>
 
