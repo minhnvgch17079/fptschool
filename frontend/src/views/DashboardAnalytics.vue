@@ -5,10 +5,14 @@
         <ECharts :options="faculty"/>
       </b-col>
       <b-col>
-        Test
+        <b-form-select :options="closure" v-model="closureSelect"></b-form-select>
+        <br>
+        <br>
+        <b-btn variant="outline-primary" @click="changeFacultyColor">Change Color</b-btn>
       </b-col>
     </b-row>
     <hr style="background-color: black">
+
     <b-row>
       <div class="center">
         <h4><b-badge variant="info">© Copyright 2021 By Group 5. All rights reserved.</b-badge></h4>
@@ -69,7 +73,9 @@ export default {
             }
           }
         ]
-      }
+      },
+      closure: [],
+      closureSelect: null
     }
   },
   components: {
@@ -77,19 +83,43 @@ export default {
   },
   created() {
     this.getReportFaculty()
+    this.getClosureConfig()
   },
   methods: {
+    changeFacultyColor () {
+      let numColor = this.faculty.color.length
+      this.faculty.color = []
+
+      for (let i = 0; i < numColor; i++) {
+        this.faculty.color.push(commonHelper.randomColor())
+      }
+
+    },
+    getClosureConfig () {
+      Service.getClosure().then(res => {
+        if (res.data.success) {
+          this.closure = Object.values(res.data.data).map(e => {
+            return {
+              value: e.id,
+              text: e.name
+            }
+          })
+          this.closure.push({
+            value: null,
+            text: 'Select closure...'
+          })
+          return commonHelper.showMessage(res.data.message, 'success')
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error, please try again', 'warning')
+      })
+    },
     getReportFaculty () {
       Service.FacultyReport().then(res => {
         if (res.data.success) {
-          let letters = '0123456789ABCDEF';
-          let color = '#';
           for (let facultyName in res.data.data.detail) {
-            color = '#';
-            for (let i = 0; i < 6; i++) {
-              color += letters[Math.floor(Math.random() * 16)];
-            }
-            this.faculty.color.push(color)
+            this.faculty.color.push(commonHelper.randomColor())
             this.faculty.series[0].data.push({
               value: res.data.data.detail[facultyName],
               name: facultyName
