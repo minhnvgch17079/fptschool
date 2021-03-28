@@ -5,6 +5,12 @@
         <ECharts :options="faculty"/>
       </b-col>
       <b-col>
+        <b-badge variant="primary" class="d-block"><h3>Total Closure Config {{this.totalClosureConfig}}</h3></b-badge>
+        <br>
+        <br>
+        <b-badge variant="info" class="d-block"><h3>Total submission {{this.totalFacultySubmission}}</h3></b-badge>
+        <br>
+        <br>
         <b-form-select :options="closure" v-model="closureSelect"></b-form-select>
         <br>
         <br>
@@ -75,7 +81,9 @@ export default {
         ]
       },
       closure: [],
-      closureSelect: null
+      closureSelect: null,
+      totalFacultySubmission: 0,
+      totalClosureConfig: 0
     }
   },
   components: {
@@ -101,9 +109,11 @@ export default {
 
     },
     getClosureConfig () {
+      this.totalClosureConfig = 0
       Service.getClosure().then(res => {
         if (res.data.success) {
           this.closure = Object.values(res.data.data).map(e => {
+            this.totalClosureConfig++
             return {
               value: e.id,
               text: e.name
@@ -123,9 +133,11 @@ export default {
     getReportFaculty () {
       this.faculty.series[0].data = []
       this.faculty.color = []
+      this.totalFacultySubmission = 0
       Service.FacultyReport({closure_id: this.closureSelect}).then(res => {
         if (res.data.success) {
           for (let facultyName in res.data.data.detail) {
+            this.totalFacultySubmission += res.data.data.detail[facultyName]
             this.faculty.color.push(commonHelper.randomColor())
             this.faculty.series[0].data.push({
               value: res.data.data.detail[facultyName],
