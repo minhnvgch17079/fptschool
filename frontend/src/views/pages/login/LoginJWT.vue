@@ -93,6 +93,7 @@ export default {
           commonHelper.showMessage(res.data.message, 'success')
           if (res.data.data.group_id === 1) return window.location.href = '/adm'
           if (res.data.data.group_id === 3) return window.location.href = '/adm/student'
+          if (res.data.data.group_id === 2) return window.location.href = '/adm/marketing-coordinator'
           if (res.data.data.group_id === 4) return window.location.href = '/adm/marketing-manager'
           return window.location.href = '/adm'
         }
@@ -116,6 +117,7 @@ export default {
           localStorage.setItem('infoUser', JSON.stringify(res.data.data))
           if (res.data.data.group_id === 1) return window.location.href = '/adm'
           if (res.data.data.group_id === 4) return window.location.href = '/adm/marketing-manager'
+          if (res.data.data.group_id === 2) return window.location.href = '/adm/marketing-coordinator'
           if (res.data.data.group_id === 3) return window.location.href = '/adm/student'
           return window.location.href = '/adm'
         }
