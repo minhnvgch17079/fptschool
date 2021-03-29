@@ -22,7 +22,8 @@ class AuthByGroup {
             'student/getListSubmission',
             'faculty/getListActive',
             'marketing-ma/getNumContriForFaculty',
-            'marketing-co/getSubmissionForFaculty'
+            'marketing-co/getSubmissionForFaculty',
+            'marketing-co/updateTeacherStatus'
         ],
         3 => [
             'student/uploadAssignment',

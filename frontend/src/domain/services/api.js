@@ -84,5 +84,8 @@ export default {
   },
   getNumContriForFaculty (data) {
     return http.get('marketing-ma/getNumContriForFaculty', {'params': data})
+  },
+  updateTeacherStatus (data) {
+    return http.get('marketing-co/updateTeacherStatus', {'params': data})
   }
 }

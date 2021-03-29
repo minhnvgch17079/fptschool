@@ -92,6 +92,14 @@
             Comment
           </b-btn>
         </template>
+        <template v-slot:cell(update_status)="row">
+          <div v-if="row.item.teacher_status === 'pending'">
+            <b-btn variant="danger" class="mr-1" @click="updateStatusSubmission('rejected', row.item.faculty_upload_id, row.item)">Reject</b-btn>
+            <b-btn variant="success" class="mr-1" @click="updateStatusSubmission('accepted', row.item.faculty_upload_id, row.item)">Accept</b-btn>
+          </div>
+          <b-btn variant="danger" class="mr-1" v-if="row.item.teacher_status === 'accepted'" @click="updateStatusSubmission('rejected', row.item.faculty_upload_id, row.item)">Reject</b-btn>
+          <b-btn variant="success" class="mr-1" v-if="row.item.teacher_status === 'rejected'" @click="updateStatusSubmission('accepted', row.item.faculty_upload_id, row.item)">Accept</b-btn>
+        </template>
         <template v-slot:cell(teacher_status)="row">
           <b-badge variant="info">{{row.item.teacher_status}}</b-badge>
         </template>
@@ -183,6 +191,7 @@ export default {
 
       dataUpload: [],
       fieldUpload: [
+        {key: 'update_status', label: 'Update Status', sortable: true},
         {key: 'teacher_status', label: 'Teacher Status', sortable: true},
         {key: 'faculty_name', label: 'Faculty Name', sortable: true},
         {key: 'file_name', label: 'File name', sortable: true},
@@ -220,6 +229,17 @@ export default {
     this.infoStudent = JSON.parse(localStorage.getItem('infoUser'))
   },
   methods: {
+    updateStatusSubmission (status, facultyId, row) {
+      Service.updateTeacherStatus({faculty_upload_id: facultyId, status: status}).then(res => {
+        if (res.data.success) {
+          row.teacher_status = status
+          return commonHelper.showMessage(res.data.message, 'success')
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error. Please try again', 'warning')
+      })
+    },
     uploadAvatarSuccess (urlImg) {
       this.imgDataUrl = urlImg
       commonHelper.showMessage('Upload avatar success', 'success')
