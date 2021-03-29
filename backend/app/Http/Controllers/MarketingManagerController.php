@@ -27,6 +27,10 @@ class MarketingManagerController extends Controller {
     public function reportSubmissionNoComment () {
         $this->FacultyUpload = getInstance('FacultyUpload');
         $data = $this->FacultyUpload->getDataNoComment();
-        pd($data);
+
+        $dataReturn = [];
+        foreach ($data as $datum) {
+            pd($datum);
+        }
     }
 }
