@@ -45,6 +45,7 @@
             <b-table
               thead-class="green-bg bg-info text-white"
               class="ml-5 mr-5"
+              responsive
               hover
               :filter="filterSub"
               :fields="fieldUpload"
@@ -96,6 +97,7 @@
           </template>
           <b-row>
             <b-table
+              responsive
               thead-class="green-bg bg-info text-white"
               class="ml-5 mr-5"
               hover

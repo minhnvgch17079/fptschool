@@ -23,4 +23,10 @@ class MarketingManagerController extends Controller {
         if (!empty($data)) responseToClient('Get number of contributions for faculty success', true, $data);
         responseToClient('No contribution found for faculty');
     }
+
+    public function reportSubmissionNoComment () {
+        $this->FacultyUpload = getInstance('FacultyUpload');
+        $data = $this->FacultyUpload->getDataNoComment();
+        pd($data);
+    }
 }

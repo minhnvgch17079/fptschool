@@ -39,6 +39,7 @@ class AuthByGroup {
             'faculty/getListActive',
             'faculty/reportComment',
             'marketing-ma/getNumContriForFaculty',
+            'marketing-ma/reportSubmissionNoComment',
             'faculty/report',
         ],
         5 => [],
