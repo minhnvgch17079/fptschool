@@ -11,6 +11,10 @@
         <b-collapse id="nav-collapse" is-nav>
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
+
+            <b-nav-item-dropdown left>
+              ahihi
+            </b-nav-item-dropdown>
             <b-nav-item-dropdown right>
               <!-- Using 'button-content' slot -->
               <template #button-content>
@@ -36,20 +40,28 @@
         </b-collapse>
       </b-navbar>
     </div>
-    <div>
-      <b-badge variant="primary" class="d-block mb-1"><h3>Total Closure Config {{this.totalClosureConfig}}</h3></b-badge>
-      <b-badge variant="info" class="d-block mb-1"><h3>Total submission {{this.totalFacultySubmission}}</h3></b-badge>
-      <b-form-select :options="closure" v-model="closureSelect" class="mb-1"></b-form-select>
-      <b-btn variant="outline-primary" @click="changeFacultyColor">Change Color</b-btn>
-      <ECharts :options="faculty"/>
-    </div>
-
-    <hr style="background-color: black">
-    <b-badge variant="primary" class="d-block"><h3>Total Group User {{this.totalGroup}}</h3></b-badge>
-    <b-badge variant="info" class="d-block"><h3>Total User Found {{this.totalUser}}</h3></b-badge>
-    <b-form-select :options="groupOption" v-model="groupSelect"></b-form-select>
-    <b-btn variant="outline-primary" @click="changeUserColor">Change Color</b-btn>
-    <ECharts :options="user"/>
+    <b-row>
+      <b-col md="6">
+        <div>
+          <b-badge variant="primary" class="d-block mb-1"><h3>Total Closure Config {{this.totalClosureConfig}}</h3></b-badge>
+          <b-badge variant="info" class="d-block mb-1"><h3>Total submission {{this.totalFacultySubmission}}</h3></b-badge>
+          <b-form-select :options="closure" v-model="closureSelect" class="mb-1"></b-form-select>
+          <b-btn variant="outline-primary" @click="changeFacultyColor">Change Color</b-btn>
+          <div class="d-block justify-content-center">
+            <ECharts :options="faculty"/>
+          </div>
+        </div>
+      </b-col>
+      <b-col md="6">
+        <b-badge variant="primary" class="d-block"><h3>Total Group User {{this.totalGroup}}</h3></b-badge>
+        <b-badge variant="info" class="d-block"><h3>Total User Found {{this.totalUser}}</h3></b-badge>
+        <b-form-select :options="groupOption" v-model="groupSelect"></b-form-select>
+        <b-btn variant="outline-primary" @click="changeUserColor">Change Color</b-btn>
+        <div class="d-block justify-content-center">
+          <ECharts :options="user"/>
+        </div>
+      </b-col>
+    </b-row>
 
     <hr style="background-color: black">
 
