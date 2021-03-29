@@ -1,126 +1,122 @@
 <template>
-  <div class="container-fluid">
+  <div class="container-fluid mt-3">
     <div><notifications group="default" /></div>
-    <div style="background: linear-gradient(-30deg, #56ab2f, #5b86e5); position: fixed; z-index: 10; width: 100%">
-      <!-- As a heading -->
-      <b-row style="height: 70px">
-        <b-col md="10" class="mt-5 ml-5">
+    <div>
+      <b-navbar style="border-radius: 20px" toggleable="lg" type="dark" variant="info">
+        <b-navbar-brand href="#">
           <logo style="width: 30px; height: 30px"></logo>
-        </b-col>
-        <b-col>
-          <b-collapse id="collapse-1" class="mt-2">
-            <b-btn class="mr-3 mb-1" style="width: 150px" variant="warning" v-b-modal.profileEdit>Profile</b-btn>
-            <b-btn class="mr-3 mb-1" style="width: 150px" variant="success" @click="uploadAvatar()">
-              Upload Avatar
-            </b-btn>
-            <b-btn style="width: 150px" class="mr-3 mb-1" variant="primary" v-b-modal.changePass>
-              Change Password
-            </b-btn>
-            <b-btn style="width: 150px" class="mr-1" variant="secondary" @click="logout()">Logout</b-btn>
-          </b-collapse>
-        </b-col>
-        <b-col class="mt-3">
-          <img v-b-toggle.collapse-1 style="width: 50px; height: 50px; border-radius: 50%" :src="'/user/getAvatar'">
-        </b-col>
-      </b-row>
+        </b-navbar-brand>
+
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+          <!-- Right aligned nav items -->
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item-dropdown right>
+              <!-- Using 'button-content' slot -->
+              <template #button-content>
+                <em>User</em>
+              </template>
+              <b-dropdown-item>
+                <img v-b-toggle.collapse-1 style="width: 50px; height: 50px; border-radius: 50%" :src="'/user/getAvatar'">
+              </b-dropdown-item>
+              <b-dropdown-item v-b-modal.profileEdit>Profile</b-dropdown-item>
+              <b-dropdown-item>
+                <b-btn variant="outline-success" @click="uploadAvatar()">
+                  Upload Avatar
+                </b-btn>
+              </b-dropdown-item>
+              <b-dropdown-item v-b-modal.changePass>
+                Change Password
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <b-btn variant="outline-secondary" @click="logout()">Logout</b-btn>
+              </b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
     </div>
 
-    <br>
-    <img style="position:fixed;  filter: blur(50px);" src="@/assets/images/logo/backgroupLogin.jpg" alt="login" class="mx-auto">
-    <br>
-    <br>
-    <br>
-    <br>
-
-    <b-col>
-      <b-table
-        responsive
-        class="ml-5 mr-5"
-        hover
-        striped
-        :fields="fieldActiveSubmission"
-        :items="dataActiveSubmission"
+    <b-table
+      responsive
+      hover
+      striped
+      :fields="fieldActiveSubmission"
+      :items="dataActiveSubmission"
+      :per-page="perPageActiveSubmission"
+      :current-page="currentPageActiveSubmission"
+    >
+      <template v-slot:cell(manage)="row">
+        <b-btn class="mr-3" variant="primary" @click="getSubmission(row.item.faculty_id)">
+          Get Submission
+        </b-btn>
+      </template>
+    </b-table>
+    <div class="d-flex justify-content-center w-100">
+      <b-pagination
+        align="center"
+        v-model="currentPageActiveSubmission"
+        :total-rows="rowsActiveSubmission"
         :per-page="perPageActiveSubmission"
-        :current-page="currentPageActiveSubmission"
+        aria-controls="my-table"
       >
-        <template v-slot:cell(manage)="row">
-          <b-btn class="mr-3" variant="primary" @click="getSubmission(row.item.faculty_id)">
-            Get Submission
-          </b-btn>
-        </template>
-      </b-table>
-    </b-col>
-    <b-col>
-      <div class="d-flex justify-content-center w-100">
-        <b-pagination
-          align="center"
-          v-model="currentPageActiveSubmission"
-          :total-rows="rowsActiveSubmission"
-          :per-page="perPageActiveSubmission"
-          aria-controls="my-table"
-        >
-          <template #first-text><span class="text-success">First</span></template>
-          <template #prev-text><span class="text-danger">Prev</span></template>
-          <template #next-text><span class="text-warning">Next</span></template>
-          <template #last-text><span class="text-info">Last</span></template>
-        </b-pagination>
-      </div>
-    </b-col>
+        <template #first-text><span class="text-success">First</span></template>
+        <template #prev-text><span class="text-danger">Prev</span></template>
+        <template #next-text><span class="text-warning">Next</span></template>
+        <template #last-text><span class="text-info">Last</span></template>
+      </b-pagination>
+    </div>
     <br>
     <br>
-    <b-col>
-      <b-table
-        responsive
-        class="ml-5 mr-5"
-        hover
-        striped
-        :fields="fieldUpload"
-        :items="dataUpload"
+    <b-table
+      responsive
+      hover
+      striped
+      :fields="fieldUpload"
+      :items="dataUpload"
+      :per-page="perPageUpload"
+      :current-page="currentPageUpload"
+    >
+      <template v-slot:cell(manage)="row">
+        <b-btn variant="primary" @click="editPdf(row.item)">View Pdf</b-btn>
+      </template>
+      <template v-slot:cell(file_path)="row">
+        <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="success" @click="downloadFile(row.item.file_id)">
+          Download
+        </b-btn>
+      </template>
+      <template v-slot:cell(comment)="row">
+        <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="info" @click="comment(row.item)">
+          Comment
+        </b-btn>
+      </template>
+      <template v-slot:cell(update_status)="row">
+        <div v-if="row.item.teacher_status === 'pending'">
+          <b-btn variant="danger" class="mr-1" @click="updateStatusSubmission('rejected', row.item.faculty_upload_id, row.item)">Reject</b-btn>
+          <b-btn variant="success" class="mr-1" @click="updateStatusSubmission('accepted', row.item.faculty_upload_id, row.item)">Accept</b-btn>
+        </div>
+        <b-btn variant="danger" class="mr-1" v-if="row.item.teacher_status === 'accepted'" @click="updateStatusSubmission('rejected', row.item.faculty_upload_id, row.item)">Reject</b-btn>
+        <b-btn variant="success" class="mr-1" v-if="row.item.teacher_status === 'rejected'" @click="updateStatusSubmission('accepted', row.item.faculty_upload_id, row.item)">Accept</b-btn>
+      </template>
+      <template v-slot:cell(teacher_status)="row">
+        <b-badge variant="info">{{row.item.teacher_status}}</b-badge>
+      </template>
+    </b-table>
+    <div class="d-flex justify-content-center w-100">
+      <b-pagination
+        align="center"
+        v-model="currentPageUpload"
+        :total-rows="rowsDataUpload"
         :per-page="perPageUpload"
-        :current-page="currentPageUpload"
+        aria-controls="my-table"
       >
-        <template v-slot:cell(manage)="row">
-          <b-btn variant="primary" @click="editPdf(row.item)">View Pdf</b-btn>
-        </template>
-        <template v-slot:cell(file_path)="row">
-          <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="success" @click="downloadFile(row.item.file_id)">
-            Download
-          </b-btn>
-        </template>
-        <template v-slot:cell(comment)="row">
-          <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="info" @click="comment(row.item)">
-            Comment
-          </b-btn>
-        </template>
-        <template v-slot:cell(update_status)="row">
-          <div v-if="row.item.teacher_status === 'pending'">
-            <b-btn variant="danger" class="mr-1" @click="updateStatusSubmission('rejected', row.item.faculty_upload_id, row.item)">Reject</b-btn>
-            <b-btn variant="success" class="mr-1" @click="updateStatusSubmission('accepted', row.item.faculty_upload_id, row.item)">Accept</b-btn>
-          </div>
-          <b-btn variant="danger" class="mr-1" v-if="row.item.teacher_status === 'accepted'" @click="updateStatusSubmission('rejected', row.item.faculty_upload_id, row.item)">Reject</b-btn>
-          <b-btn variant="success" class="mr-1" v-if="row.item.teacher_status === 'rejected'" @click="updateStatusSubmission('accepted', row.item.faculty_upload_id, row.item)">Accept</b-btn>
-        </template>
-        <template v-slot:cell(teacher_status)="row">
-          <b-badge variant="info">{{row.item.teacher_status}}</b-badge>
-        </template>
-      </b-table>
-    </b-col>
-    <b-col>
-      <div class="d-flex justify-content-center w-100">
-        <b-pagination
-          align="center"
-          v-model="currentPageUpload"
-          :total-rows="rowsDataUpload"
-          :per-page="perPageUpload"
-          aria-controls="my-table"
-        >
-          <template #first-text><span class="text-success">First</span></template>
-          <template #prev-text><span class="text-danger">Prev</span></template>
-          <template #next-text><span class="text-warning">Next</span></template>
-          <template #last-text><span class="text-info">Last</span></template>
-        </b-pagination>
-      </div>
-    </b-col>
+        <template #first-text><span class="text-success">First</span></template>
+        <template #prev-text><span class="text-danger">Prev</span></template>
+        <template #next-text><span class="text-warning">Next</span></template>
+        <template #last-text><span class="text-info">Last</span></template>
+      </b-pagination>
+    </div>
 
     <b-modal id="editPdf" title="Edit Pdf" size="lg" :hide-footer="true">
       <WebViewer :path="`${publicPath}lib`" :url="getUrlPdf()"/>
