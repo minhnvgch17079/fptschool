@@ -6,15 +6,31 @@
           <logo style="width: 30px; height: 30px"></logo>
         </b-navbar-brand>
 
+        <b-collapse id="nav-collapse" is-nav class="ml-10">
+          <b-navbar-nav>
+            <b-nav-item>
+              <router-link to="/dashboard/analytics">Home</router-link>
+            </b-nav-item>
+
+            <b-nav-item>
+              <router-link to="/config/closures">Manage Closure</router-link>
+            </b-nav-item>
+
+            <b-nav-item>
+              <router-link to="/config/faculties">Manage Faculty</router-link>
+            </b-nav-item>
+
+            <b-nav-item>
+              <router-link to="/user/user-list">Manage User</router-link>
+            </b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
         <b-collapse id="nav-collapse" is-nav>
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
 
-            <b-nav-item-dropdown left>
-              ahihi
-            </b-nav-item-dropdown>
             <b-nav-item-dropdown right>
               <!-- Using 'button-content' slot -->
               <template #button-content>
