@@ -1,6 +1,6 @@
 <template>
 
-  <div id="page-user-list">
+  <div class="mt-3 container-fluid">
     <b-row>
       <b-col>
         <b-input :placeholder="`Closure name`" v-model="closureNameSearch"></b-input>
@@ -26,57 +26,49 @@
     </b-modal>
     <br>
     <br>
-    <b-row>
-      <b-col>
-        <div class="w-50">
-          <b-form-input
-            class="mb-5"
-            id="filter-input"
-            v-model="filter"
-            type="search"
-            placeholder="Type to Search"
-          ></b-form-input>
-        </div>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-table
-        :filter="filter"
-        class="ml-5 mr-5"
-        hover
-        striped
-        :fields="fieldsData"
-        :items="data"
-        :per-page="perPage"
-        :current-page="currentPage"
-      >
-        <template v-slot:cell(manage)="row">
-          <b-btn class="mr-3" variant="outline-warning" @click="editClosure(row.item)">
-            <feather-icon icon="Edit3Icon" svgClasses="h-4 w-4"/>
-          </b-btn>
-          <b-btn variant="outline-danger" @click="deleteClosureConfigs(row.item.id)">
-            <feather-icon icon="TrashIcon" svgClasses="h-4 w-4"/>
-          </b-btn>
-        </template>
-      </b-table>
-    </b-row>
+    <div class="d-block">
+      <b-form-input
+        class="mb-5"
+        id="filter-input"
+        v-model="filter"
+        type="search"
+        placeholder="Type to Search"
+      ></b-form-input>
+    </div>
+    <b-table
+      :filter="filter"
+      responsive
+      hover
+      striped
+      :fields="fieldsData"
+      :items="data"
+      :per-page="perPage"
+      :current-page="currentPage"
+    >
+      <template v-slot:cell(manage)="row">
+        <b-btn class="mr-3" variant="outline-warning" @click="editClosure(row.item)">
+          <feather-icon icon="Edit3Icon" svgClasses="h-4 w-4"/>
+        </b-btn>
+        <b-btn variant="outline-danger" @click="deleteClosureConfigs(row.item.id)">
+          <feather-icon icon="TrashIcon" svgClasses="h-4 w-4"/>
+        </b-btn>
+      </template>
+    </b-table>
     <br>
-    <b-row>
-      <div class="d-flex justify-content-center w-100">
-        <b-pagination
-          align="center"
-          v-model="currentPage"
-          :total-rows="rows"
-          :per-page="perPage"
-          aria-controls="my-table"
-        >
-          <template #first-text><span class="text-success">First</span></template>
-          <template #prev-text><span class="text-danger">Prev</span></template>
-          <template #next-text><span class="text-warning">Next</span></template>
-          <template #last-text><span class="text-info">Last</span></template>
-        </b-pagination>
-      </div>
-    </b-row>
+    <div class="d-flex justify-content-center w-100">
+      <b-pagination
+        align="center"
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
+      >
+        <template #first-text><span class="text-success">First</span></template>
+        <template #prev-text><span class="text-danger">Prev</span></template>
+        <template #next-text><span class="text-warning">Next</span></template>
+        <template #last-text><span class="text-info">Last</span></template>
+      </b-pagination>
+    </div>
 
     <b-modal centered id="editClosure" title="Edit closure config" size="md" :hide-footer="true">
       <closure-config

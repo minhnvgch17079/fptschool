@@ -88,6 +88,19 @@
       <h3>© Copyright 2021 By Group 5. All rights reserved.</h3>
     </div>
 
+    <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
+      <ProfileEdit/>
+    </b-modal>
+
+    <b-modal id="changePass" title="Change pass" size="md" :hide-footer="true">
+      <change-pass/>
+    </b-modal>
+
+    <upload-avatar
+      :show="isUploadAvatar"
+      @uploadAvatarSuccess="uploadAvatarSuccess"
+    />
+
   </div>
 </template>
 
@@ -110,10 +123,14 @@ import 'echarts/lib/component/legend'
 import Service from '@/domain/services/api'
 import commonHelper from '@/infrastructures/common-helpers'
 import Logo from "@/layouts/components/Logo";
+import ProfileEdit from "@/views/components/student/ProfileEdit";
+import ChangePass from "@/views/components/student/ChangePassword";
+import UploadAvatar from "@/views/components/student/UploadAvatar";
 
 export default {
   data() {
     return {
+      isUploadAvatar: false,
       faculty: {
         title: {
           text: 'Faculty Report',
@@ -185,6 +202,9 @@ export default {
     }
   },
   components: {
+    UploadAvatar,
+    ChangePass,
+    ProfileEdit,
     Logo,
     ECharts,
   },
@@ -203,6 +223,14 @@ export default {
     }
   },
   methods: {
+    uploadAvatar () {
+      this.isUploadAvatar = false
+      this.isUploadAvatar = true
+    },
+    uploadAvatarSuccess (urlImg) {
+      this.imgDataUrl = urlImg
+      commonHelper.showMessage('Upload avatar success', 'success')
+    },
     getListGroup () {
       Service.getAllGroup().then(res => {
         if (res.data.success) {
