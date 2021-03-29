@@ -1,47 +1,61 @@
 <template>
-  <div>
-    <b-row>
-      <b-col>
-        <ECharts :options="faculty"/>
-      </b-col>
-      <b-col>
-        <b-badge variant="primary" class="d-block"><h3>Total Closure Config {{this.totalClosureConfig}}</h3></b-badge>
-        <br>
-        <br>
-        <b-badge variant="info" class="d-block"><h3>Total submission {{this.totalFacultySubmission}}</h3></b-badge>
-        <br>
-        <br>
-        <b-form-select :options="closure" v-model="closureSelect"></b-form-select>
-        <br>
-        <br>
-        <b-btn variant="outline-primary" @click="changeFacultyColor">Change Color</b-btn>
-      </b-col>
-    </b-row>
+  <div class="container-fluid mt-3">
+    <div class="mb-10">
+      <b-navbar toggleable="lg" type="dark" variant="info">
+        <b-navbar-brand href="#">
+          <logo style="width: 30px; height: 30px"></logo>
+        </b-navbar-brand>
+
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+          <!-- Right aligned nav items -->
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item-dropdown right>
+              <!-- Using 'button-content' slot -->
+              <template #button-content>
+                <em>User</em>
+              </template>
+              <b-dropdown-item>
+                <img v-b-toggle.collapse-1 style="width: 50px; height: 50px; border-radius: 50%" :src="'/user/getAvatar'">
+              </b-dropdown-item>
+              <b-dropdown-item v-b-modal.profileEdit>Profile</b-dropdown-item>
+              <b-dropdown-item>
+                <b-btn variant="outline-success" @click="uploadAvatar()">
+                  Upload Avatar
+                </b-btn>
+              </b-dropdown-item>
+              <b-dropdown-item v-b-modal.changePass>
+                Change Password
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <b-btn variant="outline-secondary" @click="logout()">Logout</b-btn>
+              </b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
+    <div>
+      <b-badge variant="primary" class="d-block mb-1"><h3>Total Closure Config {{this.totalClosureConfig}}</h3></b-badge>
+      <b-badge variant="info" class="d-block mb-1"><h3>Total submission {{this.totalFacultySubmission}}</h3></b-badge>
+      <b-form-select :options="closure" v-model="closureSelect" class="mb-1"></b-form-select>
+      <b-btn variant="outline-primary" @click="changeFacultyColor">Change Color</b-btn>
+      <ECharts :options="faculty"/>
+    </div>
+
     <hr style="background-color: black">
-    <b-row>
-      <b-col>
-        <b-badge variant="primary" class="d-block"><h3>Total Group User {{this.totalGroup}}</h3></b-badge>
-        <br>
-        <br>
-        <b-badge variant="info" class="d-block"><h3>Total User Found {{this.totalUser}}</h3></b-badge>
-        <br>
-        <br>
-        <b-form-select :options="groupOption" v-model="groupSelect"></b-form-select>
-        <br>
-        <br>
-        <b-btn variant="outline-primary" @click="changeUserColor">Change Color</b-btn>
-      </b-col>
-      <b-col>
-        <ECharts :options="user"/>
-      </b-col>
-    </b-row>
+    <b-badge variant="primary" class="d-block"><h3>Total Group User {{this.totalGroup}}</h3></b-badge>
+    <b-badge variant="info" class="d-block"><h3>Total User Found {{this.totalUser}}</h3></b-badge>
+    <b-form-select :options="groupOption" v-model="groupSelect"></b-form-select>
+    <b-btn variant="outline-primary" @click="changeUserColor">Change Color</b-btn>
+    <ECharts :options="user"/>
+
     <hr style="background-color: black">
 
-    <b-row>
-      <div class="center">
-        <h4><b-badge variant="info">© Copyright 2021 By Group 5. All rights reserved.</b-badge></h4>
-      </div>
-    </b-row>
+    <div class="d-block text-center">
+      <h3>© Copyright 2021 By Group 5. All rights reserved.</h3>
+    </div>
 
   </div>
 </template>
@@ -64,6 +78,7 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/legend'
 import Service from '@/domain/services/api'
 import commonHelper from '@/infrastructures/common-helpers'
+import Logo from "@/layouts/components/Logo";
 
 export default {
   data() {
@@ -139,6 +154,7 @@ export default {
     }
   },
   components: {
+    Logo,
     ECharts,
   },
   created() {
