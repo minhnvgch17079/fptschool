@@ -23,6 +23,9 @@
             <b-nav-item>
               <router-link to="/user/user-list">Manage User</router-link>
             </b-nav-item>
+            <b-nav-item>
+              <router-link to="/admin/report-error">Manage Report</router-link>
+            </b-nav-item>
           </b-navbar-nav>
         </b-collapse>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
