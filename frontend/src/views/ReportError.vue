@@ -1,5 +1,6 @@
 <template>
   <div>
+    <header-fptschool></header-fptschool>
     <b-row>
       <b-col md="6">
         <div id="page-user-list">
@@ -80,9 +81,11 @@ import ECharts from 'vue-echarts/components/ECharts.vue'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/legend'
+import HeaderFptschool from "@/views/Header";
 
 export default {
   components: {
+    HeaderFptschool,
     ECharts
   },
   data() {

@@ -1,6 +1,6 @@
 <template>
-
   <div class="mt-3 container-fluid">
+    <header-fptschool></header-fptschool>
     <b-row>
       <b-col>
         <b-input :placeholder="`Closure name`" v-model="closureNameSearch"></b-input>
@@ -84,9 +84,11 @@ import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
 import Service from "@/domain/services/api"
 import commonHelper from '@/infrastructures/common-helpers'
 import ClosureConfig from '@/views/config/EditClosure'
+import HeaderFptschool from "@/views/Header";
 
 export default {
   components: {
+    HeaderFptschool,
     ClosureConfig
   },
   data() {

@@ -1,6 +1,7 @@
 <template>
 
   <div id="page-user-list">
+    <header-fptschool></header-fptschool>
     <b-row>
       <b-col>
         <b-form-select v-model="roleSearch" :options="listGroup"></b-form-select>
@@ -107,8 +108,10 @@ import Multiselect from 'vue-multiselect'
 import Service from "@/domain/services/api"
 import commonHelper from "@/infrastructures/common-helpers"
 import FacultySelect from "@/views/components/component/FacultySelect";
+import HeaderFptschool from "@/views/Header";
 export default {
   components: {
+    HeaderFptschool,
     Multiselect,
     FacultySelect
   },

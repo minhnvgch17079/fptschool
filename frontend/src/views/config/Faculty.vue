@@ -1,6 +1,7 @@
 <template>
 
   <div id="page-user-list">
+    <header-fptschool></header-fptschool>
     <b-row>
       <b-col>
         <b-input :placeholder="`Faculty name`" v-model="facultyNameSearch"></b-input>
@@ -85,9 +86,11 @@
 import '@/assets/scss/vuexy/extraComponents/agGridStyleOverride.scss'
 import Service from '@/domain/services/api'
 import commonHelper from '@/infrastructures/common-helpers'
+import HeaderFptschool from "@/views/Header";
 
 export default {
   components: {
+    HeaderFptschool
   },
   data() {
     return {
