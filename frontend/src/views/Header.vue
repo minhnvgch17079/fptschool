@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div><notifications group="default" /></div>
     <div class="mb-10">
       <b-navbar toggleable="lg" type="dark" variant="info">
         <b-navbar-brand href="#">

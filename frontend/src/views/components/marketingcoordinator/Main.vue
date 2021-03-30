@@ -1,6 +1,5 @@
 <template>
   <div class="container-fluid mt-3">
-    <div><notifications group="default" /></div>
     <div>
       <b-navbar style="border-radius: 20px" toggleable="lg" type="dark" variant="info">
         <b-navbar-brand href="#">

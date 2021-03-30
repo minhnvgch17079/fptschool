@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div><notifications group="default" /></div>
+    <header-fptschool></header-fptschool>
     <div style="background: linear-gradient(-30deg, #56ab2f, #5b86e5); position: fixed; z-index: 10; width: 100%">
       <!-- As a heading -->
       <b-row style="height: 70px">
@@ -41,6 +41,30 @@
         </b-col>
       </b-row>
     </div>
+    <br>
+    <div>
+      <b-table
+        responsive
+        hover
+        striped
+        :fields="fieldUpload"
+        :items="dataUpload"
+        :per-page="perPageUpload"
+        :current-page="currentPageUpload"
+      >
+        <template v-slot:cell(manage)="row">
+          <b-btn variant="primary" @click="editPdf(row.item)">View Pdf</b-btn>
+        </template>
+        <template v-slot:cell(file_path)="row">
+          <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="success" @click="downloadFile(row.item.file_id)">
+            Download
+          </b-btn>
+        </template>
+        <template v-slot:cell(teacher_status)="row">
+          <b-badge variant="info">{{row.item.teacher_status}}</b-badge>
+        </template>
+      </b-table>
+    </div>
     <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
       <ProfileEdit/>
     </b-modal>
@@ -53,6 +77,11 @@
       :show="isUploadAvatar"
       @uploadAvatarSuccess="uploadAvatarSuccess"
     />
+
+
+    <b-modal id="editPdf" title="Edit Pdf" size="lg" :hide-footer="true">
+      <WebViewer :path="`${publicPath}lib`" :url="getUrlPdf()"/>
+    </b-modal>
 
   </div>
 </template>
@@ -83,9 +112,21 @@ import ECharts from 'vue-echarts/components/ECharts.vue'
 import 'echarts/lib/chart/pie'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/legend'
+import HeaderFptschool from "@/views/Header";
 export default {
   data() {
     return {
+      perPageUpload: 5,
+      currentPageUpload: 1,
+      dataUpload: [],
+      fieldUpload: [
+        {key: 'teacher_status', label: 'Teacher Status', sortable: true},
+        {key: 'faculty_name', label: 'Faculty Name', sortable: true},
+        {key: 'file_name', label: 'File name', sortable: true},
+        {key: 'file_path', label: 'Link download', sortable: true},
+        {key: 'created', label: 'Upload At', sortable: true},
+        {key: 'manage', label: 'Action', sortable: true}
+      ],
       publicPath: process.env.BASE_URL,
       idFaculty: null,
       totalFacultyUpload: 0,
@@ -159,6 +200,7 @@ export default {
     }
   },
   components: {
+    HeaderFptschool,
     ECharts,
     UploadAvatar,
     Logo,
@@ -171,9 +213,26 @@ export default {
   created() {
     this.getReportFaculty()
     this.getReportComment()
+    this.getListSubmission()
     this.infoStudent = JSON.parse(localStorage.getItem('infoUser'))
   },
   methods: {
+    editPdf (data) {
+      this.idEditFile = data.file_id
+      this.$bvModal.show('editPdf')
+    },
+    getListSubmission () {
+      this.dataUpload = []
+      Service.reportSubmissionNoComment().then(res => {
+        if (res.data.success) {
+          this.dataUpload = res.data.data
+          return commonHelper.showMessage(res.data.message, 'success')
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error. Please try again', 'success')
+      })
+    },
     getReportComment () {
       this.comment.series[0].data = []
       this.comment.color = []
@@ -226,7 +285,13 @@ export default {
         localStorage.removeItem("infoUser");
         window.location.href = '/adm/login'
       })
-    }
+    },
+    getUrlPdf () {
+      return 'http://fpt-school.com/fileUpload/readPdfFile?id=' + this.idEditFile
+    },
+    downloadFile (idFile) {
+      window.location.href = `/fileUpload/downloadFile?id=${idFile}`
+    },
   },
   watch: {
   }
