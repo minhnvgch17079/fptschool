@@ -1,6 +1,5 @@
 <template>
   <div>
-    <header-fptschool></header-fptschool>
     <div style="background: linear-gradient(-30deg, #56ab2f, #5b86e5); position: fixed; z-index: 10; width: 100%">
       <!-- As a heading -->
       <b-row style="height: 70px">
@@ -52,6 +51,15 @@
         :per-page="perPageUpload"
         :current-page="currentPageUpload"
       >
+        <template v-slot:cell(coordinator)="row">
+          <div v-if="row.item.coordinator !== []">
+            <ul v-for="(data, index) in row.item.coordinator">
+              <li v-for="(datum, i) in data">{{i}} : {{datum}}</li>
+              <b-btn variant="primary" size="sm" @click="sendMailAlert(row.item, data)">Send mail</b-btn>
+              <hr>
+            </ul>
+          </div>
+        </template>
         <template v-slot:cell(manage)="row">
           <b-btn variant="primary" @click="editPdf(row.item)">View Pdf</b-btn>
         </template>
@@ -112,7 +120,6 @@ import ECharts from 'vue-echarts/components/ECharts.vue'
 import 'echarts/lib/chart/pie'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/legend'
-import HeaderFptschool from "@/views/Header";
 export default {
   data() {
     return {
@@ -121,6 +128,7 @@ export default {
       dataUpload: [],
       fieldUpload: [
         {key: 'teacher_status', label: 'Teacher Status', sortable: true},
+        {key: 'coordinator', label: 'Coordinator care', sortable: true},
         {key: 'faculty_name', label: 'Faculty Name', sortable: true},
         {key: 'file_name', label: 'File name', sortable: true},
         {key: 'file_path', label: 'Link download', sortable: true},
@@ -200,7 +208,6 @@ export default {
     }
   },
   components: {
-    HeaderFptschool,
     ECharts,
     UploadAvatar,
     Logo,
@@ -217,6 +224,20 @@ export default {
     this.infoStudent = JSON.parse(localStorage.getItem('infoUser'))
   },
   methods: {
+    sendMailAlert (submissionInfo, dataUserCare) {
+      let dataSend = {
+        data_submission: submissionInfo,
+        data_user_care: dataUserCare
+      }
+      Service.sendMailAlert(dataSend).then(res => {
+        if (res.data.success) {
+          return commonHelper.showMessage(res.data.message, 'success')
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error. Please try again')
+      })
+    },
     editPdf (data) {
       this.idEditFile = data.file_id
       this.$bvModal.show('editPdf')

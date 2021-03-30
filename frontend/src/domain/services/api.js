@@ -85,6 +85,9 @@ export default {
   getNumContriForFaculty (data) {
     return http.get('marketing-ma/getNumContriForFaculty', {'params': data})
   },
+  sendMailAlert (data) {
+    return http.post('marketing-ma/sendMailAlert', data)
+  },
   reportSubmissionNoComment (data) {
     return http.get('marketing-ma/reportSubmissionNoComment', {'params': data})
   },

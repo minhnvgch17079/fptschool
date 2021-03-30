@@ -24,7 +24,8 @@ class CoordinatorFaculty extends BaseModel {
             ->get([
                 "u.id",
                 'u.username',
-                'u.full_name'
+                'u.full_name',
+                'u.email'
             ]);
 
         return json_decode(json_encode($data), true);
