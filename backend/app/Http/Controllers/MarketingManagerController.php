@@ -28,9 +28,15 @@ class MarketingManagerController extends Controller {
         $this->FacultyUpload = getInstance('FacultyUpload');
         $data = $this->FacultyUpload->getDataNoComment();
 
+        if (empty($data)) responseToClient('No report has no comment');
+
         $dataReturn = [];
         foreach ($data as $datum) {
-            pd($datum);
+            $countDate = countDate(date('Y-m-d'), $datum['created']);
+            $datum['date_not_comment'] = $countDate;
+            $dataReturn[] = $datum;
         }
+
+        responseToClient('Get report no comment success', true, $dataReturn);
     }
 }
