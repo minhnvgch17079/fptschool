@@ -72,8 +72,8 @@
         </div>
       </b-col>
       <b-col md="6">
-        <b-badge variant="primary" class="d-block"><h3>Total Group User {{this.totalGroup}}</h3></b-badge>
-        <b-badge variant="info" class="d-block"><h3>Total User Found {{this.totalUser}}</h3></b-badge>
+        <b-badge variant="primary" class="d-block mb-1"><h3>Total Group User {{this.totalGroup}}</h3></b-badge>
+        <b-badge variant="info" class="d-block mb-1"><h3>Total User Found {{this.totalUser}}</h3></b-badge>
         <b-form-select :options="groupOption" v-model="groupSelect"></b-form-select>
         <b-btn variant="outline-primary" @click="changeUserColor">Change Color</b-btn>
         <div class="d-block justify-content-center">
@@ -223,6 +223,13 @@ export default {
     }
   },
   methods: {
+    logout() {
+      Service.logout().then(() => {
+        commonHelper.showMessage('Logout Success', 'success')
+        localStorage.removeItem("infoUser");
+        window.location.href = '/adm/login'
+      })
+    },
     uploadAvatar () {
       this.isUploadAvatar = false
       this.isUploadAvatar = true

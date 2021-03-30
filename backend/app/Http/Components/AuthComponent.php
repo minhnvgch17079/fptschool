@@ -3,12 +3,12 @@
 namespace App\Http\Components;
 
 use Illuminate\Support\Facades\Redis;
-
+session_start();
 class AuthComponent {
 
     public static function user ($key = null) {
         try {
-            $phpSessionId = $_COOKIE["laravel_session"];
+            $phpSessionId = session_id();
             $infoUser     = Redis::get($phpSessionId);
             $infoUser     = json_decode($infoUser, true);
             if (!empty($key)) return $infoUser[$key] ?? null;
@@ -20,7 +20,7 @@ class AuthComponent {
 
     public static function setUserLogin ($infoUser) {
         try {
-            $phpSessionId = $_COOKIE["laravel_session"];
+            $phpSessionId = session_id();
             Redis::set($phpSessionId, json_encode($infoUser));
             return true;
         } catch (\Exception $exception) {
@@ -30,7 +30,7 @@ class AuthComponent {
 
     public static function setUserLogout () {
         try {
-            $phpSessionId = $_COOKIE["laravel_session"];
+            $phpSessionId = session_id();
             Redis::del($phpSessionId);
             return true;
         } catch (\Exception $exception) {
