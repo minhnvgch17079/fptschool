@@ -43,6 +43,7 @@
         class="ml-5 mr-5"
         hover
         striped
+        responsive
         :fields="fieldsDataFaculty"
         :items="dataFaculty"
         :per-page="perPage"
