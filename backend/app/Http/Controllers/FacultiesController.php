@@ -88,7 +88,7 @@ class FacultiesController extends Controller {
 
     public function getListActive () {
         $this->Faculty = getInstance('Faculty');
-        $result        = $this->Faculty->getAll(date('Y-m-d'));
+        $result        = $this->Faculty->getAll(null);
 
         if (empty($result)) responseToClient('There no faculty active now');
         responseToClient('Get list faculty success', true, $result);

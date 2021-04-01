@@ -27,7 +27,7 @@ class StudentController extends Controller {
         $validateFaculty  = $studentComponent->validateFaculty($idFaculty);
 
         if (!empty($validateFaculty)) responseToClient($validateFaculty);
-        if (!empty($validateFile))   responseToClient($validateFile);
+        if (!empty($validateFile))    responseToClient($validateFile);
 
         $upload = new UploadFile();
         $this->FacultyUpload = getInstance('FacultyUpload');
@@ -47,6 +47,8 @@ class StudentController extends Controller {
 
             if (empty($result)) responseToClient('Failed to upload file ' .  $file->getClientOriginalName());
         }
+
+        // gui mail
 
         responseToClient('Upload success', true);
     }
