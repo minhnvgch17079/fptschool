@@ -44,6 +44,34 @@ class FacultyUpload extends BaseModel
         return json_decode(json_encode($data), true);
     }
 
+    public function getDataForCoordinator ($facultyId) {
+        $query = $this->model->table($this->table)
+            ->join('faculties as f', 'f.id', '=', "$this->table.faculty_id")
+            ->join('files_upload as fi', 'fi.id', '=', "$this->table.file_upload_id")
+            ->join('coordinator_faculty as cf', 'cf.faculty_id', '=', "$this->table.faculty_id")
+            ->where('fi.is_delete', 0)
+            ->where('cf.user_id', Authentication::$info['id']);
+
+        if (!empty($facultyId)) $query->where('f.id', $facultyId);
+
+        $data = $query
+            ->orderBy("$this->table.id", 'desc')
+            ->limit(100)
+            ->get([
+                "f.id as faculty_id",
+                "f.name as faculty_name",
+                "fi.name as file_name",
+                "fi.file_path as file_path",
+                "fi.created as created",
+                "$this->table.teacher_status",
+                "fi.id as file_id",
+                "$this->table.group_comment_id",
+                "$this->table.id as faculty_upload_id",
+            ]);
+
+        return json_decode(json_encode($data), true);
+    }
+
     public function getDataNoComment () {
         $query = $this->model->table($this->table)
             ->join('faculties as f', 'f.id', '=', "$this->table.faculty_id")

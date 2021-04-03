@@ -21,7 +21,7 @@ class MarketingManagerController extends Controller {
 
         $facultyId = $this->request->get('faculty_id') ?? null;
 
-        $data = $this->FacultyUpload->getData(null, $facultyId);
+        $data = $this->FacultyUpload->getDataForCoordinator($facultyId);
 
         if (!empty($data)) responseToClient('Get number of contributions for faculty success', true, $data);
         responseToClient('No contribution found for faculty');
