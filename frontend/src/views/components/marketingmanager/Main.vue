@@ -53,8 +53,8 @@
       >
         <template v-slot:cell(coordinator)="row">
           <div v-if="row.item.coordinator !== []">
-            <ul v-for="(data, index) in row.item.coordinator">
-              <li v-for="(datum, i) in data">{{i}} : {{datum}}</li>
+            <ul v-for="(data, index) in row.item.coordinator" :key="index">
+              <li v-for="(datum, i) in data" :key="i">{{i}} : {{datum}}</li>
               <b-btn variant="primary" size="sm" @click="sendMailAlert(row.item, data)">Send mail</b-btn>
               <hr>
             </ul>

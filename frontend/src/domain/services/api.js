@@ -46,11 +46,14 @@ export default {
   uploadAssignment (data) {
     return http.post('student/uploadAssignment', data)
   },
-  getListActive () {
-    return http.get('faculty/getListActive')
+  getListActive (data) {
+    return http.get('faculty/getListActive', {params: data})
   },
   FacultyReport (data) {
     return http.get('faculty/report', {params: data})
+  },
+  deleteFaculty (data) {
+    return http.get('faculty/deleteFaculty', {params: data})
   },
   CommentReport (data) {
     return http.get('faculty/reportComment', {params: data})

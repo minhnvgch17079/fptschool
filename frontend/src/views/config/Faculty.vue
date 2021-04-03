@@ -53,12 +53,9 @@
           <b-btn class="mr-3" variant="outline-warning" v-b-modal.modal-1 @click="editFaculty(row.item)">
             <feather-icon icon="Edit3Icon" svgClasses="h-4 w-4"/>
           </b-btn>
-          <b-btn variant="outline-danger">
+          <b-btn variant="outline-danger" @click="deleteFaculty(row.item.faculty_id)">
             <feather-icon icon="TrashIcon" svgClasses="h-4 w-4"/>
           </b-btn>
-        </template>
-        <template v-slot:cell(full_name)="row">
-          <b-badge variant="info">123</b-badge>
         </template>
       </b-table>
     </b-row>
@@ -151,7 +148,7 @@ export default {
     },
 
     getListFaculty () {
-      Service.getListActive().then(res => {
+      Service.getListActive({faculty_name: this.facultyNameSearch}).then(res => {
         if (res.data.success) {
           this.dataFaculty = res.data.data
           return commonHelper.showMessage(res.data.message, 'success')
@@ -204,6 +201,18 @@ export default {
       this.facultyDescriptionAdd = data.faculty_description
       this.facultyConfigClosure = data.closure_id
       this.facultyId = data.faculty_id
+    },
+    deleteFaculty (id) {
+      if (!confirm('Are you sure to delete this faculty?')) return 1;
+      Service.deleteFaculty({id: id}).then(res => {
+        if (res.data.success) {
+          this.getListFaculty()
+          return commonHelper.showMessage(res.data.message, 'success')
+        }
+        commonHelper.showMessage(res.data.message, 'warning')
+      }).catch(() => {
+        commonHelper.showMessage('There something error. Please try again', 'warning')
+      })
     }
   },
   mounted() {

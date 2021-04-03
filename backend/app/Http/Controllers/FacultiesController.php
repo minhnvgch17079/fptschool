@@ -74,13 +74,14 @@ class FacultiesController extends Controller {
         responseToClient('Update failed');
     }
 
-    public function deleteFaculty($id){
+    public function deleteFaculty(){
         $id = $this->request->get('id') ?? null;
-
         if (empty($id)) responseToClient('Invalid id for delete');
 
         $dataSave  = ['is_delete' => 1];
-        $result    = $this->Faculty->updateDataById($id, $dataSave);
+
+        $this->Faculty = getInstance('Faculty');
+        $result        = $this->Faculty->updateDataById($id, $dataSave);
 
         if ($result) responseToClient('Update success', true);
         responseToClient('Update failed');
@@ -88,7 +89,8 @@ class FacultiesController extends Controller {
 
     public function getListActive () {
         $this->Faculty = getInstance('Faculty');
-        $result        = $this->Faculty->getAll(null);
+        $facultyName   = $this->request->get('faculty_name') ?? null;
+        $result        = $this->Faculty->getAll(null, null, null, $facultyName);
 
         if (empty($result)) responseToClient('There no faculty active now');
         responseToClient('Get list faculty success', true, $result);
