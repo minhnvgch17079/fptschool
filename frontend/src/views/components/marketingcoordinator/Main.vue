@@ -78,7 +78,7 @@
       :current-page="currentPageUpload"
     >
       <template v-slot:cell(manage)="row">
-        <b-btn variant="primary" @click="editPdf(row.item)">View Pdf</b-btn>
+        <b-btn variant="primary" @click="editPdf(row.item)">View Submission</b-btn>
       </template>
       <template v-slot:cell(file_path)="row">
         <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="success" @click="downloadFile(row.item.file_id)">
@@ -117,9 +117,9 @@
       </b-pagination>
     </div>
 
-    <b-modal id="editPdf" title="Edit Pdf" size="lg" :hide-footer="true">
-      <WebViewer :path="`${publicPath}lib`" :url="getUrlPdf()"/>
-    </b-modal>
+<!--    <b-modal id="editPdf" title="Edit Pdf" size="lg" :hide-footer="true">-->
+<!--      <WebViewer :path="`${publicPath}lib`" :url="getUrlPdf()"/>-->
+<!--    </b-modal>-->
 
     <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
       <ProfileEdit/>
@@ -292,7 +292,8 @@ export default {
     },
     editPdf (data) {
       this.idEditFile = data.file_id
-      this.$bvModal.show('editPdf')
+      window.open('http://fpt-school.com/fileUpload/readPdfFile?id=' + this.idEditFile)
+      // this.$bvModal.show('editPdf')
     },
     getSubmission (facultyId) {
       Service.getNumContriForFaculty({faculty_id: facultyId}).then(res => {
@@ -306,7 +307,6 @@ export default {
       })
     },
     getUrlPdf () {
-      return 'http://fpt-school.com/fileUpload/readPdfFile?id=' + this.idEditFile
     }
   },
   watch: {
