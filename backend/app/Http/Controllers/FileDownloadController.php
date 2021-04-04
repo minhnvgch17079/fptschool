@@ -112,7 +112,7 @@ class FileDownloadController extends Controller {
             }
         }
 
-        if ($fileType == 'jpg') {
+        if (in_array($fileType, ['jpg', 'png'])) {
             $file = "/files/" . $data['file_path'];
             echo '<img src="' . $file . '"/>';
         }
