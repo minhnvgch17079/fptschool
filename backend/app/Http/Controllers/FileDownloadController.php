@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Components\AuthComponent;
 use App\Http\Middleware\Authentication;
 use App\Models\FileUpload;
 
@@ -35,7 +36,7 @@ class FileDownloadController extends Controller {
     }
 
     public function disabledFile () {
-        $idUser  = null;
+        $idUser  = AuthComponent::user('id');
         $idFile  = $this->request->get('id')         ?? null;
         $groupId = Authentication::$info['group_id'] ?? null;
         if (empty($idFile)) responseToClient('Can not get id of file download');
