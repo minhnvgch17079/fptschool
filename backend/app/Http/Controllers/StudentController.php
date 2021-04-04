@@ -37,7 +37,12 @@ class StudentController extends Controller {
         if (!empty($validateFile))    responseToClient($validateFile);
 
         $upload = new UploadFile();
-        $this->FacultyUpload = getInstance('FacultyUpload');
+        $this->FacultyUpload        = getInstance('FacultyUpload');
+        $this->CoordinatorFaculty   = getInstance('CoordinatorFaculty');
+
+        $isAssign = $this->CoordinatorFaculty->isExist(AuthComponent::user('id'), $idFaculty);
+
+        if (empty($isAssign)) responseToClient('No permission for upload this faculty');
 
         foreach ($files as $file) {
             $idUploadFile = $upload->uploadSingleFile($file);
@@ -57,7 +62,6 @@ class StudentController extends Controller {
 
         // gui mail
         $this->Faculty              = getInstance('Faculty');
-        $this->CoordinatorFaculty   = getInstance('CoordinatorFaculty');
         $this->SendMailComponent    = new SendMailComponent();
 
         $listCoordinator = $this->CoordinatorFaculty->getUserCare($idFaculty);
