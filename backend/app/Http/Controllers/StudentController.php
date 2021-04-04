@@ -1,16 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Components\AuthComponent;
 use App\Http\Middleware\Authentication;
 use App\Http\Services\UploadFile;
 use App\Http\Components\StudentComponent;
+use App\Models\CoordinatorFaculty;
+use App\Models\Faculty;
 use App\Models\FacultyUpload;
+use App\Http\Components\SendMailComponent;
 
 
 /**
  * Class StudentController
  * @package App\Http\Controllers
+ * @property SendMailComponent SendMailComponent
  * @property FacultyUpload FacultyUpload
+ * @property CoordinatorFaculty CoordinatorFaculty
+ * @property  Faculty Faculty
  */
 
 class StudentController extends Controller {
@@ -49,6 +56,21 @@ class StudentController extends Controller {
         }
 
         // gui mail
+        $this->Faculty              = getInstance('Faculty');
+        $this->CoordinatorFaculty   = getInstance('CoordinatorFaculty');
+        $this->SendMailComponent    = new SendMailComponent();
+
+        $listCoordinator = $this->CoordinatorFaculty->getUserCare($idFaculty);
+        $infoFaculty     = $this->Faculty->getDataById($idFaculty);
+        $facultyName     = $infoFaculty['name'] ?? 'No name faculty';
+        $message         = "The student with ID " . AuthComponent::user('id') . " name: " . AuthComponent::user('fullname') . " has submitted";
+
+        if (!empty($listCoordinator)) {
+            foreach ($listCoordinator as $coordinator) {
+                if (empty($coordinator['email'])) continue;
+                $this->SendMailComponent->sendMail("New Submission from $facultyName", $coordinator['email'], $message);
+            }
+        }
 
         responseToClient('Upload success', true);
     }

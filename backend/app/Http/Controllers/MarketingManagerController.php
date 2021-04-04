@@ -79,7 +79,6 @@ class MarketingManagerController extends Controller {
             $response = $sendgrid->send($email);
             if ($response->statusCode()) responseToClient('Sent mail success', true);
         } catch (\Exception $exception) {
-            pd($exception->getMessage());
             logErr($exception->getMessage());
         }
         responseToClient('Send mail failed');
