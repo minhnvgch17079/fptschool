@@ -111,6 +111,11 @@ class FileDownloadController extends Controller {
                 logErr($exception->getMessage());
             }
         }
+
+        if ($fileType == 'jpg') {
+            $file = "/files/" . $data['file_path'];
+            echo '<img src="' . $file . '"/>';
+        }
     }
 
 }
