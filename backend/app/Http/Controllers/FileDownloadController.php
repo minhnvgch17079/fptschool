@@ -62,19 +62,55 @@ class FileDownloadController extends Controller {
 
         if (empty($data)) responseToClient('No file found');
 
-        $path = $data['file_path'];
+        $fileType = explode('.', $data['name']);
+        $fileType = end($fileType);
+        $path     = $data['file_path'];
+        $file     = public_path('files/') . $path;
+        if ($fileType == 'pdf') {
+            try {
+                $filename = $path;
 
-        try {
-            $file     = public_path('files/') . $path;
-            $filename = $path;
+                header('Content-type: application/pdf');
+                header('Content-Disposition: inline; filename="' . $filename . '"');
+                header('Content-Transfer-Encoding: binary');
+                header('Accept-Ranges: bytes');
+                @readfile($file);
+            } catch (\Exception $e) {
+                logErr($e->getMessage());
+            }
+        }
 
-            header('Content-type: application/pdf');
-            header('Content-Disposition: inline; filename="' . $filename . '"');
-            header('Content-Transfer-Encoding: binary');
-            header('Accept-Ranges: bytes');
-            @readfile($file);
-        } catch (\Exception $e) {
-            logErr($e->getMessage());
+        if ($fileType == 'docx') {
+            try {
+                $kv_strip_texts = '';
+                $kv_texts = '';
+
+                $zip = zip_open($file);
+
+                if (!$zip || is_numeric($zip)) return false;
+
+
+                while ($zip_entry = zip_read($zip)) {
+
+                    if (zip_entry_open($zip, $zip_entry) == FALSE) continue;
+
+                    if (zip_entry_name($zip_entry) != "word/document.xml") continue;
+
+                    $kv_texts .= zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
+
+                    zip_entry_close($zip_entry);
+                }
+
+                zip_close($zip);
+
+
+                $kv_texts = str_replace('</w:r></w:p></w:tc><w:tc>', " ", $kv_texts);
+                $kv_texts = str_replace('</w:r></w:p>', "\r\n", $kv_texts);
+//                $kv_strip_texts = nl2br(strip_tags($kv_texts,’‘));
+                echo nl2br($kv_texts);
+            } catch (\Exception $exception) {
+                logErr($exception->getMessage());
+            }
         }
     }
 

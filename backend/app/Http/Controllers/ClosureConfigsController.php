@@ -36,7 +36,7 @@ class ClosureConfigsController extends Controller {
         $dataSave  = [
             'name'               => $closureName,
             'first_closure_date' => "$firstClosureDate 00:00:00",
-            'final_closure_date' => date('Y-m-d 23:59:59', strtotime("+14 days", strtotime($firstClosureDate)))
+            'final_closure_date' => date('Y-m-d 00:00:00', strtotime("+14 days", strtotime($firstClosureDate)))
         ];
 
         $result    = $this->ClosureConfigs->insertData($dataSave);
