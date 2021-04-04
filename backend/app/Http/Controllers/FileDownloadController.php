@@ -106,7 +106,6 @@ class FileDownloadController extends Controller {
 
                 $kv_texts = str_replace('</w:r></w:p></w:tc><w:tc>', " ", $kv_texts);
                 $kv_texts = str_replace('</w:r></w:p>', "\r\n", $kv_texts);
-//                $kv_strip_texts = nl2br(strip_tags($kv_texts,’‘));
                 echo nl2br($kv_texts);
             } catch (\Exception $exception) {
                 logErr($exception->getMessage());
