@@ -13,7 +13,9 @@ class StudentComponent {
         $ruleFileSize   = 5228618;
         $acceptFile     = [
             'docx',
-            'pdf'
+            'pdf',
+            'jpg',
+            'png'
         ];
 
         if (count($files) > $maxFileNum) return 'Maximum 4 files upload in one time';
