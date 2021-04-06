@@ -51,7 +51,8 @@ class MarketingManagerController extends Controller {
                     ];
                 }
             }
-            $dataReturn[] = $datum;
+            if ($countDate < 14) $dataReturn['success'][] = $datum;
+            else $dataReturn['exception'][] = $datum;
         }
 
         responseToClient('Get report no comment success', true, $dataReturn);

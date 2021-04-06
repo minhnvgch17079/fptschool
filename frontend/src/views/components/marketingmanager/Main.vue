@@ -26,52 +26,92 @@
     <br><br><hr>
     <div style="background: linear-gradient(-30deg, #56ab2f, #5b86e5); width: 100%">
       <b-row>
-        <b-col>
+        <b-col md="6">
           <b-badge variant="info" class="d-block"><h3>Total comment {{this.totalComment}}</h3></b-badge>
           <br>
           <ECharts :options="comment"/>
         </b-col>
-        <b-col>
+        <b-col md="6">
           <b-badge variant="info" class="d-block"><h3>Total submission {{this.totalFacultySubmission}}</h3></b-badge>
           <br>
-          <b-col>
-            <ECharts :options="faculty"/>
-          </b-col>
+          <ECharts :options="faculty"/>
         </b-col>
       </b-row>
-    </div>
-    <br>
-    <div>
-      <b-table
-        responsive
-        hover
-        striped
-        :fields="fieldUpload"
-        :items="dataUpload"
-        :per-page="perPageUpload"
-        :current-page="currentPageUpload"
-      >
-        <template v-slot:cell(coordinator)="row">
-          <div v-if="row.item.coordinator !== []">
-            <ul v-for="(data, index) in row.item.coordinator" :key="index">
-              <li v-for="(datum, i) in data" :key="i">{{i}} : {{datum}}</li>
-              <b-btn variant="primary" size="sm" @click="sendMailAlert(row.item, data)">Send mail</b-btn>
-              <hr>
-            </ul>
-          </div>
-        </template>
-        <template v-slot:cell(manage)="row">
-          <b-btn variant="primary" @click="editPdf(row.item)">View Pdf</b-btn>
-        </template>
-        <template v-slot:cell(file_path)="row">
-          <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="success" @click="downloadFile(row.item.file_id)">
-            Download
-          </b-btn>
-        </template>
-        <template v-slot:cell(teacher_status)="row">
-          <b-badge variant="info">{{row.item.teacher_status}}</b-badge>
-        </template>
-      </b-table>
+      <hr>
+      <b-row class="ml-2 mr-2">
+        <b-col md="6" style="max-height: 500px; overflow-y: scroll; overflow-x: scroll">
+          <b-badge variant="success" class="d-block justify-content-center"><h3>All Submission</h3></b-badge>
+          <b-table
+            hover
+            striped
+            :fields="fieldUpload"
+            :items="dataUpload"
+            :per-page="perPageUpload"
+            :current-page="currentPageUpload"
+          >
+            <template v-slot:cell(coordinator)="row">
+              <div v-if="row.item.coordinator !== []">
+                <ul v-for="(data, index) in row.item.coordinator" :key="index">
+                  <li v-for="(datum, i) in data" :key="i">{{i}} : {{datum}}</li>
+                  <b-btn variant="primary" size="sm" @click="sendMailAlert(row.item, data)">Send mail</b-btn>
+                  <hr>
+                </ul>
+              </div>
+            </template>
+            <template v-slot:cell(date_not_comment)="row">
+              <b-badge v-if="row.item.date_not_comment < 14" variant="success"><h4>{{row.item.date_not_comment}}</h4></b-badge>
+              <b-badge v-if="row.item.date_not_comment >= 14" variant="danger"><h4>{{row.item.date_not_comment}}</h4></b-badge>
+            </template>
+            <template v-slot:cell(manage)="row">
+              <b-btn variant="primary" @click="editPdf(row.item)">View Pdf</b-btn>
+            </template>
+            <template v-slot:cell(file_path)="row">
+              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="success" @click="downloadFile(row.item.file_id)">
+                Download
+              </b-btn>
+            </template>
+            <template v-slot:cell(teacher_status)="row">
+              <b-badge variant="info">{{row.item.teacher_status}}</b-badge>
+            </template>
+          </b-table>
+        </b-col>
+        <b-col md="6" style="max-height: 500px; overflow-y: scroll; overflow-x: scroll">
+          <b-badge variant="warning" class="d-block justify-content-center"><h3>Exception Submission</h3></b-badge>
+          <b-table
+            hover
+            striped
+            :fields="fieldUploadException"
+            :items="dataUploadException"
+            :per-page="perPageUpload"
+            :current-page="currentPageUpload"
+          >
+            <template v-slot:cell(coordinator)="row">
+              <div v-if="row.item.coordinator !== []">
+                <ul v-for="(data, index) in row.item.coordinator" :key="index">
+                  <li v-for="(datum, i) in data" :key="i">{{i}} : {{datum}}</li>
+                  <b-btn variant="primary" size="sm" @click="sendMailAlert(row.item, data)">Send mail</b-btn>
+                  <hr>
+                </ul>
+              </div>
+            </template>
+            <template v-slot:cell(date_not_comment)="row">
+              <b-badge v-if="row.item.date_not_comment < 14" variant="success"><h4>{{row.item.date_not_comment}}</h4></b-badge>
+              <b-badge v-if="row.item.date_not_comment >= 14" variant="danger"><h4>{{row.item.date_not_comment}}</h4></b-badge>
+            </template>
+            <template v-slot:cell(manage)="row">
+              <b-btn variant="primary" @click="editPdf(row.item)">View Pdf</b-btn>
+            </template>
+            <template v-slot:cell(file_path)="row">
+              <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="success" @click="downloadFile(row.item.file_id)">
+                Download
+              </b-btn>
+            </template>
+            <template v-slot:cell(teacher_status)="row">
+              <b-badge variant="info">{{row.item.teacher_status}}</b-badge>
+            </template>
+          </b-table>
+        </b-col>
+      </b-row>
     </div>
     <b-modal id="profileEdit" title="Profile" size="md" :hide-footer="true">
       <ProfileEdit/>
@@ -131,6 +171,18 @@ export default {
         {key: 'coordinator', label: 'Coordinator care', sortable: true},
         {key: 'faculty_name', label: 'Faculty Name', sortable: true},
         {key: 'file_name', label: 'File name', sortable: true},
+        {key: 'date_not_comment', label: 'Date Not Comment', sortable: true},
+        {key: 'file_path', label: 'Link download', sortable: true},
+        {key: 'created', label: 'Upload At', sortable: true},
+        {key: 'manage', label: 'Action', sortable: true}
+      ],
+      dataUploadException: [],
+      fieldUploadException: [
+        {key: 'teacher_status', label: 'Teacher Status', sortable: true},
+        {key: 'coordinator', label: 'Coordinator care', sortable: true},
+        {key: 'faculty_name', label: 'Faculty Name', sortable: true},
+        {key: 'file_name', label: 'File name', sortable: true},
+        {key: 'date_not_comment', label: 'Date Not Comment', sortable: true},
         {key: 'file_path', label: 'Link download', sortable: true},
         {key: 'created', label: 'Upload At', sortable: true},
         {key: 'manage', label: 'Action', sortable: true}
@@ -244,9 +296,11 @@ export default {
     },
     getListSubmission () {
       this.dataUpload = []
+      this.dataUploadException = []
       Service.reportSubmissionNoComment().then(res => {
         if (res.data.success) {
-          this.dataUpload = res.data.data
+          this.dataUpload = res.data.data.success
+          this.dataUploadException = res.data.data.exception
           return commonHelper.showMessage(res.data.message, 'success')
         }
         commonHelper.showMessage(res.data.message, 'warning')
