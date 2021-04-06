@@ -84,4 +84,23 @@ class MarketingManagerController extends Controller {
         }
         responseToClient('Send mail failed');
     }
+
+    public function downloadZip () {
+        $fileIds = $this->request->get('file_ids');
+
+        $path = public_path() . "/files";
+        $zip_file = 'zip.zip'; // Name of our archive to download
+
+        $zip = new \ZipArchive();
+        $zip->open($path . "/" . $zip_file, \ZipArchive::CREATE);
+
+        $listFile = array_diff(scandir($path), ['..', '.']);
+
+        foreach ($listFile as $file) {
+            $zip->addFile($path . "/" . $file, $path . "/" . $file);
+        }
+
+        $zip->close();
+        return response()->download($path . "/" . $zip_file);
+    }
 }
