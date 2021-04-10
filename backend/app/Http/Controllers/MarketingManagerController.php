@@ -87,7 +87,7 @@ class MarketingManagerController extends Controller {
 
     public function downloadZip () {
         $fileIds = $this->request->get('file_ids');
-
+        pd($fileIds);
         $path = public_path() . "/files";
         $zip_file = 'zip.zip'; // Name of our archive to download
 

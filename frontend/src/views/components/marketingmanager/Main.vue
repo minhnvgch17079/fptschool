@@ -40,6 +40,7 @@
       <hr>
       <b-row class="ml-2 mr-2">
         <b-col md="6" style="max-height: 500px; overflow-y: scroll; overflow-x: scroll">
+          <b-btn variant="primary" class="mb-1" @click="downloadZip">Download Zip List Files Selected</b-btn>
           <b-badge variant="success" class="d-block justify-content-center"><h3>All Submission</h3></b-badge>
           <b-table
             hover
@@ -49,21 +50,20 @@
             :per-page="perPageUpload"
             :current-page="currentPageUpload"
           >
-            <template v-slot:cell(coordinator)="row">
-              <div v-if="row.item.coordinator !== []">
-                <ul v-for="(data, index) in row.item.coordinator" :key="index">
-                  <li v-for="(datum, i) in data" :key="i">{{i}} : {{datum}}</li>
-                  <b-btn variant="primary" size="sm" @click="sendMailAlert(row.item, data)">Send mail</b-btn>
-                  <hr>
-                </ul>
-              </div>
+            <template v-slot:cell(zip)="row">
+              <b-form-checkbox
+                value="accepted"
+                unchecked-value="not_accepted"
+                @change="selectedFile(row.item.file_id)"
+              >
+              </b-form-checkbox>
             </template>
             <template v-slot:cell(date_not_comment)="row">
               <b-badge v-if="row.item.date_not_comment < 14" variant="success"><h4>{{row.item.date_not_comment}}</h4></b-badge>
               <b-badge v-if="row.item.date_not_comment >= 14" variant="danger"><h4>{{row.item.date_not_comment}}</h4></b-badge>
             </template>
             <template v-slot:cell(manage)="row">
-              <b-btn variant="primary" @click="editPdf(row.item)">View Pdf</b-btn>
+              <b-btn variant="primary" @click="editPdf(row.item)">View Submission</b-btn>
             </template>
             <template v-slot:cell(file_path)="row">
               <b-btn class="mr-1 ml-1 mt-1 mb-1" variant="success" @click="downloadFile(row.item.file_id)">
@@ -167,6 +167,7 @@ export default {
       currentPageUpload: 1,
       dataUpload: [],
       fieldUpload: [
+        {key: 'zip', label: 'Select file', sortable: true},
         {key: 'teacher_status', label: 'Teacher Status', sortable: true},
         {key: 'coordinator', label: 'Coordinator care', sortable: true},
         {key: 'faculty_name', label: 'Faculty Name', sortable: true},
@@ -178,6 +179,7 @@ export default {
       ],
       dataUploadException: [],
       fieldUploadException: [
+        {key: 'zip', label: 'Select file', sortable: true},
         {key: 'teacher_status', label: 'Teacher Status', sortable: true},
         {key: 'coordinator', label: 'Coordinator care', sortable: true},
         {key: 'faculty_name', label: 'Faculty Name', sortable: true},
@@ -256,7 +258,8 @@ export default {
           }
         ]
       },
-      totalComment: 0
+      totalComment: 0,
+      listFileSelected: []
     }
   },
   components: {
@@ -276,6 +279,17 @@ export default {
     this.infoStudent = JSON.parse(localStorage.getItem('infoUser'))
   },
   methods: {
+    downloadZip () {
+      let listFileIds = ''
+      for (let i in this.listFileSelected) {
+        listFileIds += i + ','
+      }
+      window.open('http://fpt-school.com/marketing-ma/downloadZip?file_ids=' + listFileIds)
+    },
+    selectedFile (idFile) {
+      if (this.listFileSelected[idFile] !== null) this.listFileSelected[idFile] = null
+      else this.listFileSelected[idFile] = idFile
+    },
     sendMailAlert (submissionInfo, dataUserCare) {
       let dataSend = {
         data_submission: submissionInfo,
@@ -292,7 +306,9 @@ export default {
     },
     editPdf (data) {
       this.idEditFile = data.file_id
-      this.$bvModal.show('editPdf')
+      window.open('http://fpt-school.com/fileUpload/readPdfFile?id=' + this.idEditFile)
+      // this.idEditFile = data.file_id
+      // this.$bvModal.show('editPdf')
     },
     getListSubmission () {
       this.dataUpload = []

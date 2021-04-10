@@ -94,6 +94,9 @@ export default {
   reportSubmissionNoComment (data) {
     return http.get('marketing-ma/reportSubmissionNoComment', {'params': data})
   },
+  downloadZip (data) {
+    return http.get('marketing-ma/downloadZip', {'params': data})
+  },
   updateTeacherStatus (data) {
     return http.get('marketing-co/updateTeacherStatus', {'params': data})
   }
