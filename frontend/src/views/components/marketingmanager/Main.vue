@@ -279,6 +279,10 @@ export default {
     this.infoStudent = JSON.parse(localStorage.getItem('infoUser'))
   },
   methods: {
+    uploadAvatar () {
+      this.isUploadAvatar = false
+      this.isUploadAvatar = true
+    },
     downloadZip () {
       let listFileIds = ''
       for (let i in this.listFileSelected) {

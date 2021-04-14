@@ -181,7 +181,7 @@ export default {
       })
     },
     getUrlPdf () {
-      return 'http://fpt-school.com/fileUpload/readPdfFile?id=' + this.idEditFile
+      return 'http://greenwichuniversity.ml/fileUpload/readPdfFile?id=' + this.idEditFile
     },
     downloadFile (idFile) {
       window.location.href = `/fileUpload/downloadFile?id=${idFile}`
