@@ -57,7 +57,7 @@ class User extends \App\Models\BaseModel {
     public function isAddFaculty ($userId) {
         $data = $this->model->table($this->table)
             ->where('id', $userId)
-            ->whereIn('group_id', [2, 3])
+            ->whereIn('group_id', [2, 3, 5])
             ->first();
 
         return (array)$data;

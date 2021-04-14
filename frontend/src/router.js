@@ -130,6 +130,14 @@ const router = new Router({
           rule: 'editor',
         }
       },
+      {
+        path: '/guest',
+        name: 'Guest',
+        component: () => import('@/views/components/guest/Main.vue'),
+        meta: {
+          rule: 'editor',
+        }
+      },
         {
             path: '*',
             redirect: '/pages/error-404'

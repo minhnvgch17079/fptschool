@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Components\AuthComponent;
 use App\Http\Middleware\Authentication;
 
 class FacultyUpload extends BaseModel
@@ -76,8 +77,13 @@ class FacultyUpload extends BaseModel
         $query = $this->model->table($this->table)
             ->join('faculties as f', 'f.id', '=', "$this->table.faculty_id")
             ->join('files_upload as fi', 'fi.id', '=', "$this->table.file_upload_id")
-            ->where('fi.is_delete', 0)
-            ->whereNull("$this->table.group_comment_id");
+            ->where('fi.is_delete', 0);
+
+        if (AuthComponent::user('group_id')) {
+            $query->where("$this->table.teacher_status", "accepted");
+        } else {
+            $query->whereNull("$this->table.group_comment_id");
+        }
 
 
         $data = $query

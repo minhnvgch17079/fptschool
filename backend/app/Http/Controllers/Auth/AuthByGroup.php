@@ -44,7 +44,9 @@ class AuthByGroup {
             'marketing-ma/sendMailAlert',
             'faculty/report',
         ],
-        5 => [],
+        5 => [
+            'marketing-ma/reportSubmissionNoComment',
+        ],
         6 => [],
         7 => [],
         8 => []
