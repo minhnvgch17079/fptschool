@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CoordinatorFaculty;
 use App\Models\FacultyUpload;
+use App\Models\FileUpload;
 use Illuminate\Support\Facades\Mail;
 
 /**
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
  * @package App\Http\Controllers
  * @property FacultyUpload FacultyUpload
  * @property CoordinatorFaculty CoordinatorFaculty
+ * @property FileUpload FileUpload
  */
 
 class MarketingManagerController extends Controller {
@@ -87,17 +89,24 @@ class MarketingManagerController extends Controller {
 
     public function downloadZip () {
         $fileIds = $this->request->get('file_ids');
-        pd($fileIds);
+
+        if (empty($fileIds)) responseToClient('Please input id file for download');
         $path = public_path() . "/files";
         $zip_file = 'zip.zip'; // Name of our archive to download
 
         $zip = new \ZipArchive();
         $zip->open($path . "/" . $zip_file, \ZipArchive::CREATE);
 
-        $listFile = array_diff(scandir($path), ['..', '.']);
+        $listFileId = explode(',', $fileIds);
+        $this->FileUpload = getInstance('FileUpload');
+        $listFileInfo = $this->FileUpload->getListFileByListId($listFileId);
 
-        foreach ($listFile as $file) {
-            $zip->addFile($path . "/" . $file, $path . "/" . $file);
+        foreach ($listFileInfo as $file) {
+            try {
+                $zip->addFile($path . "/" . $file, $path . "/" . $file['file_path']);
+            } catch (\Exception $exception) {
+                logErr($exception->getMessage());
+            }
         }
 
         $zip->close();

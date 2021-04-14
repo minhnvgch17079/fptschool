@@ -34,4 +34,12 @@ class FileUpload extends BaseModel
             'is_delete' => 1
         ]);
     }
+
+    public function getListFileByListId ($ids) {
+        $data = $this->model->table($this->table)
+            ->whereIn('id', $ids)
+            ->get();
+
+        return json_decode(json_encode($data), true);
+    }
 }
