@@ -264,6 +264,7 @@ export default {
       Service.getNumContriForFaculty().then(res => {
         if (res.data.success) {
           this.dataUpload = res.data.data
+          this.rowsDataUpload = res.data.length
           return commonHelper.showMessage(res.data.message, 'success')
         }
         commonHelper.showMessage(res.data.message, 'warning')
