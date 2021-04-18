@@ -125,12 +125,10 @@ export default {
         {key: 'setFaculty', label: 'Set Faculty', sortable: true},
         {key: 'is_active', label: 'Status', sortable: true},
         {key: 'full_name', label: 'Full name', sortable: true},
-        {key: 'group_id', label: 'Role', sortable: true},
+        {key: 'group_name', label: 'Role', sortable: true},
         {key: 'phone_number', label: 'Phone Number', sortable: true},
         {key: 'email', label: 'Email', sortable: true},
-        {key: 'last_change_password', label: 'Last change password', sortable: true},
         {key: 'created', label: 'Created', sortable: true},
-        {key: 'created_by', label: 'Create by', sortable: true},
         {key: 'modified', label: 'Modified', sortable: true},
         {key: 'modified_by', label: 'Modified by', sortable: true},
         {key: 'manage', label: 'Manage'}
