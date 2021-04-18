@@ -46,6 +46,7 @@ class AuthByGroup {
         ],
         5 => [
             'marketing-ma/reportSubmissionNoComment',
+            'fileUpload/readPdfFile',
         ],
         6 => [],
         7 => [],
