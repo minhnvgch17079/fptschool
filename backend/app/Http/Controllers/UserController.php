@@ -48,9 +48,9 @@ class UserController extends Controller
 
         $data = $this->User->getDataByUsername($username);
 
-        if (empty($data['is_active'])) responseToClient('Your account is blocking. Please contact admin for help');
-
         if (empty($data)) responseToClient('Wrong username or password');
+
+        if (empty($data['is_active'])) responseToClient('Your account is blocking. Please contact admin for help');
 
         if (!Hash::check($password, $data['password'])) responseToClient('Wrong username or password');
 

@@ -13,6 +13,18 @@
     <b-row>
       <b-input class="m-3 mr-3" placeholder="Note for teacher"></b-input>
     </b-row>
+    <b-row>
+      <b-form-checkbox
+        class="m-3 mr-3"
+        id="checkbox-1"
+        v-model="statusAcceptTerm"
+        name="checkbox-1"
+        value="accepted"
+        unchecked-value="not_accepted"
+      >
+        I accept the terms and use
+      </b-form-checkbox>
+    </b-row>
     <br>
     <b-row class="justify-content-end">
       <b-btn variant="outline-success" class="ml-3 mr-3 w-48" @click="closeModel()">Cancel</b-btn>
@@ -31,7 +43,8 @@ export default {
   name: 'upload-file',
   data() {
     return {
-      files: null
+      files: null,
+      statusAcceptTerm: 'not_accepted'
     }
   },
   props: {
@@ -54,6 +67,7 @@ export default {
       this.$bvModal.hide('submission')
     },
     updateAssignment () {
+      if (this.statusAcceptTerm === 'not_accepted') return commonHelper.showMessage('You must accept term for upload course');
       const formData = new FormData()
       let fileNum = 0;
       if (this.files === null) return commonHelper.showMessage('Please select file upload')

@@ -37,7 +37,7 @@ class StudentComponent {
         $this->Faculty = getInstance('Faculty');
         $result        = $this->Faculty->getAll(date('Y-m-d'), $idFaculty);
 
-        if (empty($result)) return 'Faculty expired or invalid faculty for upload';
+        if (empty($result)) return 'Invalid faculty for upload';
 
         return false;
     }
