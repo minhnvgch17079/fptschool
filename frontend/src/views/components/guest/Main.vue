@@ -109,7 +109,6 @@ export default {
       fieldUpload: [
         {key: 'faculty_name', label: 'Faculty Name', sortable: true},
         {key: 'file_name', label: 'File name', sortable: true},
-        {key: 'file_path', label: 'Link download', sortable: true},
         {key: 'created', label: 'Upload At', sortable: true},
         {key: 'manage', label: 'Action', sortable: true}
       ],

@@ -120,6 +120,7 @@ export default {
           if (res.data.data.group_id === 4) return window.location.href = '/adm/marketing-manager'
           if (res.data.data.group_id === 2) return window.location.href = '/adm/marketing-coordinator'
           if (res.data.data.group_id === 3) return window.location.href = '/adm/student'
+          if (res.data.data.group_id === 5) return window.location.href = '/adm/guest'
           return window.location.href = '/adm'
         }
         commonHelper.showMessage(res.data.message || 'There something error', 'warning')
