@@ -39,6 +39,9 @@ class FileDownloadController extends Controller {
         $idUser  = AuthComponent::user('id');
         $idFile  = $this->request->get('id')         ?? null;
         $groupId = Authentication::$info['group_id'] ?? null;
+
+        if ($groupId != 3) responseToClient('Only student can disabled this submission');
+
         if (empty($idFile)) responseToClient('Can not get id of file download');
 
         if ($groupId == 3) $idUser = Authentication::$info['id'];
