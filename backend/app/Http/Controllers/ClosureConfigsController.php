@@ -23,6 +23,7 @@ class ClosureConfigsController extends Controller {
         $closureName      = $this->request->post('name')       ?? null;
         $firstClosureDate = $this->request->post('first_date') ?? null;
 
+        if ($firstClosureDate < date('Y-m-d')) responseToClient('Start date must be greater than current');
         if (empty($closureName))              responseToClient('Invalid closure configs name');
         if (empty($firstClosureDate))         responseToClient('Invalid Closure date');
 
@@ -50,6 +51,7 @@ class ClosureConfigsController extends Controller {
         $closureName       = $this->request->post('name')   ?? null;
         $firstClosureDate  = $this->request->post('first_closure_date') ?? null;
 
+        if ($firstClosureDate < date('Y-m-d')) responseToClient('Start date must be greater than current');
         if (empty($closureName))              responseToClient('Invalid closure configs name');
         if (empty($firstClosureDate))         responseToClient('Invalid Closure date');
         if (!validateDate($firstClosureDate)) responseToClient('Invalid Closure date');
