@@ -3,12 +3,12 @@
     <b-row class="ml-1 mr-1" v-for="(data, i) in dataComment" :key="i">
       <b-row>
         <b-col>
-          <b-badge class="mb-1 w-100" variant="primary">
+          <b-badge class="mb-1 w-100" variant="light">
             <h4>{{data.username_created}} at {{data.created}}</h4>
           </b-badge>
         </b-col>
         <b-col>
-          <b-badge variant="info"><h5>{{data.message}}</h5></b-badge>
+          <b-badge variant="light"><h5>{{data.message}}</h5></b-badge>
         </b-col>
       </b-row>
     </b-row>
