@@ -71,6 +71,7 @@ class StudentController extends Controller {
 
         if (!empty($listCoordinator)) {
             foreach ($listCoordinator as $coordinator) {
+                if ($coordinator['group_id'] != 2) continue;
                 if (empty($coordinator['email'])) continue;
                 $this->SendMailComponent->sendMail("New Submission from $facultyName", $coordinator['email'], $message);
             }

@@ -25,7 +25,8 @@ class CoordinatorFaculty extends BaseModel {
                 "u.id",
                 'u.username',
                 'u.full_name',
-                'u.email'
+                'u.email',
+                'u.group_id'
             ]);
 
         return json_decode(json_encode($data), true);
