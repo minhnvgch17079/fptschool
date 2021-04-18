@@ -79,8 +79,10 @@ class FacultyUpload extends BaseModel
             ->join('files_upload as fi', 'fi.id', '=', "$this->table.file_upload_id")
             ->where('fi.is_delete', 0);
 
-        if (AuthComponent::user('group_id')) {
+        if (AuthComponent::user('group_id') == 5) {
             $query->where("$this->table.teacher_status", "accepted");
+            $query->join('coordinator_faculty as cf', 'cf.faculty_id', '=', "$this->table.faculty_id")
+                ->where('cf.user_id', AuthComponent::user('id'));
         } else {
             $query->whereNull("$this->table.group_comment_id");
         }
