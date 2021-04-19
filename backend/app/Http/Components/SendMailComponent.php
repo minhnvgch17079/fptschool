@@ -10,7 +10,7 @@ class SendMailComponent {
             $email->setSubject($title);
             $email->addTo($receive, "Min min");
             $email->addContent("text/plain", $message);
-            $sendgrid = new \SendGrid('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');
+            $sendgrid = new \SendGrid(env('SEND_GRID_KEY'));
             $response = $sendgrid->send($email);
             if ($response->statusCode()) return true;
         } catch (\Exception $exception) {

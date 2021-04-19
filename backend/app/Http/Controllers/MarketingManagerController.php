@@ -78,7 +78,7 @@ class MarketingManagerController extends Controller {
             $email->setSubject($title);
             $email->addTo($dataUserCare['coordinator_email'], "Min min");
             $email->addContent("text/plain", $body);
-            $sendgrid = new \SendGrid('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');
+            $sendgrid = new \SendGrid(env('SEND_GRID_KEY'));
             $response = $sendgrid->send($email);
             if ($response->statusCode()) responseToClient('Sent mail success', true);
         } catch (\Exception $exception) {
