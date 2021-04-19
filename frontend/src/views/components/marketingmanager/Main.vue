@@ -284,10 +284,12 @@ export default {
       this.isUploadAvatar = true
     },
     downloadZip () {
+      if (this.listFileSelected === []) return commonHelper.showMessage('Please select file for download');
       let listFileIds = ''
       for (let i in this.listFileSelected) {
         listFileIds += i + ','
       }
+      this.listFileSelected = [];
       window.open('http://fpt-school.com/marketing-ma/downloadZip?file_ids=' + listFileIds)
     },
     selectedFile (idFile) {
