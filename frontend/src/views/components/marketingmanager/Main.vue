@@ -169,7 +169,6 @@ export default {
       fieldUpload: [
         {key: 'zip', label: 'Select file', sortable: true},
         {key: 'teacher_status', label: 'Teacher Status', sortable: true},
-        {key: 'coordinator', label: 'Coordinator care', sortable: true},
         {key: 'faculty_name', label: 'Faculty Name', sortable: true},
         {key: 'file_name', label: 'File name', sortable: true},
         {key: 'date_not_comment', label: 'Date Not Comment', sortable: true},
